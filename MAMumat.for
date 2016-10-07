@@ -176,7 +176,7 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
 !-----------------------------------glavna petlja      
         do 22 kewton=1,newton
 !-----------------------------------glavna petlja 
-          write(6,*) 'kewton-newton-',kewton
+!          write(6,*) 'kewton-newton-',kewton
         call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
      
           f  = f1 - h*a_kapa     
@@ -190,25 +190,32 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
           
           dkapa  = (f/beta)*dtime/a_kxl  !novo
           
-!          skapa = a_kapa-a_kapa0-dkapa
-!          absskapa = abs(skapa)
+          skapa = a_kapa-a_kapa0-dkapa
+          absskapa = abs(skapa)
             
-          do k1=1,ntens
-             !    deplas(k1) = dkapa*a_mu(k1)    !novo          
+          do k1=1,ntens        
              replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
              
-                write(6,*) 'eplas(k1)', eplas(k1)
-                write(6,*) 'eplas0(k1)', eplas0(k1)
-                write(6,*) 'dkapa', dkapa
-                write(6,*) 'amu', a_mu(k1)
-             write(6,*) 'replas', replas(k1)
+!                write(6,*) 'eplas(k1)', eplas(k1)
+!                write(6,*) 'eplas0(k1)', eplas0(k1)
+!                write(6,*) 'dkapa', dkapa
+!                write(6,*) 'amu', a_mu(k1)
+!             write(6,*) 'replas', replas(k1)
           enddo    
      
         replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
      1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5
 
       if ((replas_int.gt.tol1).or.(f.gt.tol2)) then
-  
+	  
+		if ((replas_int.gt.tol1).and.(NPT.eq.2)) then
+           write(6,*) 'R', replas_int, 'I=', kewton,'NPT',NPT
+		endif
+!			if (f.gt.tol2) then
+!           write(6,*) 'f', f, 'I=', kewton, 'NPT',NPT
+!		endif
+		   
+		   
       call  obnovi_s_kapa(stress,d_stres,d_eplas,ddsdde,ntens,
      1      ndi,a,a_kapa,replas,skapa,d_kapa,
      2      dtime,npt,noel,toler)
@@ -216,7 +223,7 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
 
        do k1=1,ntens
              eplas(k1)   = eplas(k1) + d_eplas(k1)  
-             write(6,*) 'd_eplas posle obnovi s drugi NAN', d_eplas(k1) 
+!             write(6,*) 'd_eplas posle obnovi s drugi NAN', d_eplas(k1) 
              dt_plas(k1) = d_eplas(k1)/dtime  ! brz.plast.def. 
              
              do k2 = 1,ntens
@@ -593,8 +600,8 @@ c -----------------------------------------------------------
      1          *(h*dtime)/(beta*a_kxl)
      2          +dtime*(f/beta)* a_l*( a_kapa**(a_l-one) ) 
      3          /(a_kxl**2)
-         write(6,*) 'y1 =' ,y1
-         write(6,*) 'skapa =' ,skapa
+!         write(6,*) 'y1 =' ,y1
+!         write(6,*) 'skapa =' ,skapa
        
 c   formula (1.2) na algoritmu - pocetak
 
@@ -611,8 +618,8 @@ c   formula (1.2) na algoritmu - pocetak
       
        do k1=1, ntens
              b(k1)=-replas(k1)+(skapa/y1)*x1(k1)
-             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
-            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
+!             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
+!            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
 
        end do   
         
@@ -632,7 +639,7 @@ c  19-07-2013    -   vazi za gauss
           d_eplas(k1)=d_eplas(k1)-
      1                (d_eplas(1)+d_eplas(2)+d_eplas(3))/three
      
-      write(6,*) 'prvi NAN d_eplas(k1) =' ,d_eplas(k1)
+!      write(6,*) 'prvi NAN d_eplas(k1) =' ,d_eplas(k1)
        end do  
 c  19-07-2013    -   vazi za gauss
    
