@@ -195,12 +195,13 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
             
           do k1=1,ntens        
              replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
-             
-!                write(6,*) 'eplas(k1)', eplas(k1)
-!                write(6,*) 'eplas0(k1)', eplas0(k1)
-!                write(6,*) 'dkapa', dkapa
-!                write(6,*) 'amu', a_mu(k1)
-!             write(6,*) 'replas', replas(k1)
+				write(6,*)  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
+                write(6,*) 'eplas(k1)', eplas(k1)
+                write(6,*) 'eplas0(k1)', eplas0(k1)
+                write(6,*) 'dkapa', dkapa
+                write(6,*) 'amu', a_mu(k1)
+             write(6,*) 'replas', replas(k1)
+			 write(6,*) 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
           enddo    
      
         replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
@@ -493,8 +494,8 @@ c
       omega = zero
 c -----------------------------------------------------------
 
-        call loadingf(f1,s_napon,a,ntens,ndi,s_dev,a_j2,a_mu)
-
+!        call loadingf(f1,s_napon,a,ntens,ndi,s_dev,a_j2,a_mu)
+!			ovo mi je sumnjivo
         if (a_j2.gt.six) then
      
         f2 = h*a_kapa
@@ -618,8 +619,8 @@ c   formula (1.2) na algoritmu - pocetak
       
        do k1=1, ntens
              b(k1)=-replas(k1)+(skapa/y1)*x1(k1)
-!             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
-!            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
+             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
+            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
 
        end do   
         
