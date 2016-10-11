@@ -195,13 +195,13 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
             
           do k1=1,ntens        
              replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
-				write(6,*)  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
-                write(6,*) 'eplas(k1)', eplas(k1)
-                write(6,*) 'eplas0(k1)', eplas0(k1)
-                write(6,*) 'dkapa', dkapa
-                write(6,*) 'amu', a_mu(k1)
-             write(6,*) 'replas', replas(k1)
-			 write(6,*) 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+!				write(6,*)  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
+!                write(6,*) 'eplas(k1)', eplas(k1)
+!                write(6,*) 'eplas0(k1)', eplas0(k1)
+!                write(6,*) 'dkapa', dkapa
+!                write(6,*) 'amu', a_mu(k1)
+!             write(6,*) 'replas', replas(k1)
+!			 write(6,*) 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
           enddo    
      
         replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
@@ -215,11 +215,15 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
 !			if (f.gt.tol2) then
 !           write(6,*) 'f', f, 'I=', kewton, 'NPT',NPT
 !		endif
-		   
+!		   do k1 = 1,ntens
+!              do k2 = 1,ntens
+!                 write(6,*) 'ddsdde', ddsdde(k2,k1)
+!              enddo                                        
+!          enddo
 		   
       call  obnovi_s_kapa(stress,d_stres,d_eplas,ddsdde,ntens,
      1      ndi,a,a_kapa,replas,skapa,d_kapa,
-     2      dtime,npt,noel,toler)
+     2      dtime,npt,noel,toler,s_dev,a_mu)
 
 
        do k1=1,ntens
@@ -430,7 +434,7 @@ c----------------------------------------------------
       
       subroutine  obnovi_s_kapa(s_napon,d_stres,d_eplas,
      1      ddsdde,ntens,ndi,a,a_kapa,replas,skapa,d_kapa,
-     2      dtime,npt,noel,toler)
+     2      dtime,npt,noel,toler,s_dev,a_mu)
       
       include 'aba_param.inc'
       
@@ -496,7 +500,7 @@ c -----------------------------------------------------------
 
 !        call loadingf(f1,s_napon,a,ntens,ndi,s_dev,a_j2,a_mu)
 !			ovo mi je sumnjivo
-        if (a_j2.gt.six) then
+!        if (a_j2.gt.six) then
      
         f2 = h*a_kapa
         f  = f1 - f2     
@@ -554,7 +558,8 @@ c -----------------------------------------------------------
          
        proizvod =    s_dev(1)**2+s_dev(2)**2+s_dev(3)**2+
      1            two*(s_dev(4)**2+s_dev(5)**2+s_dev(6)**2)
-
+!			write(6,*) 'proizvod=' ,proizvod
+! bez loadingF s_dev je nula pa je i proiyvod nula
        do k1=1, ntens
            proizvod2(k1)=zero
            do k2=1, ntens
@@ -573,16 +578,17 @@ c -----------------------------------------------------------
            do k2=1, ntens   !6.36
              xx2(k1,k2)=p1(k1,k2)/((two*proizvod)**0.5)
      3       -(s_dev(k1)* proizvod2(k2))/(two*( (proizvod/2)**1.5 ) )
-
+!			write(6,*) 'Xx2=' ,xx2(k1,k2)
            end do
        end do
        
        do k1=1, ntens
            do k2=1, ntens
-                x2(k1,k2)=- dtime !*((f/beta)**(m-1))  = 1
+                x2(k1,k2)=- dtime !*((f/beta)**(m-1)) 
      1          *(z(k1)/beta)*( a_mu(k2)/a_kxl )
      2          +( xx2(k1,k2)*f/beta )
      3          /(  (x+a_kapa**a_l)*(one-omega)  )
+
            end do
        end do
        
@@ -606,6 +612,12 @@ c -----------------------------------------------------------
        
 c   formula (1.2) na algoritmu - pocetak
 
+!		   do k1 = 1,ntens
+!              do k2 = 1,ntens
+!                 write(6,*) 'ddsdde', ddsdde(k2,k1)
+!              enddo                                        
+!          enddo
+
        do k1=1, ntens
            do k2=1, ntens
               x_matrica(k1,k2)=kroneker2(k1,k2)
@@ -614,13 +626,14 @@ c   formula (1.2) na algoritmu - pocetak
      1            x2(k1,k3)*ddsdde(k3,k2) + 
      1            (one/y1)*x1(k1)*y2(k3)*ddsdde(k3,k2)                 
               end do
+!			  write(6,*) 'Xmat=' ,x_matrica(k1,k2)
            end do
        end do
       
        do k1=1, ntens
              b(k1)=-replas(k1)+(skapa/y1)*x1(k1)
-             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
-            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
+!             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
+!            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
 
        end do   
         
@@ -631,7 +644,8 @@ c  19-07-2013    -   vazi za gauss
        do k1=1,ntens
           d_eplas(k1) = zero   ! treba 0.
           do k2=1,ntens
-            d_eplas(k1) = d_eplas(k1) + x_matrica(k1,k2)*b(k2)
+            d_eplas(k1) = d_eplas(k1) !+ x_matrica(k1,k2)*b(k2)
+!			write(6,*) 'd_eplas(k1)=' ,d_eplas(k1)
           end do
          
        end  do
@@ -640,24 +654,15 @@ c  19-07-2013    -   vazi za gauss
           d_eplas(k1)=d_eplas(k1)-
      1                (d_eplas(1)+d_eplas(2)+d_eplas(3))/three
      
-!      write(6,*) 'prvi NAN d_eplas(k1) =' ,d_eplas(k1)
-       end do  
+	   end do  
 c  19-07-2013    -   vazi za gauss
-   
-       
-   
-    
+
        d_kapa = -(skapa/y1)
        do k1=1, ntens
        d_kapa=d_kapa + (a2/y1)*y2(k1)*d_eplas(k1)
        end do   
-       
 
-       
-       
-       
-           
-       d_kapa = abs(d_kapa)
+!       d_kapa = abs(d_kapa)
        
        do k1 = 1,ntens
             d_stres(k1)= zero
@@ -667,7 +672,7 @@ c  19-07-2013    -   vazi za gauss
 c            s_napon(k1)=s_napon(k1)+d_stres(k1)   
        enddo    
        
-       endif  !  if (a_j2.gt.six) then
+
 c   formula (1.2) na algoritmu - kraj
 
       return 
