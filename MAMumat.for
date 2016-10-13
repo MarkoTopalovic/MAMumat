@@ -210,7 +210,7 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
       if ((replas_int.gt.tol1).or.(f.gt.tol2)) then
 	  
 		if ((replas_int.gt.tol1).and.(NPT.eq.2)) then
-           write(6,*) 'R', replas_int, 'I=', kewton,'NPT',NPT
+!           write(6,*) 'R', replas_int, 'I=', kewton,'NPT',NPT
 		endif
 !			if (f.gt.tol2) then
 !           write(6,*) 'f', f, 'I=', kewton, 'NPT',NPT
@@ -236,7 +236,9 @@ c      zapocinjanje (inicijalizacija neravnoteznih delova)
              enddo  
        enddo  
                     
-             a_kapa = a_kapa0 + d_kapa  
+             a_kapa = a_kapa0 + d_kapa
+			 a_kapa = abs(a_kapa)
+				write(6,*) 'a_kapa', a_kapa			 
              end if                
 22    continue        
 
@@ -644,7 +646,7 @@ c  19-07-2013    -   vazi za gauss
        do k1=1,ntens
           d_eplas(k1) = zero   ! treba 0.
           do k2=1,ntens
-            d_eplas(k1) = d_eplas(k1) !+ x_matrica(k1,k2)*b(k2)
+            d_eplas(k1) = d_eplas(k1) + x_matrica(k1,k2)*b(k2)
 !			write(6,*) 'd_eplas(k1)=' ,d_eplas(k1)
           end do
          
