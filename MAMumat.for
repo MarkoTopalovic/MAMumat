@@ -14,9 +14,9 @@ c
 
       dimension a(17),statev(nstatv),props(nprops),
      1 stran(ntens),dstran(ntens),
-     1 stress(ntens),s_dev(ntens),d_stres(ntens),
+     1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
      1 d_eplas(ntens),dt_plas(ntens),dt_plas0(ntens),
-     1 eplas(ntens),eplas0(ntens),
+     1 eplas(ntens),e_elas(ntens),eplas0(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
      1 time(2),predef(1),dpred(1),  
      1 coords(ndi),drot(ndi,ndi),
@@ -135,6 +135,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       call hyperconstitutive(a,ddsdde,ntens,stran)
            do k1 = 1,ntens
               do k2 = 1,ntens
+					astress(k2)=stress(k2)
                  stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
               enddo                                        
           enddo
@@ -143,7 +144,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
 
-      a_kapa0  = akapa(noel,npt)  ! 6.20   
+      a_kapa0  = akapa(noel,npt)  ! 6.20   ! ucitava iz prethodnog koraka
       if (a_kapa0.lt.toler) then                 
          a_kapa0 = zero           
       endif
@@ -151,110 +152,82 @@ c------------------ compute  loading surface f-----------------------
     
       if ((f.le.zero).or.(a_j2.lt.yield0)) then   
        write(6,*) 'ELASTIC'              
-        goto 52           
+        goto 42           
       endif    
 c------------------  end of elastic predictor ----------------------
-!********************************************************************
-!********************************************************************
-c------------------     2) corrector phase    ----------------------
-c    eplas - eplas0    ->   epsilon_0_n+1 - epsilon_n
-c    deplas            ->   korekcija  (iteracija k)
-c    a_kapa - a_kapa0 ->   kapa_0_n+1 - kapa_n
-c    dkapa            ->   korekcija  (iteracija k)
-c-------------------------------------------------------------------
+cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+c***************      1) corector phase      ***********************  
+cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-c      zapocinjanje (inicijalizacija neravnoteznih delova)
-          do k1=1,ntens
-             eplas0(k1)= ceplast(noel,npt,k1)   !staro
-             eplas(k1) = eplas0(k1) !
-             dt_plas0(k1)=dtplast(noel,npt,k1)!?
-          end do 
-             a_kapa =  a_kapa0 ! linija 
-             d_kapa =  zero       !staro
-!      zapocinanje (inicijalizacija neravnoteznih delova)
+			do k3 = 1,10
+			
+! ucitava iz prethodnog koraka
+		do k1=1,ntens
+         eplas0(k1) = ceplast(noel,npt,k1)  
+		enddo
+		
+		do k1 = 1,ntens
+          do k2 = 1,ntens
+          stress(k2)=astress(k2)+ddsdde(k2,k1)*dstran(k1)*(1-k3*0.1)
+          enddo                                        
+		enddo
+		
+		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+		
+		          f  = f1 - h*a_kapa     
+					f = (abs(f) + f)/two 
+   
+      if (a_kapa.gt.toler) then
+      a_kxl = x+a_kapa0**a_l
+      else
+      a_kxl = x
+      endif
+      
+      dkapa  = (f/beta)*dtime/a_kxl  !novo
+      a_kapa = a_kapa + dkapa
+      
+        do k1=1,ntens
+			d_eplas(k1) = dkapa*(stress(k1)/(2*sqrt(a_j2))+gama*kroneker(k1)) 
+			eplas(k1) = eplas0(k1)+d_eplas(k1)
+			e_elas(k1) = dstran(k1)-eplas(k1)
+		enddo
+      call hyperconstitutive(a,ddsdde,ntens,e_elas)
+			do k1 = 1,ntens
+				do k2 = 1,ntens
+             stress(k2)=stress(k2)+ddsdde(k2,k1)*e_elas(k1) 
+				enddo                                        
+			enddo
+		  
 
-!-----------------------------------glavna petlja      
-        do 22 kewton=1,newton
-!-----------------------------------glavna petlja 
-!          write(6,*) 'kewton-newton-',kewton
-        call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
-     
-          f  = f1 - h*a_kapa     
-          f = (abs(f) + f)/two 
-       
-          if (a_kapa.gt.toler) then
-          a_kxl = x+a_kapa**a_l
-          else
-          a_kxl = x
-          endif
-          
-          dkapa  = (f/beta)*dtime/a_kxl  !novo
-          
-          skapa = a_kapa-a_kapa0-dkapa
-          absskapa = abs(skapa)
+		  skapa = a_kapa-a_kapa0-dkapa
             
           do k1=1,ntens        
              replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
-!				write(6,*)  'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
-!                write(6,*) 'eplas(k1)', eplas(k1)
-!                write(6,*) 'eplas0(k1)', eplas0(k1)
-!                write(6,*) 'dkapa', dkapa
-!                write(6,*) 'amu', a_mu(k1)
-!             write(6,*) 'replas', replas(k1)
-!			 write(6,*) 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-          enddo    
-     
-        replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
-     1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5
+          enddo 
+			
+		replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
+     1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5	
+			
+		if ((replas_int.lt.tol1).or.(skapa.lt.tol2)) then
+!		zadovoljena konvergencija	  
+!		call xit
+		goto 42
+		endif	
+			
+			enddo
+			
 
-      if ((replas_int.gt.tol1).or.(f.gt.tol2)) then
-	  
-		if ((replas_int.gt.tol1).and.(NPT.eq.2)) then
-!           write(6,*) 'R', replas_int, 'I=', kewton,'NPT',NPT
-		endif
-!			if (f.gt.tol2) then
-!           write(6,*) 'f', f, 'I=', kewton, 'NPT',NPT
-!		endif
-!		   do k1 = 1,ntens
-!              do k2 = 1,ntens
-!                 write(6,*) 'ddsdde', ddsdde(k2,k1)
-!              enddo                                        
-!          enddo
-		   
-      call  obnovi_s_kapa(stress,d_stres,d_eplas,ddsdde,ntens,
-     1      ndi,a,a_kapa,replas,skapa,d_kapa,
-     2      dtime,npt,noel,toler,s_dev,a_mu)
+42		continue
 
-
-       do k1=1,ntens
-             eplas(k1)   = eplas(k1) + d_eplas(k1)  
-!             write(6,*) 'd_eplas posle obnovi s drugi NAN', d_eplas(k1) 
-             dt_plas(k1) = d_eplas(k1)/dtime  ! brz.plast.def. 
-             
-             do k2 = 1,ntens
-               stress(k1)= stress(k1)-ddsdde(k1,k2)*d_eplas(k2)
-             enddo  
-       enddo  
-                    
-             a_kapa = a_kapa0 + d_kapa
-			 a_kapa = abs(a_kapa)
-				write(6,*) 'a_kapa', a_kapa			 
-             end if                
-22    continue        
-
-c  corrector phase -  kraj       
-      
- 52   continue
- 
-
-      do k1=1,ntens
+		do k1=1,ntens
          ceplast(noel,npt,k1)  =  eplas(k1)
-         dtplast(noel,npt,k1)  =  dt_plas(k1)
-      enddo                   
+		enddo                   
          akapa(noel,npt)=a_kapa               
        
-      return    
-      end
+		return    
+		end
+
+!
 C
 c-----------------------------------------  umat   kraj
 c-----------------------------------------  umat   kraj
@@ -434,283 +407,6 @@ c
 c---------------------------------subroutine loadingf      
 c----------------------------------------------------  
       
-      subroutine  obnovi_s_kapa(s_napon,d_stres,d_eplas,
-     1      ddsdde,ntens,ndi,a,a_kapa,replas,skapa,d_kapa,
-     2      dtime,npt,noel,toler,s_dev,a_mu)
       
-      include 'aba_param.inc'
-      
-!     brojne konstante   
-!     real zero,one,two,three,four,six,omega
-!     brojne konstante 
-!         
-!     ulazne promenljive   
-!     real a(17), a2,x,a_l,alfa,h,beta,m,gama
-!           
-!     integer ntens,ndi,npt,noel
-!     real toler
-!     real ddsdde(ntens,ntens)
-!     real  s_napon(ntens)
-!     real a_kapa,dtime,skapa
-!     real replas(ntens)
-!     real d_stres(ntens)
-!     ulazne promenljive  
-!
-!     unutrasnje promenljive
-!     integer k1,k2,k3
-!     real kroneker(ntens)
-!     real kroneker2(ntens,ntens),p1(ntens,ntens)
-!     real proizvod
-!     real  f1, f2,f
-!     real a_j2
-!     real s_dev(ntens),a_mu(ntens),b(ntens)
-!     real a_kxl,y1
-!     real z(ntens),proizvod2(ntens)
-!     real xx2(ntens,ntens),x_matrica(ntens,ntens)
-!     real x2(ntens,ntens),x1(ntens),y2(ntens)      
-!     unutrasnje promenljive 
-!
-!     izlazne promenljive
-!     real d_eplas(ntens)
-!     real d_kapa
-!     izlazne promenljive
-      
-c
-c----------------  ulaz    replas,  skapa, s_napon   
-c----------------  izlaz   d_eplas,  d_kapa, s_napon 
-c
-      dimension b(ntens),s_napon(ntens),s_dev(ntens),d_stres(ntens), 
-     1 kroneker2(ntens,ntens),ddsdde(ntens,ntens),z(ntens),
-     1 p1(ntens,ntens),a(17),d_eplas(ntens),
-     2 proizvod2(ntens),replas(ntens),
-     3 xx2(ntens,ntens),x_matrica(ntens,ntens),a_mu(ntens),
-     4 x2(ntens,ntens),x1(ntens),y2(ntens),kroneker(ntens) 
      
-      parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
-          
-      a2   = a(2)
-      x    = a(10)
-      a_l  = a(11)
-      alfa = a(12)
-      h    = a(13)
-      beta = a(14)
-      m    = a(15)
-      gama = a(16)
-      
-      omega = zero
-c -----------------------------------------------------------
-
-!        call loadingf(f1,s_napon,a,ntens,ndi,s_dev,a_j2,a_mu)
-!			ovo mi je sumnjivo
-!        if (a_j2.gt.six) then
-     
-        f2 = h*a_kapa
-        f  = f1 - f2     
-        f = (abs(f) + f)/two 
-            
-       do k1=1, ntens
-           do k2=1, ntens
-             p1(k1,k2)=zero
-             kroneker2(k1,k2)=zero
-           end do
-       end do
-           do k2=1, ntens
-             kroneker2(k2,k2)=one
-           end do 
-                             
-           do k2=1, ndi
-             kroneker(k2)=one
-             kroneker(k2+ndi)=zero
-           end do  
-
-       do k1=1, ndi ! 5.60
-           do k2=1, ndi
-             p1(k1,k2)=-one/three
-           end do
-           p1(k1,k1)=two/three
-           p1(ndi+k1,ndi+k1)=one
-       end do    
-             ! gde su ovde ABC kako je to uprosceno? !6.32
-       z(1)=(1./2.)*((s_napon(4)**2+s_napon(5)**2+s_napon(6)**2)
-     1       -two*s_napon(1)*s_napon(2)-three*s_napon(2)*s_napon(3)
-     2       -two*s_napon(1)*s_napon(3)-s_napon(2)**2-s_napon(3)**2)
-     3       +alfa*(s_napon(2)*s_napon(3)-s_napon(6)**2)
-     
-       z(2)=(1./2.)*((s_napon(4)**2+s_napon(5)**2+s_napon(6)**2)
-     1       -two*s_napon(1)*s_napon(2)-three*s_napon(1)*s_napon(3)
-     2       -two*s_napon(2)*s_napon(3)-s_napon(1)**2-s_napon(3)**2)
-     3       +alfa*(s_napon(1)*s_napon(3)-s_napon(5)**2)
-       
-       z(3)=(1./2.)*((s_napon(4)**2+s_napon(5)**2+s_napon(6)**2)
-     1       -two*s_napon(2)*s_napon(3)-three*s_napon(1)*s_napon(3)
-     2       -two*s_napon(2)*s_napon(3)-s_napon(1)**2-s_napon(2)**2)
-     3       +alfa*(s_napon(1)*s_napon(2)-s_napon(4)**2)
-       
-       z(4)=(1./2.)*(two*s_napon(1)*s_napon(4)+two*s_napon(2)*s_napon(4)
-     1       +two*s_napon(3)*s_napon(4))
-     2       +two*alfa*(s_napon(5)*s_napon(6)-s_napon(3)*s_napon(4))
-       
-       z(5)=(1./2.)*(two*s_napon(1)*s_napon(5)+two*s_napon(2)*s_napon(5)
-     1       +two*s_napon(3)*s_napon(5))
-     2       +two*alfa*(s_napon(4)*s_napon(6)-s_napon(2)*s_napon(5))
-
-       z(6)=(1./2.)*(two*s_napon(1)*s_napon(6)+two*s_napon(2)*s_napon(6)
-     1       +two*s_napon(3)*s_napon(6))
-     2       +two*alfa*(s_napon(5)*s_napon(4)-s_napon(1)*s_napon(6)) 
-         
-       proizvod =    s_dev(1)**2+s_dev(2)**2+s_dev(3)**2+
-     1            two*(s_dev(4)**2+s_dev(5)**2+s_dev(6)**2)
-!			write(6,*) 'proizvod=' ,proizvod
-! bez loadingF s_dev je nula pa je i proiyvod nula
-       do k1=1, ntens
-           proizvod2(k1)=zero
-           do k2=1, ntens
-             proizvod2(k1)=proizvod2(k1)+s_dev(k2)*p1(k2,k1)
-           end do
-       end do 
-        
-      
-          if (a_kapa.gt.toler) then
-          a_kxl = x+a_kapa**a_l
-          else
-          a_kxl = x
-          endif
-      
-       do k1=1, ntens
-           do k2=1, ntens   !6.36
-             xx2(k1,k2)=p1(k1,k2)/((two*proizvod)**0.5)
-     3       -(s_dev(k1)* proizvod2(k2))/(two*( (proizvod/2)**1.5 ) )
-!			write(6,*) 'Xx2=' ,xx2(k1,k2)
-           end do
-       end do
-       
-       do k1=1, ntens
-           do k2=1, ntens
-                x2(k1,k2)=- dtime !*((f/beta)**(m-1)) 
-     1          *(z(k1)/beta)*( a_mu(k2)/a_kxl )
-     2          +( xx2(k1,k2)*f/beta )
-     3          /(  (x+a_kapa**a_l)*(one-omega)  )
-
-           end do
-       end do
-       
-       do k1=1, ntens
-            x1(k1)= one          !*((f/beta)**(m-1))    = 1
-     1          *(h*a_mu(k1)*dtime)/(beta*(x+a_kapa**a_l))
-     2          +(f/beta)*(a_mu(k1)*a_l*(a_kapa**(a_l-one))
-     3          *dtime)/((x+(a_kapa)**a_l)**2)
-       end do     
-       
-       do k1=1, ntens
-            y2(k1)=-one*(f/beta)*(z(k1)*dtime)/(beta*a_kxl)
-       end do     
-      
-            y1  = one + one  !*((f/beta)**(m-1))    = 1
-     1          *(h*dtime)/(beta*a_kxl)
-     2          +dtime*(f/beta)* a_l*( a_kapa**(a_l-one) ) 
-     3          /(a_kxl**2)
-!         write(6,*) 'y1 =' ,y1
-!         write(6,*) 'skapa =' ,skapa
-       
-c   formula (1.2) na algoritmu - pocetak
-
-!		   do k1 = 1,ntens
-!              do k2 = 1,ntens
-!                 write(6,*) 'ddsdde', ddsdde(k2,k1)
-!              enddo                                        
-!          enddo
-
-       do k1=1, ntens
-           do k2=1, ntens
-              x_matrica(k1,k2)=kroneker2(k1,k2)
-              do k3=1, ntens
-                x_matrica(k1,k2) = x_matrica(k1,k2) - 
-     1            x2(k1,k3)*ddsdde(k3,k2) + 
-     1            (one/y1)*x1(k1)*y2(k3)*ddsdde(k3,k2)                 
-              end do
-!			  write(6,*) 'Xmat=' ,x_matrica(k1,k2)
-           end do
-       end do
-      
-       do k1=1, ntens
-             b(k1)=-replas(k1)+(skapa/y1)*x1(k1)
-!             write(6,*) 'ogromno za NaN replas(k1) =' ,replas(k1)
-!            write(6,*) 'ogromno za NaN b(k1) =' ,b(k1)
-
-       end do   
-        
-c  inverzna matrica iz (6.42)       
-         call gauss(x_matrica,ntens)                
-c  19-07-2013    -   vazi za gauss
-
-       do k1=1,ntens
-          d_eplas(k1) = zero   ! treba 0.
-          do k2=1,ntens
-            d_eplas(k1) = d_eplas(k1) + x_matrica(k1,k2)*b(k2)
-!			write(6,*) 'd_eplas(k1)=' ,d_eplas(k1)
-          end do
-         
-       end  do
-
-       do k1=1,ndi
-          d_eplas(k1)=d_eplas(k1)-
-     1                (d_eplas(1)+d_eplas(2)+d_eplas(3))/three
-     
-	   end do  
-c  19-07-2013    -   vazi za gauss
-
-       d_kapa = -(skapa/y1)
-       do k1=1, ntens
-       d_kapa=d_kapa + (a2/y1)*y2(k1)*d_eplas(k1)
-       end do   
-
-!       d_kapa = abs(d_kapa)
-       
-       do k1 = 1,ntens
-            d_stres(k1)= zero
-            do k2 = 1,ntens
-               d_stres(k1)=d_stres(k1)-ddsdde(k1,k2)*d_eplas(k2)
-            enddo  
-c            s_napon(k1)=s_napon(k1)+d_stres(k1)   
-       enddo    
-       
-
-c   formula (1.2) na algoritmu - kraj
-
-      return 
-      end
-      
-c-------------------------------------------subroutine  obnovi_s_kapa
-
-! --------------------------------------------------------------------
-        subroutine gauss (a,n)       ! invert matrix by gauss method
-! --------------------------------------------------------------------
-        implicit none
-        integer :: n
-        real :: a(n,n)
-! - - - local variables - - -
-        real :: b(n,n), c, d, temp(n)
-        integer :: i, j, k, m, imax(1), ipvt(n)
-! - - - - - - - - - - - - - -
-        b = a
-        ipvt = (/ (i, i = 1, n) /)
-        do k = 1,n
-           imax = maxloc(abs(b(k:n,k)))
-           m = k-1+imax(1)
-           if (m /= k) then
-              ipvt( (/m,k/) ) = ipvt( (/k,m/) )
-              b((/m,k/),:) = b((/k,m/),:)
-           end if
-           d = 1/b(k,k)
-           temp = b(:,k)
-           do j = 1, n
-              c = b(k,j)*d
-              b(:,j) = b(:,j)-temp*c
-              b(k,j) = c
-           end do
-           b(:,k) = temp*(-d)
-           b(k,k) = d
-        end do
-        a(:,ipvt) = b
-        end 
         
