@@ -8,7 +8,6 @@ c
       common /glavni/ ipoziv
       common /ak/ akapa(100000,10)
       common /comeplast/  ceplast(100000,8,6)
-      common /comdtplast/ dtplast(100000,8,6)
 
       character*80 materl
 
@@ -96,7 +95,7 @@ c -----------------------------------------------------------
       
 !  UILAZNE VELICINE U UMAT
 
-!     STRAN(NTENS): Niz koji sadrži ukupne deformacije na po?etku inkrenenta
+!     STRAN(NTENS): Niz koji sadrï¿½i ukupne deformacije na po?etku inkrenenta
 !     DSTRAN(NTENS): Niz inkremenata deformacija
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -150,15 +149,15 @@ c------------------ compute  loading surface f-----------------------
       endif
       f   = f1 - h*a_kapa0     
     
-!      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
-!       write(6,*) 'ELASTIC'              
+      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
+       write(6,*) 'ELASTIC'              
         goto 52           
-!      endif    
+      endif    
 c------------------  end of elastic predictor ----------------------
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+			write(6,*) 'plastic'
 			do k3 = 1,10
 			
 ! ucitava iz prethodnog koraka
@@ -175,8 +174,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
 		
 		          f  = f1 - h*a_kapa     
-					f = (abs(f) + f)/two 
-   
+!					f = (abs(f) + f)/two 
+!      write(6,*) 'f=', f1
       if (a_kapa.gt.toler) then
       a_kxl = x+a_kapa0**a_l
       else
@@ -203,13 +202,19 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             
           do k1=1,ntens        
              replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
+!              write(6,*)  'eplas(',k1,')=', eplas(k1)
+!              write(6,*)  'eplas0(',k1,')=', eplas0(k1)
+!              write(6,*)  'a_mu(',k1,')=', a_mu(k1)
+!              write(6,*) 'dkapa', dkapa
           enddo 
 			
 		replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
      1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5	
 			
 		if ((replas_int.lt.tol1).or.(skapa.lt.tol2)) then
-!		zadovoljena konvergencija	  
+!		zadovoljena konvergencija
+!			write(6,*) 'konvergira', 'k3=', k3
+!      write(6,*)  'Ri=', replas_int, 'SK', skapa
 !		call xit
 		goto 52
 		endif	
@@ -344,7 +349,8 @@ c----------------------------------------------------
       subroutine loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
      
       include 'aba_param.inc' 
-      
+c-
+
 !     brojne konstante   
 !     real zero,one,two,three
 !     brojne konstante 
@@ -380,6 +386,8 @@ c----------------------------------------------------
       end do 
             
 c     s_napon invarijante  i funkcija f 
+
+
       s_i1 = stress(1)+stress(2)+stress(3)
       s_i2 = (stress(1)**2+stress(2)**2+stress(3)**2)/two+
      1       stress(4)**2+stress(5)**2+stress(6)**2
@@ -397,7 +405,7 @@ c     s_napon invarijante  i funkcija f
      1          s_dev(4)**2+s_dev(5)**2+ s_dev(6)**2 
      
       f1 = s_i1*s_i2 + alfa*s_i3 
-             
+      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
       do k1=1,ntens
            a_mu(k1) = gama*kroneker(k1)+( 0.5*s_dev(k1)/(a_j2**0.5) )
       enddo   
