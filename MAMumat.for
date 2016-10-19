@@ -15,7 +15,7 @@ c
       dimension a(17),statev(nstatv),props(nprops),
      1 stran(ntens),dstran(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
-     1 d_eplas(ntens),dt_plas(ntens),dt_plas0(ntens),
+     1 d_eplas(ntens),
      1 eplas(ntens),e_elas(ntens),eplas0(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
      1 time(2),predef(1),dpred(1),  
@@ -150,10 +150,10 @@ c------------------ compute  loading surface f-----------------------
       endif
       f   = f1 - h*a_kapa0     
     
-      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
-       write(6,*) 'ELASTIC'              
-        goto 42           
-      endif    
+!      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
+!       write(6,*) 'ELASTIC'              
+        goto 52           
+!      endif    
 c------------------  end of elastic predictor ----------------------
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
@@ -211,23 +211,23 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		if ((replas_int.lt.tol1).or.(skapa.lt.tol2)) then
 !		zadovoljena konvergencija	  
 !		call xit
-		goto 42
+		goto 52
 		endif	
 			
 			enddo
-			
 
-42		continue
+c  corrector phase -  kraj       
+      
+ 52   continue
+ 
 
-		do k1=1,ntens
+      do k1=1,ntens
          ceplast(noel,npt,k1)  =  eplas(k1)
-		enddo                   
+      enddo                   
          akapa(noel,npt)=a_kapa               
        
-		return    
-		end
-
-!
+      return    
+      end
 C
 c-----------------------------------------  umat   kraj
 c-----------------------------------------  umat   kraj
@@ -406,7 +406,4 @@ c     s_napon invarijante  i funkcija f
 c        
 c---------------------------------subroutine loadingf      
 c----------------------------------------------------  
-      
-      
-     
-        
+ 
