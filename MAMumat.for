@@ -158,6 +158,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			write(6,*) 'plastic'
+      a_kapa = a_kapa0
 			do k3 = 1,10
 			
 ! ucitava iz prethodnog koraka
@@ -167,7 +168,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		
 		do k1 = 1,ntens
           do k2 = 1,ntens
-          stress(k2)=astress(k2)+ddsdde(k2,k1)*dstran(k1)*(1-k3*0.1)
+          stress(k2)=astress(k2)+ddsdde(k2,k1)*dstran(k1)*(1.1-k3*0.1)
           enddo                                        
 		enddo
 		
@@ -186,14 +187,16 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       a_kapa = a_kapa + dkapa
       
         do k1=1,ntens
-			d_eplas(k1) = dkapa*(stress(k1)/(2*sqrt(a_j2))+gama*kroneker(k1)) 
+			d_eplas(k1) = dkapa*a_mu(k1)
 			eplas(k1) = eplas0(k1)+d_eplas(k1)
+      write(6,*)  'eplas(',k1,')=', eplas(k1)
+      write(6,*)  'dstran(',k1,')=', dstran(k1)
 			e_elas(k1) = dstran(k1)-eplas(k1)
 		enddo
-      call hyperconstitutive(a,ddsdde,ntens,e_elas)
+!      call hyperconstitutive(a,ddsdde,ntens,e_elas)
 			do k1 = 1,ntens
 				do k2 = 1,ntens
-             stress(k2)=stress(k2)+ddsdde(k2,k1)*e_elas(k1) 
+!             stress(k2)=stress(k2)+ddsdde(k2,k1)*e_elas(k1) 
 				enddo                                        
 			enddo
 		  
@@ -213,8 +216,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			
 		if ((replas_int.lt.tol1).or.(skapa.lt.tol2)) then
 !		zadovoljena konvergencija
-!			write(6,*) 'konvergira', 'k3=', k3
-!      write(6,*)  'Ri=', replas_int, 'SK', skapa
+			write(6,*) 'konvergira', 'k3=', k3
+      write(6,*)  'Ri=', replas_int, 'SK', skapa
 !		call xit
 		goto 52
 		endif	
@@ -405,7 +408,7 @@ c     s_napon invarijante  i funkcija f
      1          s_dev(4)**2+s_dev(5)**2+ s_dev(6)**2 
      
       f1 = s_i1*s_i2 + alfa*s_i3 
-      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
+!      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
       do k1=1,ntens
            a_mu(k1) = gama*kroneker(k1)+( 0.5*s_dev(k1)/(a_j2**0.5) )
       enddo   
