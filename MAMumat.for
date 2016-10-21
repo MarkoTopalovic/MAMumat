@@ -39,13 +39,13 @@ c
       a7 = 0.
       a8 = 0.
       a9 = 0.
-      x = 1.03e-3
+      x = 1.03e+3
       a_l = 2          
       alfa = 14.2  !17.1   
       h = 50.
-      beta = 1.34e4  !8.23e4
+      beta = 8.23e4     !1.34e4
       a_m  = one
-      gama = -5.
+      gama = -5. 
       
       alpha_t  = 4.e-5
 c -----------------------------------------------------------
@@ -175,25 +175,29 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
 		
 		          f  = f1 - h*a_kapa     
-!					f = (abs(f) + f)/two 
-!      write(6,*) 'f=', f1
+					f = (abs(f) + f)/two 
+      write(6,*) 'f=', f
       if (a_kapa.gt.toler) then
       a_kxl = x+a_kapa0**a_l
       else
       a_kxl = x
       endif
-      
-      dkapa  = (f/beta)*dtime/a_kxl  !novo
+!      write (6,*) 'dtime=',dtime
+      dkapa  = ((f/beta)**1)/a_kxl  !novo
+       write (6,*) 'dkapa=',dkapa
       a_kapa = a_kapa + dkapa
       
         do k1=1,ntens
 			d_eplas(k1) = dkapa*a_mu(k1)
 			eplas(k1) = eplas0(k1)+d_eplas(k1)
+			e_elas(k1) = dstran(k1)-eplas(k1)
+      write(6,*)  'a_mu(',k1,')=', a_mu(k1)
       write(6,*)  'eplas(',k1,')=', eplas(k1)
       write(6,*)  'dstran(',k1,')=', dstran(k1)
-			e_elas(k1) = dstran(k1)-eplas(k1)
+  	  write(6,*)  'e_elas(',k1,')=', e_elas(k1)
+			write(6,*)  '-------------------------------------------------------'
 		enddo
-!      call hyperconstitutive(a,ddsdde,ntens,e_elas)
+      call hyperconstitutive(a,ddsdde,ntens,e_elas)
 			do k1 = 1,ntens
 				do k2 = 1,ntens
 !             stress(k2)=stress(k2)+ddsdde(k2,k1)*e_elas(k1) 
