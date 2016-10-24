@@ -159,8 +159,7 @@ c***************      1) corector phase      ***********************
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			write(6,*) 'plastic'
       a_kapa = a_kapa0
-			do k3 = 1,10
-			
+			do k3 = 1,10		
 ! ucitava iz prethodnog koraka
 		do k1=1,ntens
          eplas0(k1) = ceplast(noel,npt,k1)  
