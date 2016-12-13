@@ -39,7 +39,7 @@ c
       a7 = 0.
       a8 = 0.
       a9 = 0.
-      x = 1.03e+3
+      x = 1.03e-3
       a_l = 2          
       alfa = 14.2  !17.1   
       h = 50.
@@ -138,7 +138,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                  stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
               enddo                                        
           enddo
-
+	write(6,*) 's1=',stress(1),'s2=',stress(2),'s3=',stress(3)
 
 c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
@@ -149,10 +149,11 @@ c------------------ compute  loading surface f-----------------------
       endif
       f   = f1 - h*a_kapa0     
     
-      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
-       write(6,*) 'ELASTIC'              
+
+!      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
+!       write(6,*) 'ELASTIC'              
         goto 52           
-      endif    
+!      endif    
 c------------------  end of elastic predictor ----------------------
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
@@ -175,7 +176,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		
 		          f  = f1 - h*a_kapa     
 					f = (abs(f) + f)/two 
-      write(6,*) 'f=', f
+      write(6,*) 'f1=', f1
       if (a_kapa.gt.toler) then
       a_kxl = x+a_kapa0**a_l
       else
@@ -190,11 +191,11 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			d_eplas(k1) = dkapa*a_mu(k1)
 			eplas(k1) = eplas0(k1)+d_eplas(k1)
 			e_elas(k1) = dstran(k1)-eplas(k1)
-      write(6,*)  'a_mu(',k1,')=', a_mu(k1)
-      write(6,*)  'eplas(',k1,')=', eplas(k1)
-      write(6,*)  'dstran(',k1,')=', dstran(k1)
-  	  write(6,*)  'e_elas(',k1,')=', e_elas(k1)
-			write(6,*)  '-------------------------------------------------------'
+!      write(6,*)  'a_mu(',k1,')=', a_mu(k1)
+!      write(6,*)  'eplas(',k1,')=', eplas(k1)
+!      write(6,*)  'dstran(',k1,')=', dstran(k1)
+!  	  write(6,*)  'e_elas(',k1,')=', e_elas(k1)
+!			write(6,*)  '-------------------------------------------------------'
 		enddo
       call hyperconstitutive(a,ddsdde,ntens,e_elas)
 			do k1 = 1,ntens
@@ -211,6 +212,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !              write(6,*)  'eplas(',k1,')=', eplas(k1)
 !              write(6,*)  'eplas0(',k1,')=', eplas0(k1)
 !              write(6,*)  'a_mu(',k1,')=', a_mu(k1)
+!				write(6,*)  'dstran(',k1,')=', dstran(k1)
 !              write(6,*) 'dkapa', dkapa
           enddo 
 			
