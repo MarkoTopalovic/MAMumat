@@ -149,11 +149,10 @@ c------------------ compute  loading surface f-----------------------
       endif
       f   = f1 - h*a_kapa0     
     
-
-!      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
-!       write(6,*) 'ELASTIC'              
+      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
+       write(6,*) 'ELASTIC'              
         goto 52           
-!      endif    
+      endif    
 c------------------  end of elastic predictor ----------------------
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
@@ -413,7 +412,7 @@ c     s_napon invarijante  i funkcija f
      1          s_dev(4)**2+s_dev(5)**2+ s_dev(6)**2 
      
       f1 = s_i1*s_i2 + alfa*s_i3 
-!      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
+      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
       do k1=1,ntens
            a_mu(k1) = gama*kroneker(k1)+( 0.5*s_dev(k1)/(a_j2**0.5) )
       enddo   
