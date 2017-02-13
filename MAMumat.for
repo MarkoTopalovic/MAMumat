@@ -79,9 +79,9 @@ c -----------------------------------------------------------
          kroneker(k2+ndi) = zero
       end do 
       
-
-
-
+!		write(6,*) 'fyield2=' , fyield(noel,npt) ,'  ',noel,npt
+		      f0  = fyield(noel,npt)  ! 6.20   ! ucitava iz prethodnog koraka
+!		write(6,*)
 !  KONSTANTE
 
 !     NDI: Broj direkthih komponenti napona u datom trenutku
@@ -136,13 +136,19 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
       call hyperconstitutive(a,ddsdde,ntens,stran)
 
-c----------------------------------------------------  MM 17-11-2016    
-           do k2 = 1,ntens
-              astress(k2)=stress(k2)
-              do k1 = 1,ntens			
-                 stress(k2)=astress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
+	   do k1 = 1,ntens
+              do k2 = 1,ntens
+					astress(k2)=stress(k2)
+                 stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
               enddo                                        
           enddo
+c----------------------------------------------------  MM 17-11-2016    
+!           do k2 = 1,ntens
+!              astress(k2)=stress(k2)
+!              do k1 = 1,ntens			
+!                 stress(k2)=astress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
+!              enddo                                        
+!          enddo
 c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
 
@@ -155,19 +161,22 @@ c------------------ compute  loading surface f-----------------------
       if ((f.le.zero).or.(a_j2.lt.yield0)) then   
        write(6,*) 'ELASTIC' 
         goto 52  
-c      common /af/ fyield(100000,10)
-      f_0  = fyield(noel,npt)  ! 6.20   ! ucitava iz prethodnog koraka
-      elseif (f.gt.1.1*f_0) then
-            smanjenje = 0.1*f_0/(f-f0)
+
+
+      elseif (f.gt.1.2*f0) then
+		write(6,*)'SMANJENJE'
+            smanjenje = 0.2*f0/(f-f0)
+			write(6,*) 'smanjenje=', smanjenje, 'f0=', f0,'f=', f
             do k2 = 1,ntens
             do k1 = 1,ntens			
-                 stress(k2)=astress(k2)+ddsdde(k2,k1)*smanjenje*dstran(k1) ! 6.19 
+                 stress(k2)=stress(k2)+ddsdde(k2,k1)*smanjenje*dstran(k1) ! 6.19 
               enddo                                        
           enddo                    
 c----------------------------------------------------  MM 17-11-2016
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
       f   = f1 - h*a_kapa0         
-      endif    
+      endif  
+		write(6,*)'PLASTIC'
 c------------------  end of elastic predictor ----------------------
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
@@ -177,7 +186,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !			do k3 = 1,10		
 ! ucitava iz prethodnog koraka
 		do k1=1,ntens
-           eplas0(k1) = ceplast(noel,npt,k1)  
+           eplas0(k1) = ceplast(noel,npt,k1)  + dstran(k1)
 		enddo
 		
 !		do k1 = 1,ntens
@@ -190,7 +199,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
 		         f  = f1 - h*a_kapa    
                          f = (abs(f) + f)/two 
-      write(6,*) 'f1=', f1
+!      write(6,*) 'f1=', f1
 !      if (a_kapa.gt.toler) then
                          a_kxl = x+a_kapa**a_l
 !      else
@@ -221,8 +230,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 		if ((replas_int.lt.tol1).and.(skapa.lt.tol2)) then
 !		zadovoljena konvergencija
-			write(6,*) 'konvergira', 'k3=', k3
-      write(6,*)  'Ri=', replas_int, 'SK', skapa
+!			write(6,*) 'konvergira', 'k3=', k3
+!      write(6,*)  'Ri=', replas_int, 'SK', skapa
 			else
 c               OBNOVA   (update)		
                 a_kapa = a_kapa + dkapa
@@ -242,11 +251,11 @@ c               OBNOVA   (update)
 !      write(6,*)  'e_elas(',k1,')=', e_elas(k1)
 !      write(6,*)  '-------------------------------------------------------'
 		enddo	
-      write(6,*) 'f1=', f1
-      write(6,*) 'f=' , f
+!      write(6,*) 'f1=', f1
+!      write(6,*) 'f=' , f
 c               OBNOVA   (update)
 
-		call xit
+!		call xit
 		goto 52
 		endif	
 			
@@ -255,7 +264,7 @@ c               OBNOVA   (update)
 c  corrector phase -  kraj 
 
 c      do kewton = 1,newton
-                enddo      
+!                enddo      
 c      do kewton = 1,newton
 
  52   continue
@@ -263,9 +272,12 @@ c      do kewton = 1,newton
 
       do k1=1,ntens
          ceplast(noel,npt,k1)  =  eplas(k1)
-      enddo                   
+      enddo 
+!      write(6,*) 'f1=', f1
+!      write(6,*) 'f=' , f	  
          akapa(noel,npt) = a_kapa               
-         fyield(noel,npt)= f      
+         fyield(noel,npt)= f 
+!		write(6,*) 'fyield=' , fyield(noel,npt) ,'  ',noel,npt			 
       return    
       end
 C
@@ -440,7 +452,7 @@ c     s_napon invarijante  i funkcija f
      1          s_dev(4)**2+s_dev(5)**2+ s_dev(6)**2 
      
       f1 = s_i1*s_i2 + alfa*s_i3 
-      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
+!      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
       do k1=1,ntens
            a_mu(k1) = gama*kroneker(k1)+( 0.5*s_dev(k1)/(a_j2**0.5) )
       enddo   
