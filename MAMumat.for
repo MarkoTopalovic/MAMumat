@@ -219,13 +219,15 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
      1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5	
 
-		if ((replas_int.lt.tol1).or.(skapa.lt.tol2)) then
+		if ((replas_int.lt.tol1).and.(skapa.lt.tol2)) then
 !		zadovoljena konvergencija
 			write(6,*) 'konvergira', 'k3=', k3
       write(6,*)  'Ri=', replas_int, 'SK', skapa
-
+			else
 c               OBNOVA   (update)		
                 a_kapa = a_kapa + dkapa
+				eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1)
+			e_elas(k1)  = dstran(k1) - eplas(k1)
                 call hyperconstitutive(a,ddsdde,ntens,e_elas)
 			do k1 = 1,ntens
 				do k2 = 1,ntens
@@ -233,8 +235,7 @@ c               OBNOVA   (update)
 				enddo                                        
 			enddo	  
                 do k1=1,ntens
-			eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1)
-			e_elas(k1)  = dstran(k1) - eplas(k1)
+			
 !      write(6,*)  'a_mu(',k1,')=', a_mu(k1)
 !      write(6,*)  'eplas(',k1,')=', eplas(k1)
 !      write(6,*)  'dstran(',k1,')=', dstran(k1)
