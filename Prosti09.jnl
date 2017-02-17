@@ -1,0 +1,1460 @@
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['prosti08'].submit(consistencyChecking=OFF)
+mdb.jobs['prosti08']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prosti08.odb', 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 3284, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 1, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['prosti08']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'prosti08', 'memory': 25.0})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 1, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 2, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 2e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 1, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 3, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 3.5e-05, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 1, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 4, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 5.75e-05, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 1, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 5, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 9.125e-05, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 1, 'jobName': 'prosti08', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 6, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.000141875, 'attempts': 1, 
+    'timeIncrement': 5.0625e-05, 'increment': 6, 'stepTime': 0.000141875, 
+    'step': 1, 'jobName': 'prosti08', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 7, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0002178125, 
+    'attempts': 1, 'timeIncrement': 7.59375e-05, 'increment': 7, 
+    'stepTime': 0.0002178125, 'step': 1, 'jobName': 'prosti08', 'severe': 2, 
+    'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 8, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 1, 'jobName': 'prosti08', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 9, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 1, 'jobName': 'prosti08', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 10, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 1, 'jobName': 'prosti08', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 11, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 12, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.001719951171875, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 13, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0025849267578125, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 14, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.00388239013671875, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 15, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.00582858520507813, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 16, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.00874787780761719, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 17, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0131268167114258, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 18, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0196952250671387, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 19, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.029547837600708, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 1, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 20, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.044326756401062, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 21, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.066495134601593, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 22, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.0997477019023895, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 22, 
+    'stepTime': 0.0997477019023895, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 23, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.149626552853584, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 23, 
+    'stepTime': 0.149626552853584, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 24, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.224444829280377, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 24, 
+    'stepTime': 0.224444829280377, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 25, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.336672243920565, 
+    'attempts': 1, 'timeIncrement': 0.112227414640188, 'increment': 25, 
+    'stepTime': 0.336672243920565, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 26, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.505013365880847, 
+    'attempts': 1, 'timeIncrement': 0.168341121960282, 'increment': 26, 
+    'stepTime': 0.505013365880847, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 27, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 0.757525048821271, 
+    'attempts': 1, 'timeIncrement': 0.252511682940424, 'increment': 27, 
+    'stepTime': 0.757525048821271, 'step': 1, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 28, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 0.242474951178729, 'increment': 28, 'stepTime': 1.0, 
+    'step': 1, 'jobName': 'prosti08', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 2, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'prosti08', 'memory': 25.0})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00001, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 2, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00002, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 2, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.000035, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 2, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.0000575, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 2, 
+    'jobName': 'prosti08', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00009125, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 2, 'jobName': 'prosti08', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.000141875, 'attempts': 1, 
+    'timeIncrement': 5.0625e-05, 'increment': 6, 'stepTime': 0.000141875, 
+    'step': 2, 'jobName': 'prosti08', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.0002178125, 
+    'attempts': 1, 'timeIncrement': 7.59375e-05, 'increment': 7, 
+    'stepTime': 0.0002178125, 'step': 2, 'jobName': 'prosti08', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 2, 'jobName': 'prosti08', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 2, 'jobName': 'prosti08', 'severe': 0, 
+    'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 2, 'jobName': 'prosti08', 'severe': 2, 
+    'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 11, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 12, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00171995117188, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 13, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00258492675781, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 14, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00388239013672, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 15, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00582858520508, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 16, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.00874787780762, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 1, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 17, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.01312681671143, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 18, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.01750575561523, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 18, 
+    'stepTime': 0.0175057556152344, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 19, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.02188469451904, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 19, 
+    'stepTime': 0.021884694519043, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 20, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.02626363342285, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 20, 
+    'stepTime': 0.0262636334228516, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 21, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.03064257232666, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 21, 
+    'stepTime': 0.0306425723266602, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 22, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.03721098068237, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 22, 
+    'stepTime': 0.0372109806823731, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 23, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.04706359321594, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 23, 
+    'stepTime': 0.0470635932159424, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 24, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.0618425120163, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 24, 
+    'stepTime': 0.0618425120162964, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 25, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.08401089021683, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 25, 
+    'stepTime': 0.0840108902168274, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 5, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 26, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.10617926841736, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 26, 
+    'stepTime': 0.106179268417358, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 27, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.12834764661789, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 27, 
+    'stepTime': 0.128347646617889, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 28, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.15051602481842, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 28, 
+    'stepTime': 0.15051602481842, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 29, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.17268440301895, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 29, 
+    'stepTime': 0.172684403018951, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 30, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.19485278121948, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 30, 
+    'stepTime': 0.194852781219483, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 31, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.21702115942001, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 31, 
+    'stepTime': 0.217021159420014, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 32, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.23918953762055, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 32, 
+    'stepTime': 0.239189537620545, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 33, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.26135791582108, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 33, 
+    'stepTime': 0.261357915821076, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 34, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.28352629402161, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 34, 
+    'stepTime': 0.283526294021607, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 35, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.30569467222214, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 35, 
+    'stepTime': 0.305694672222138, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 36, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.32786305042267, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 36, 
+    'stepTime': 0.327863050422669, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 37, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.3500314286232, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 37, 
+    'stepTime': 0.3500314286232, 'step': 2, 'jobName': 'prosti08', 'severe': 4, 
+    'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 38, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.37219980682373, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 38, 
+    'stepTime': 0.372199806823731, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 39, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.39436818502426, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 39, 
+    'stepTime': 0.394368185024262, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 40, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.41653656322479, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 40, 
+    'stepTime': 0.416536563224793, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 41, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.43870494142533, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 41, 
+    'stepTime': 0.438704941425324, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 42, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.46087331962586, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 42, 
+    'stepTime': 0.460873319625855, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 43, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.48304169782639, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 43, 
+    'stepTime': 0.483041697826386, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 44, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.50521007602692, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 44, 
+    'stepTime': 0.505210076026917, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 45, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.52737845422745, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 45, 
+    'stepTime': 0.527378454227448, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'DISPLACEMENT INCREMENT FOR CONTACT IS TOO BIG.', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.52737845422745, 
+    'attempts': ' 1U', 'timeIncrement': 0.022168378200531, 'increment': 46, 
+    'stepTime': 0.527378454227448, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 46, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.53292054877758, 
+    'attempts': 2, 'timeIncrement': 0.00554209455013275, 'increment': 46, 
+    'stepTime': 0.532920548777581, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 47, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.54123369060278, 
+    'attempts': 1, 'timeIncrement': 0.00831314182519913, 'increment': 47, 
+    'stepTime': 0.54123369060278, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 48, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.55370340334058, 
+    'attempts': 1, 'timeIncrement': 0.0124697127377987, 'increment': 48, 
+    'stepTime': 0.553703403340578, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 49, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.57240797244728, 
+    'attempts': 1, 'timeIncrement': 0.018704569106698, 'increment': 49, 
+    'stepTime': 0.572407972447276, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 50, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.60046482610733, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 50, 
+    'stepTime': 0.600464826107324, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 51, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.62852167976737, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 51, 
+    'stepTime': 0.628521679767371, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 7, 'iterations': 12, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 52, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.65657853342742, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 52, 
+    'stepTime': 0.656578533427418, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 53, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.68463538708747, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 53, 
+    'stepTime': 0.684635387087465, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 54, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.71269224074751, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 54, 
+    'stepTime': 0.712692240747512, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 55, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.74074909440756, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 55, 
+    'stepTime': 0.740749094407559, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 56, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.76880594806761, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 56, 
+    'stepTime': 0.768805948067606, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 57, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.79686280172765, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 57, 
+    'stepTime': 0.796862801727653, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 58, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.8249196553877, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 58, 
+    'stepTime': 0.8249196553877, 'step': 2, 'jobName': 'prosti08', 'severe': 4, 
+    'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 59, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.85297650904775, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 59, 
+    'stepTime': 0.852976509047747, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 60, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.8810333627078, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 60, 
+    'stepTime': 0.881033362707794, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 61, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.90909021636784, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 61, 
+    'stepTime': 0.909090216367841, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'DISPLACEMENT INCREMENT FOR CONTACT IS TOO BIG.', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.90909021636784, 
+    'attempts': ' 1U', 'timeIncrement': 0.0280568536600471, 'increment': 62, 
+    'stepTime': 0.909090216367841, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 62, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.91610442978285, 
+    'attempts': 2, 'timeIncrement': 0.00701421341501177, 'increment': 62, 
+    'stepTime': 0.916104429782853, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 63, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.92311864319787, 
+    'attempts': 1, 'timeIncrement': 0.00701421341501177, 'increment': 63, 
+    'stepTime': 0.923118643197865, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 64, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.93013285661288, 
+    'attempts': 1, 'timeIncrement': 0.00701421341501177, 'increment': 64, 
+    'stepTime': 0.930132856612876, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 65, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.9406541767354, 
+    'attempts': 1, 'timeIncrement': 0.0105213201225176, 'increment': 65, 
+    'stepTime': 0.940654176735394, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 66, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.95643615691917, 
+    'attempts': 1, 'timeIncrement': 0.0157819801837765, 'increment': 66, 
+    'stepTime': 0.956436156919171, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'DISPLACEMENT INCREMENT FOR CONTACT IS TOO BIG.', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.95643615691917, 
+    'attempts': ' 1U', 'timeIncrement': 0.0236729702756647, 'increment': 67, 
+    'stepTime': 0.956436156919171, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 67, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.96235439948809, 
+    'attempts': 2, 'timeIncrement': 0.00591824256891618, 'increment': 67, 
+    'stepTime': 0.962354399488087, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 1, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 68, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.968272642057, 
+    'attempts': 1, 'timeIncrement': 0.00591824256891618, 'increment': 68, 
+    'stepTime': 0.968272642057003, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 0, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prosti08']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'DISPLACEMENT INCREMENT FOR CONTACT IS TOO BIG.', 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.968272642057, 
+    'attempts': ' 1U', 'timeIncrement': 0.00591824256891618, 'increment': 69, 
+    'stepTime': 0.968272642057003, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 69, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.96975220269923, 
+    'attempts': 2, 'timeIncrement': 0.00147956064222904, 'increment': 69, 
+    'stepTime': 0.969752202699232, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 3, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 70, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.97123176334146, 
+    'attempts': 1, 'timeIncrement': 0.00147956064222904, 'increment': 70, 
+    'stepTime': 0.971231763341461, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 71, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.97345110430481, 
+    'attempts': 1, 'timeIncrement': 0.00221934096334357, 'increment': 71, 
+    'stepTime': 0.973451104304805, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 72, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.97678011574982, 
+    'attempts': 1, 'timeIncrement': 0.00332901144501535, 'increment': 72, 
+    'stepTime': 0.97678011574982, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 73, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.98177363291734, 
+    'attempts': 1, 'timeIncrement': 0.00499351716752302, 'increment': 73, 
+    'stepTime': 0.981773632917343, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 74, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 1.98926390866863, 
+    'attempts': 1, 'timeIncrement': 0.00749027575128454, 'increment': 74, 
+    'stepTime': 0.989263908668628, 'step': 2, 'jobName': 'prosti08', 
+    'severe': 2, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prosti08']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 75, 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(STATUS, {'totalTime': 2.0, 'attempts': 1, 
+    'timeIncrement': 0.0107360913313724, 'increment': 75, 'stepTime': 1.0, 
+    'step': 2, 'jobName': 'prosti08', 'severe': 3, 'iterations': 6, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prosti08']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'prosti08'})
+mdb.jobs['prosti08']._Message(JOB_COMPLETED, {
+    'time': 'Mon Feb 13 15:03:29 2017', 'jobName': 'prosti08'})
+# Save by Virtual7 on 2017_02_13-15.04.11; build 6.14-1 2014_06_05-00.11.02 134264
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].Material(name='MAM')
+mdb.models['Model-1'].materials['MAM'].UserMaterial(mechanicalConstants=(0.0, 
+    ))
+mdb.models['Model-1'].materials['MAM'].userMaterial.setValues(
+    mechanicalConstants=(2100000.0, 0.3, 24.0, 0.0, 26.4, 0.025, 28.0, 0.05, 
+    28.8, 0.075, 29.2, 0.1))
+mdb.models['Model-1'].sections['celicni'].setValues(material='MAM', thickness=
+    None)
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='prostiMAM', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='C:\\Temp\\MAMumat\\MAMumat.for', waitHours=0, 
+    waitMinutes=0)
+mdb.jobs['prostiMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '110 elements have been defined with zero hour glass stiffness. You may use *hourglass stiffness or change the element type. The elements have been identified in element set ErrElemZeroHourGlassStiffness.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'USER SUBROUTINE UMAT WILL BE USED WITH THE STAVEV ARRAY DIMENSIONED TO ZERO SINCE THE *DEPVAR OPTION IS NOT USED WITH THIS MATERIAL. CONSEQUENTLY, DEFINING STATEV ENTRIES IN SUBROUTINE UMAT WILL CAUSE CODE EXECUTION ERRORS.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prostiMAM.odb', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.models['Model-1'].materials['MAM'].Depvar(n=22)
+mdb.jobs['prostiMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '110 elements have been defined with zero hour glass stiffness. You may use *hourglass stiffness or change the element type. The elements have been identified in element set ErrElemZeroHourGlassStiffness.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prostiMAM.odb', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.models['Model-1'].parts['Part-1'].setElementType(elemTypes=(ElemType(
+    elemCode=C3D8R, elemLibrary=STANDARD), ElemType(elemCode=C3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D4, elemLibrary=STANDARD, 
+    secondOrderAccuracy=OFF, distortionControl=DEFAULT)), regions=(
+    mdb.models['Model-1'].parts['Part-1'].cells.getSequenceFromMask(('[#1 ]', 
+    ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['prostiMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '140 elements have been defined with zero hour glass stiffness. You may use *hourglass stiffness or change the element type. The elements have been identified in element set ErrElemZeroHourGlassStiffness.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prostiMAM.odb', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.models['Model-1'].parts['Part-1'].setElementType(elemTypes=(ElemType(
+    elemCode=C3D8H, elemLibrary=STANDARD), ElemType(elemCode=C3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D4, elemLibrary=STANDARD)), 
+    regions=(mdb.models['Model-1'].parts['Part-1'].cells.getSequenceFromMask((
+    '[#5 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['prostiMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '80 elements have been defined with zero hour glass stiffness. You may use *hourglass stiffness or change the element type. The elements have been identified in element set ErrElemZeroHourGlassStiffness.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prostiMAM.odb', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.models['Model-1'].parts['Part-1'].setElementType(elemTypes=(ElemType(
+    elemCode=C3D8H, elemLibrary=STANDARD), ElemType(elemCode=C3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D4, elemLibrary=STANDARD)), 
+    regions=(mdb.models['Model-1'].parts['Part-1'].cells.getSequenceFromMask((
+    '[#a ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['prostiMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': '20 elements have been defined with zero hour glass stiffness. You may use *hourglass stiffness or change the element type. The elements have been identified in element set ErrElemZeroHourGlassStiffness.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prostiMAM.odb', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error.', 
+    'jobName': 'prostiMAM'})
+mdb.models['Model-1'].parts['Part-2'].setElementType(elemTypes=(ElemType(
+    elemCode=C3D8H, elemLibrary=STANDARD), ElemType(elemCode=C3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D4, elemLibrary=STANDARD)), 
+    regions=(mdb.models['Model-1'].parts['Part-2'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.jobs['prostiMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\prostiMAM.odb', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 5140, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 1, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['prostiMAM']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'prostiMAM', 'memory': 25.0})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 1, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 2, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 2e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 1, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 3, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 3.5e-05, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 1, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 4, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 5.75e-05, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 1, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 5, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 9.125e-05, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 1, 'jobName': 'prostiMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 6, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.000141875, 
+    'attempts': 1, 'timeIncrement': 5.0625e-05, 'increment': 6, 
+    'stepTime': 0.000141875, 'step': 1, 'jobName': 'prostiMAM', 'severe': 2, 
+    'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 7, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0002178125, 
+    'attempts': 1, 'timeIncrement': 7.59375e-05, 'increment': 7, 
+    'stepTime': 0.0002178125, 'step': 1, 'jobName': 'prostiMAM', 'severe': 2, 
+    'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 8, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 1, 'jobName': 'prostiMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 9, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 1, 'jobName': 'prostiMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 10, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 11, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 12, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.001719951171875, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 13, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0025849267578125, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 1, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 14, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.00388239013671875, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 15, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.00582858520507813, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 16, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.00874787780761719, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 17, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0131268167114258, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 18, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0196952250671387, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 19, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.029547837600708, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 20, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.044326756401062, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 21, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.066495134601593, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 22, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.0997477019023895, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 22, 
+    'stepTime': 0.0997477019023895, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 23, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.149626552853584, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 23, 
+    'stepTime': 0.149626552853584, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 24, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.224444829280377, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 24, 
+    'stepTime': 0.224444829280377, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 25, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.336672243920565, 
+    'attempts': 1, 'timeIncrement': 0.112227414640188, 'increment': 25, 
+    'stepTime': 0.336672243920565, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 26, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.505013365880847, 
+    'attempts': 1, 'timeIncrement': 0.168341121960282, 'increment': 26, 
+    'stepTime': 0.505013365880847, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 27, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 0.757525048821271, 
+    'attempts': 1, 'timeIncrement': 0.252511682940424, 'increment': 27, 
+    'stepTime': 0.757525048821271, 'step': 1, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 28, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 0.242474951178729, 'increment': 28, 'stepTime': 1.0, 
+    'step': 1, 'jobName': 'prostiMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 2, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'prostiMAM', 'memory': 25.0})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00001, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 2, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00002, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 2, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.000035, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 2, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.0000575, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 2, 
+    'jobName': 'prostiMAM', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00009125, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 2, 'jobName': 'prostiMAM', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.000141875, 
+    'attempts': 1, 'timeIncrement': 5.0625e-05, 'increment': 6, 
+    'stepTime': 0.000141875, 'step': 2, 'jobName': 'prostiMAM', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.0002178125, 
+    'attempts': 1, 'timeIncrement': 7.59375e-05, 'increment': 7, 
+    'stepTime': 0.0002178125, 'step': 2, 'jobName': 'prostiMAM', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 2, 'jobName': 'prostiMAM', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 2, 'jobName': 'prostiMAM', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 11, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 12, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00171995117188, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 13, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00258492675781, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 14, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00388239013672, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 15, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00582858520508, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 16, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.00874787780762, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 17, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.01312681671143, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 18, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.01969522506714, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 19, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.02954783760071, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 20, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.04432675640106, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 21, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.06649513460159, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 22, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.08866351280212, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 22, 
+    'stepTime': 0.088663512802124, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 23, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.11083189100266, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 23, 
+    'stepTime': 0.110831891002655, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 24, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.13300026920319, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 24, 
+    'stepTime': 0.133000269203186, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 25, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.16625283650398, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 25, 
+    'stepTime': 0.166252836503983, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 26, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.19950540380478, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 26, 
+    'stepTime': 0.199505403804779, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 27, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.23275797110558, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 27, 
+    'stepTime': 0.232757971105576, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'DISPLACEMENT INCREMENT FOR CONTACT IS TOO BIG.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.23275797110558, 
+    'attempts': ' 1U', 'timeIncrement': 0.0332525673007965, 'increment': 28, 
+    'stepTime': 0.232757971105576, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 28, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.24107111293078, 
+    'attempts': 2, 'timeIncrement': 0.00831314182519913, 'increment': 28, 
+    'stepTime': 0.241071112930775, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 29, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.25354082566857, 
+    'attempts': 1, 'timeIncrement': 0.0124697127377987, 'increment': 29, 
+    'stepTime': 0.253540825668573, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 30, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.27224539477527, 
+    'attempts': 1, 'timeIncrement': 0.018704569106698, 'increment': 30, 
+    'stepTime': 0.272245394775271, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 31, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.30030224843532, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 31, 
+    'stepTime': 0.300302248435319, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 32, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.32835910209537, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 32, 
+    'stepTime': 0.328359102095366, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 33, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.35641595575541, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 33, 
+    'stepTime': 0.356415955755413, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 34, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.38447280941546, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 34, 
+    'stepTime': 0.38447280941546, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 35, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.41252966307551, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 35, 
+    'stepTime': 0.412529663075507, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 36, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.44058651673555, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 36, 
+    'stepTime': 0.440586516735554, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 37, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.4686433703956, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 37, 
+    'stepTime': 0.468643370395601, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 38, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.49670022405565, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 38, 
+    'stepTime': 0.496700224055648, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 3, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'DISPLACEMENT INCREMENT FOR CONTACT IS TOO BIG.', 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.49670022405565, 
+    'attempts': ' 1U', 'timeIncrement': 0.0280568536600471, 'increment': 39, 
+    'stepTime': 0.496700224055648, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 39, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.50371443747066, 
+    'attempts': 2, 'timeIncrement': 0.00701421341501177, 'increment': 39, 
+    'stepTime': 0.50371443747066, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 40, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.51072865088567, 
+    'attempts': 1, 'timeIncrement': 0.00701421341501177, 'increment': 40, 
+    'stepTime': 0.510728650885672, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 41, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.52124997100819, 
+    'attempts': 1, 'timeIncrement': 0.0105213201225176, 'increment': 41, 
+    'stepTime': 0.521249971008189, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 42, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.53703195119197, 
+    'attempts': 1, 'timeIncrement': 0.0157819801837765, 'increment': 42, 
+    'stepTime': 0.537031951191966, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 2, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 43, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.56070492146763, 
+    'attempts': 1, 'timeIncrement': 0.0236729702756647, 'increment': 43, 
+    'stepTime': 0.56070492146763, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 44, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.5843778917433, 
+    'attempts': 1, 'timeIncrement': 0.0236729702756647, 'increment': 44, 
+    'stepTime': 0.584377891743295, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 45, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.60805086201896, 
+    'attempts': 1, 'timeIncrement': 0.0236729702756647, 'increment': 45, 
+    'stepTime': 0.60805086201896, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 46, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.63172383229462, 
+    'attempts': 1, 'timeIncrement': 0.0236729702756647, 'increment': 46, 
+    'stepTime': 0.631723832294625, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 47, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.65539680257029, 
+    'attempts': 1, 'timeIncrement': 0.0236729702756647, 'increment': 47, 
+    'stepTime': 0.655396802570289, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 48, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.69090625798379, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 48, 
+    'stepTime': 0.690906257983786, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 3, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 49, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.72641571339728, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 49, 
+    'stepTime': 0.726415713397283, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 50, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.76192516881078, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 50, 
+    'stepTime': 0.76192516881078, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 51, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.79743462422428, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 51, 
+    'stepTime': 0.797434624224277, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 52, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.83294407963777, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 52, 
+    'stepTime': 0.832944079637775, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 53, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.86845353505127, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 53, 
+    'stepTime': 0.868453535051272, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 54, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.90396299046477, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 54, 
+    'stepTime': 0.903962990464769, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 55, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.93947244587827, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 55, 
+    'stepTime': 0.939472445878266, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 4, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 56, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 1.97498190129176, 
+    'attempts': 1, 'timeIncrement': 0.0355094554134971, 'increment': 56, 
+    'stepTime': 0.974981901291763, 'step': 2, 'jobName': 'prostiMAM', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['prostiMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 57, 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(STATUS, {'totalTime': 2.0, 'attempts': 1, 
+    'timeIncrement': 0.0250180987082373, 'increment': 57, 'stepTime': 1.0, 
+    'step': 2, 'jobName': 'prostiMAM', 'severe': 3, 'iterations': 8, 
+    'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['prostiMAM']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'prostiMAM'})
+mdb.jobs['prostiMAM']._Message(JOB_COMPLETED, {
+    'time': 'Tue Feb 14 10:25:01 2017', 'jobName': 'prostiMAM'})
+# Save by Virtual7 on 2017_02_14-10.27.21; build 6.14-1 2014_06_05-00.11.02 134264
+# Save by Virtual7 on 2017_02_14-10.33.07; build 6.14-1 2014_06_05-00.11.02 134264
