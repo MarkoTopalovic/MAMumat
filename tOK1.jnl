@@ -1242,3 +1242,982 @@ mdb.jobs['slozeniMAM']._Message(JOB_COMPLETED, {
 # Save by Virtual7 on 2017_02_14-10.54.14; build 6.14-1 2014_06_05-00.11.02 134264
 # Save by Virtual7 on 2017_02_14-10.54.22; build 6.14-1 2014_06_05-00.11.02 134264
 # Save by Virtual7 on 2017_02_14-10.55.01; build 6.14-1 2014_06_05-00.11.02 134264
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.jobs['tOK4']
+mdb.jobs['slozeniMAM'].submit(consistencyChecking=OFF)
+mdb.jobs['slozeniMAM']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '128 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 853 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 853 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\slozeniMAM.odb', 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 4336, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 1, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['slozeniMAM']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'slozeniMAM', 'memory': 73.0})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 1, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 2, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 2e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 1, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 3, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 3.5e-05, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 1, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 4, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 5.75e-05, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 1, 
+    'jobName': 'slozeniMAM', 'severe': 2, 'iterations': 5, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 5, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 9.125e-05, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 1, 'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 6, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.000141875, 
+    'attempts': 1, 'timeIncrement': 5.0625e-05, 'increment': 6, 
+    'stepTime': 0.000141875, 'step': 1, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 7, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0002178125, 
+    'attempts': 1, 'timeIncrement': 7.59375e-05, 'increment': 7, 
+    'stepTime': 0.0002178125, 'step': 1, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 8, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 1, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 9, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 10, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 11, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 12, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.001719951171875, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 13, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0025849267578125, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 1, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 14, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.00388239013671875, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 15, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.00582858520507813, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 16, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.00874787780761719, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 17, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0131268167114258, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 18, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0196952250671387, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 19, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.029547837600708, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 1, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 20, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.044326756401062, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 21, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.066495134601593, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 22, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.0997477019023895, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 22, 
+    'stepTime': 0.0997477019023895, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 23, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.149626552853584, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 23, 
+    'stepTime': 0.149626552853584, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 24, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.224444829280377, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 24, 
+    'stepTime': 0.224444829280377, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 25, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.336672243920565, 
+    'attempts': 1, 'timeIncrement': 0.112227414640188, 'increment': 25, 
+    'stepTime': 0.336672243920565, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 26, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.505013365880847, 
+    'attempts': 1, 'timeIncrement': 0.168341121960282, 'increment': 26, 
+    'stepTime': 0.505013365880847, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 27, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 0.757525048821271, 
+    'attempts': 1, 'timeIncrement': 0.252511682940424, 'increment': 27, 
+    'stepTime': 0.757525048821271, 'step': 1, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 28, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 0.242474951178729, 'increment': 28, 'stepTime': 1.0, 
+    'step': 1, 'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 1, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 2, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'slozeniMAM', 'memory': 73.0})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00001, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 2, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00002, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 2, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.000035, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 2, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.0000575, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 2, 
+    'jobName': 'slozeniMAM', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00009125, 
+    'attempts': 1, 'timeIncrement': 3.375e-05, 'increment': 5, 
+    'stepTime': 9.125e-05, 'step': 2, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.000141875, 
+    'attempts': 1, 'timeIncrement': 5.0625e-05, 'increment': 6, 
+    'stepTime': 0.000141875, 'step': 2, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.0002178125, 
+    'attempts': 1, 'timeIncrement': 7.59375e-05, 'increment': 7, 
+    'stepTime': 0.0002178125, 'step': 2, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 2, 'jobName': 'slozeniMAM', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 11, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 12, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00171995117188, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 13, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00258492675781, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 14, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00388239013672, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 15, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00582858520508, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 16, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.00874787780762, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 17, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.01312681671143, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 18, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.01969522506714, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 3, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 19, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.02954783760071, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 3, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 20, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.04432675640106, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 1, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 21, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.06649513460159, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 22, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.09974770190239, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 22, 
+    'stepTime': 0.0997477019023895, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 3, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 23, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.14962655285358, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 23, 
+    'stepTime': 0.149626552853584, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 24, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.19950540380478, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 24, 
+    'stepTime': 0.199505403804779, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 25, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.24938425475597, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 25, 
+    'stepTime': 0.249384254755974, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 26, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.29926310570717, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 26, 
+    'stepTime': 0.299263105707169, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 27, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.34914195665836, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 27, 
+    'stepTime': 0.349141956658363, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 28, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.39902080760956, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 28, 
+    'stepTime': 0.399020807609558, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 6, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 29, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.47383908403635, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 29, 
+    'stepTime': 0.47383908403635, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 30, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.54865736046314, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 30, 
+    'stepTime': 0.548657360463143, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 5, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['slozeniMAM']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'EXCESSIVE DISTORTION AT A TOTAL OF 67 INTEGRATION POINTS IN SOLID (CONTINUUM) ELEMENTS', 
+    'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.54865736046314, 
+    'attempts': ' 1U', 'timeIncrement': 0.0748182764267922, 'increment': 31, 
+    'stepTime': 0.548657360463143, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 3, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 31, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.56736192956984, 
+    'attempts': 2, 'timeIncrement': 0.018704569106698, 'increment': 31, 
+    'stepTime': 0.567361929569841, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 32, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.58606649867654, 
+    'attempts': 1, 'timeIncrement': 0.018704569106698, 'increment': 32, 
+    'stepTime': 0.586066498676539, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 33, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.61412335233659, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 33, 
+    'stepTime': 0.614123352336586, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 5, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 34, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.65620863282666, 
+    'attempts': 1, 'timeIncrement': 0.0420852804900706, 'increment': 34, 
+    'stepTime': 0.656208632826656, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 35, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.71933655356176, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 35, 
+    'stepTime': 0.719336553561762, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 3, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 36, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.78246447429687, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 36, 
+    'stepTime': 0.782464474296868, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 3, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 37, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.84559239503197, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 37, 
+    'stepTime': 0.845592395031974, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 38, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.90872031576708, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 38, 
+    'stepTime': 0.90872031576708, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 5, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 39, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 1.97184823650219, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 39, 
+    'stepTime': 0.971848236502186, 'step': 2, 'jobName': 'slozeniMAM', 
+    'severe': 4, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['slozeniMAM']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 40, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(STATUS, {'totalTime': 2.0, 'attempts': 1, 
+    'timeIncrement': 0.0281517634978143, 'increment': 40, 'stepTime': 1.0, 
+    'step': 2, 'jobName': 'slozeniMAM', 'severe': 7, 'iterations': 8, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['slozeniMAM']._Message(END_STEP, {'phase': STANDARD_PHASE, 
+    'stepId': 2, 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'slozeniMAM'})
+mdb.jobs['slozeniMAM']._Message(JOB_COMPLETED, {
+    'time': 'Fri Feb 17 09:45:39 2017', 'jobName': 'slozeniMAM'})
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].parts['Part-2'].features['Solid extrude-1'].sketch)
+mdb.models['Model-1'].parts['Part-2'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__edit__'], 
+    upToFeature=
+    mdb.models['Model-1'].parts['Part-2'].features['Solid extrude-1'])
+mdb.models['Model-1'].sketches['__edit__'].ObliqueDimension(textPoint=(
+    369.581939697266, -8.15721893310547), value=400.0, vertex1=
+    mdb.models['Model-1'].sketches['__edit__'].vertices[2], vertex2=
+    mdb.models['Model-1'].sketches['__edit__'].vertices[3])
+mdb.models['Model-1'].parts['Part-2'].features['Solid extrude-1'].setValues(
+    sketch=mdb.models['Model-1'].sketches['__edit__'])
+del mdb.models['Model-1'].sketches['__edit__']
+mdb.models['Model-1'].parts['Part-2'].regenerate()
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-2-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='debeli1', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='C:\\Temp\\MAMumat\\MAMumat.for', waitHours=0, 
+    waitMinutes=0)
+mdb.jobs['debeli1'].submit(consistencyChecking=OFF)
+mdb.jobs['debeli1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 0, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'WHENEVER A TRANSLATION (ROTATION) DOF AT A NODE IS CONSTRAINED BY A KINEMATIC COUPLING DEFINITION THE TRANSLATION (ROTATION) DOFS FOR THAT NODE CANNOT BE INCLUDED IN ANY OTHER CONSTRAINT INCLUDING MPCS, RIGID BODIES, ETC.', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'MPCS (EXTERNAL or INTERNAL, including those generated from rigid body definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE ADDITIONAL DEGREES OF FREEDOM', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FINITE ROTATION BOUNDARY CONDITION SPECIFIED IN MULTISTEP THREE-DIMENSIONAL ANALYSIS. TYPE=VELOCITY SHOULD BE USED', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '128 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 853 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'Boundary conditions are specified on inactive dof of 853 nodes. The nodes have been identified in node set WarnNodeBCInactiveDof.', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Temp\\debeli1.odb', 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Virtual7-PC', 'handle': 4472, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 1, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 0, 
+    'phase': STANDARD_PHASE, 'equilibrium': 0})
+mdb.jobs['debeli1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'debeli1', 'memory': 97.0})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 1, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 2, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 2e-05, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 1, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 3, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 3.5e-05, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 1, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 4, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 5.75e-05, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 1, 
+    'jobName': 'debeli1', 'severe': 2, 'iterations': 5, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 5, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 9.125e-05, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 1, 'jobName': 'debeli1', 'severe': 0, 'iterations': 3, 
+    'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 6, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.000141875, 'attempts': 1, 
+    'timeIncrement': 5.0625e-05, 'increment': 6, 'stepTime': 0.000141875, 
+    'step': 1, 'jobName': 'debeli1', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 7, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0002178125, 'attempts': 1, 
+    'timeIncrement': 7.59375e-05, 'increment': 7, 'stepTime': 0.0002178125, 
+    'step': 1, 'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 8, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 1, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 9, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 1, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 10, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 1, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 11, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 1, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 12, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.001719951171875, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 13, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0025849267578125, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 1, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 14, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.00388239013671875, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 15, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.00582858520507813, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 16, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.00874787780761719, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 17, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0131268167114258, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 18, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0196952250671387, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 2, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 19, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.029547837600708, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 1, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 20, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.044326756401062, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 21, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.066495134601593, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 22, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.0997477019023895, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 22, 
+    'stepTime': 0.0997477019023895, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 23, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.149626552853584, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 23, 
+    'stepTime': 0.149626552853584, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 24, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.224444829280377, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 24, 
+    'stepTime': 0.224444829280377, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 25, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.336672243920565, 
+    'attempts': 1, 'timeIncrement': 0.112227414640188, 'increment': 25, 
+    'stepTime': 0.336672243920565, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 26, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.505013365880847, 
+    'attempts': 1, 'timeIncrement': 0.168341121960282, 'increment': 26, 
+    'stepTime': 0.505013365880847, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 27, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 0.757525048821271, 
+    'attempts': 1, 'timeIncrement': 0.252511682940424, 'increment': 27, 
+    'stepTime': 0.757525048821271, 'step': 1, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 28, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 0.242474951178729, 'increment': 28, 'stepTime': 1.0, 
+    'step': 1, 'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 0, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 0, 
+    'timeIncrement': 1e-05, 'increment': 0, 'stepTime': 0.0, 'step': 2, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'debeli1', 'memory': 98.0})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 1, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00001, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 1, 'stepTime': 1e-05, 'step': 2, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 2, 
+    'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 2, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00002, 'attempts': 1, 
+    'timeIncrement': 1e-05, 'increment': 2, 'stepTime': 2e-05, 'step': 2, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 3, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.000035, 'attempts': 1, 
+    'timeIncrement': 1.5e-05, 'increment': 3, 'stepTime': 3.5e-05, 'step': 2, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 4, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.0000575, 'attempts': 1, 
+    'timeIncrement': 2.25e-05, 'increment': 4, 'stepTime': 5.75e-05, 'step': 2, 
+    'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 5, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00009125, 'attempts': 1, 
+    'timeIncrement': 3.375e-05, 'increment': 5, 'stepTime': 9.125e-05, 
+    'step': 2, 'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 6, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.000141875, 'attempts': 1, 
+    'timeIncrement': 5.0625e-05, 'increment': 6, 'stepTime': 0.000141875, 
+    'step': 2, 'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 7, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.0002178125, 'attempts': 1, 
+    'timeIncrement': 7.59375e-05, 'increment': 7, 'stepTime': 0.0002178125, 
+    'step': 2, 'jobName': 'debeli1', 'severe': 0, 'iterations': 1, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 8, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00033171875, 
+    'attempts': 1, 'timeIncrement': 0.00011390625, 'increment': 8, 
+    'stepTime': 0.00033171875, 'step': 2, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 9, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.000502578125, 
+    'attempts': 1, 'timeIncrement': 0.000170859375, 'increment': 9, 
+    'stepTime': 0.000502578125, 'step': 2, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 1, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 10, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.0007588671875, 
+    'attempts': 1, 'timeIncrement': 0.0002562890625, 'increment': 10, 
+    'stepTime': 0.0007588671875, 'step': 2, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 11, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00114330078125, 
+    'attempts': 1, 'timeIncrement': 0.00038443359375, 'increment': 11, 
+    'stepTime': 0.00114330078125, 'step': 2, 'jobName': 'debeli1', 'severe': 0, 
+    'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 12, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00171995117188, 
+    'attempts': 1, 'timeIncrement': 0.000576650390625, 'increment': 12, 
+    'stepTime': 0.001719951171875, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 13, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00258492675781, 
+    'attempts': 1, 'timeIncrement': 0.0008649755859375, 'increment': 13, 
+    'stepTime': 0.0025849267578125, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 14, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00388239013672, 
+    'attempts': 1, 'timeIncrement': 0.00129746337890625, 'increment': 14, 
+    'stepTime': 0.00388239013671875, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 15, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00582858520508, 
+    'attempts': 1, 'timeIncrement': 0.00194619506835938, 'increment': 15, 
+    'stepTime': 0.00582858520507813, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 2, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 16, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.00874787780762, 
+    'attempts': 1, 'timeIncrement': 0.00291929260253906, 'increment': 16, 
+    'stepTime': 0.00874787780761719, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 17, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.01312681671143, 
+    'attempts': 1, 'timeIncrement': 0.0043789389038086, 'increment': 17, 
+    'stepTime': 0.0131268167114258, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 0, 'iterations': 3, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 18, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.01969522506714, 
+    'attempts': 1, 'timeIncrement': 0.00656840835571289, 'increment': 18, 
+    'stepTime': 0.0196952250671387, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 3, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 19, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.02954783760071, 
+    'attempts': 1, 'timeIncrement': 0.00985261253356934, 'increment': 19, 
+    'stepTime': 0.029547837600708, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 3, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 20, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.04432675640106, 
+    'attempts': 1, 'timeIncrement': 0.014778918800354, 'increment': 20, 
+    'stepTime': 0.044326756401062, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 1, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 21, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.06649513460159, 
+    'attempts': 1, 'timeIncrement': 0.022168378200531, 'increment': 21, 
+    'stepTime': 0.066495134601593, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 2, 'iterations': 5, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 22, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.09974770190239, 
+    'attempts': 1, 'timeIncrement': 0.0332525673007965, 'increment': 22, 
+    'stepTime': 0.0997477019023895, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 3, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 23, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.14962655285358, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 23, 
+    'stepTime': 0.149626552853584, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 24, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.19950540380478, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 24, 
+    'stepTime': 0.199505403804779, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 25, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.24938425475597, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 25, 
+    'stepTime': 0.249384254755974, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 26, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.29926310570717, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 26, 
+    'stepTime': 0.299263105707169, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 27, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.34914195665836, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 27, 
+    'stepTime': 0.349141956658363, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 5, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 28, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.39902080760956, 
+    'attempts': 1, 'timeIncrement': 0.0498788509511948, 'increment': 28, 
+    'stepTime': 0.399020807609558, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 6, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 3})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 29, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.47383908403635, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 29, 
+    'stepTime': 0.47383908403635, 'step': 2, 'jobName': 'debeli1', 'severe': 5, 
+    'iterations': 12, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 30, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.54865736046314, 
+    'attempts': 1, 'timeIncrement': 0.0748182764267922, 'increment': 30, 
+    'stepTime': 0.548657360463143, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 5, 'iterations': 12, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['debeli1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'EXCESSIVE DISTORTION AT A TOTAL OF 74 INTEGRATION POINTS IN SOLID (CONTINUUM) ELEMENTS', 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.54865736046314, 
+    'attempts': ' 1U', 'timeIncrement': 0.0748182764267922, 'increment': 31, 
+    'stepTime': 0.548657360463143, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 3, 'iterations': 4, 'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 31, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.56736192956984, 
+    'attempts': 2, 'timeIncrement': 0.018704569106698, 'increment': 31, 
+    'stepTime': 0.567361929569841, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 32, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.58606649867654, 
+    'attempts': 1, 'timeIncrement': 0.018704569106698, 'increment': 32, 
+    'stepTime': 0.586066498676539, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 6, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 33, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.61412335233659, 
+    'attempts': 1, 'timeIncrement': 0.0280568536600471, 'increment': 33, 
+    'stepTime': 0.614123352336586, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 5, 'iterations': 7, 'phase': STANDARD_PHASE, 'equilibrium': 2})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 34, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.65620863282666, 
+    'attempts': 1, 'timeIncrement': 0.0420852804900706, 'increment': 34, 
+    'stepTime': 0.656208632826656, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 8, 'phase': STANDARD_PHASE, 'equilibrium': 4})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 35, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.71933655356176, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 35, 
+    'stepTime': 0.719336553561762, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 3, 'iterations': 9, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 36, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.78246447429687, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 36, 
+    'stepTime': 0.782464474296868, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 3, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 7})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 37, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.84559239503197, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 37, 
+    'stepTime': 0.845592395031974, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 6, 'iterations': 11, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 38, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.90872031576708, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 38, 
+    'stepTime': 0.90872031576708, 'step': 2, 'jobName': 'debeli1', 'severe': 5, 
+    'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 5})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 39, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 1.97184823650219, 
+    'attempts': 1, 'timeIncrement': 0.0631279207351059, 'increment': 39, 
+    'stepTime': 0.971848236502186, 'step': 2, 'jobName': 'debeli1', 
+    'severe': 4, 'iterations': 10, 'phase': STANDARD_PHASE, 'equilibrium': 6})
+mdb.jobs['debeli1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 1, 
+    'frame': 40, 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(STATUS, {'totalTime': 2.0, 'attempts': 1, 
+    'timeIncrement': 0.0281517634978143, 'increment': 40, 'stepTime': 1.0, 
+    'step': 2, 'jobName': 'debeli1', 'severe': 7, 'iterations': 8, 
+    'phase': STANDARD_PHASE, 'equilibrium': 1})
+mdb.jobs['debeli1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 2, 
+    'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'debeli1'})
+mdb.jobs['debeli1']._Message(JOB_COMPLETED, {
+    'time': 'Fri Feb 17 10:00:05 2017', 'jobName': 'debeli1'})
+# Save by Virtual7 on 2017_02_17-10.17.33; build 6.14-1 2014_06_05-00.11.02 134264
