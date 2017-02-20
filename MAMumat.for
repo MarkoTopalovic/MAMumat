@@ -135,22 +135,14 @@ c***************      1) predictor phase      ***********************
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
       call hyperconstitutive(a,ddsdde,ntens,stran)
-
 	   do k1 = 1,ntens
               do k2 = 1,ntens
-					astress(k2)=stress(k2)
                  stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
               enddo                                        
           enddo
-c----------------------------------------------------  MM 17-11-2016    
-!           do k2 = 1,ntens
-!              astress(k2)=stress(k2)
-!              do k1 = 1,ntens			
-!                 stress(k2)=astress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
-!              enddo                                        
-!          enddo
+
 c------------------ compute  loading surface f-----------------------
-      call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+      call loadingf(f,h,a_kapa0,f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
 
       a_kapa0  = akapa(noel,npt)  ! 6.20   ! ucitava iz prethodnog koraka
       if (a_kapa0.lt.toler) then                 
@@ -159,12 +151,12 @@ c------------------ compute  loading surface f-----------------------
       f   = f1 - h*a_kapa0     
 
       if ((f.le.zero).or.(a_j2.lt.yield0)) then   
-       write(6,*) 'ELASTIC' 
+!       write(6,*) 'ELASTIC' 
         goto 52  
 
 
       elseif (f.gt.1.2*f0) then
-		write(6,*)'SMANJENJE'
+		write(6,*)'SMANJENJE, k=',f/f0
             smanjenje = 0.2*f0/(f-f0)
 			write(6,*) 'smanjenje=', smanjenje, 'f0=', f0,'f=', f
             do k2 = 1,ntens
@@ -173,8 +165,11 @@ c------------------ compute  loading surface f-----------------------
               enddo                                        
           enddo                    
 c----------------------------------------------------  MM 17-11-2016
-      call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-      f   = f1 - h*a_kapa0         
+      call loadingf(f,h,a_kapa0,f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+      f   = f1 - h*a_kapa0 
+				if ((f.gt.1.2*f0).or.(f.gt.0.8*f0)) then
+				write(6,*)'kontorlna stampa SMANJENJE'
+				endif
       endif  
 		write(6,*)'PLASTIC'
 c------------------  end of elastic predictor ----------------------
@@ -196,7 +191,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !		enddo
 		
                 do kewton = 1,newton
-		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+		call loadingf(f,h,a_kapa0,f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
 		         f  = f1 - h*a_kapa    
                          f = (abs(f) + f)/two 
 !      write(6,*) 'f1=', f1
@@ -393,7 +388,7 @@ c-----------------------------------------  umat   kraj
 c----------------------subroutine hyperconstitutive     
 c----------------------------------------------------                            
         
-      subroutine loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+      subroutine loadingf(f,h,a_kapa0,f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
      
       include 'aba_param.inc' 
 c-
