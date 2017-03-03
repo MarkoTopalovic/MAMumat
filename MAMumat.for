@@ -8,6 +8,7 @@ c
       common /glavni/ ipoziv
       common /ak/ akapa(100000,10)
       common /comeplast/  ceplast(100000,8,6)
+	  common /prethodnistress/  castress(100000,8,6)
 c----------------------------------------------------  MM 17-11-2016
       common /af/ fyield(100000,10)
 c----------------------------------------------------  MM 17-11-2016
@@ -112,9 +113,16 @@ c********************************************************************
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) predictor phase      ***********************  
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	do k2 =1,ntens
-	astress(k2)=stress(k2)!da li astress treba da bude ispod ovde je stress0
-	end do
+! ucitava iz prethodnog koraka
+		if(NPT.eq.1) then
+		write(6,*)'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		else
+		write(6,*)'- - - - - - - - - - - - - - - - - - - - -'
+		endif
+	do k1=1,ntens
+		astress(k1) = castress(noel,npt,k1)  
+	enddo
+	
       call hyperconstitutive(a,ddsdde,ntens,stran)
 	  
 	do k1 = 1,ntens
@@ -130,25 +138,31 @@ c------------------ compute  loading surface f-----------------------
       if (a_kapa0.lt.toler) then                 
          a_kapa0 = zero           
       endif
+	  write(6,*) 'akapa0 prediktor', a_kapa0
       f   = f1 - h*a_kapa0   
       if ((f.le.zero).or.(a_j2.lt.yield0)) then   
 !       write(6,*) 'ELASTIC' 
         goto 52  
 	elseif (f.gt.1.2*f0) then
 !		write(6,*)'faktor uvecanja f/f0, k=',f/f0
-        smanjenje = 0.2*f0/(f-f0)
+        smanjenje = 0.1 !*f0/(f-f0)
 !		write(6,*) 'smanjenje=', smanjenje, 'f0=', f0,'f=', f
+!		write(6,20) smanjenje,f0,f
+ 20     format ('smanjenje=',E10.4,'  f0=',E10.4,'  f='E10.4)		
         do k2 = 1,ntens
-			do k1 = 1,ntens			
+					
 				stress(k2)=astress(k2)+smanjenje*(stress(k2)-astress(k2))! 6.19 
-			enddo                                        
+			                                       
         enddo                    
 		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
 !	  	write(6,*) 'sa korekcijom', a_j2
 		f   = f1 - h*a_kapa0 
 		if ((f.gt.1.2*f0).or.(f.lt.0.8*f0)) then
-			write(6,*)'kontrolna stampa SMANJENJE'
+!			write(6,30)f0,f,(f/f0)
+ 30     format ('kontrola    f0=',E10.4,'  f=',E10.4,'  f/f0=',E10.4 )
 		endif
+		else 
+!		write(6,*) 'uspesno smanjeno'
       endif  
 !	  write(6,*)'PLASTIC'
 c------------------  end of elastic predictor ----------------------
@@ -156,7 +170,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !			write(6,*) 'plastic'
-      a_kapa = a_kapa0		
+      a_kapa = a_kapa0
+		write(6,*) 'akapa0 korektor', a_kapa0	  
 ! ucitava iz prethodnog koraka
 	do k1=1,ntens
 		eplas0(k1) = ceplast(noel,npt,k1)  + dstran(k1)
@@ -183,8 +198,11 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    if ((replas_int.lt.tol1).and.(skapa.lt.tol2)) then
           !	zadovoljena konvergencija
 	    else
-    !     OBNOVA   (update)		
+    !     OBNOVA   (update)
+		write(6,*) 'akapa0', a_kapa0
+		write(6,*) 'akapa pre', a_kapa	
             a_kapa = a_kapa + dkapa !6.15
+			write(6,*) 'akapa posle', a_kapa
 		    eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1) !6.14
 		    e_elas(k1)  = dstran(k1) - eplas(k1)			
             call hyperconstitutive(a,ddsdde,ntens,e_elas)
@@ -201,6 +219,7 @@ c  corrector phase -  kraj
  52   continue
       do k1=1,ntens
          ceplast(noel,npt,k1)  =  eplas(k1)
+		 castress(noel,npt,k1)  =  stress(k1)
       enddo   
          akapa(noel,npt) = a_kapa               
          fyield(noel,npt)= f 			 
