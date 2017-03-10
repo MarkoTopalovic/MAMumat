@@ -9,16 +9,17 @@ c
       common /ak/ akapa(100000,10)
       common /comeplast/  ceplast(100000,8,6)
 	  common /prethodnistress/  castress(100000,8,6)
+	  common /prolaz/ iprolaz(100000,8)
 c----------------------------------------------------  MM 17-11-2016
       common /af/ fyield(100000,10)
 c----------------------------------------------------  MM 17-11-2016
-
+       
       character*80 materl
 
       dimension a(17),statev(nstatv),props(nprops),
      1 stran(ntens),dstran(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
-     1 d_eplas(ntens),
+     1 d_eplas(ntens),astrain(ntens),
      1 eplas(ntens),e_elas(ntens),eplas0(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
      1 time(2),predef(1),dpred(1),  
@@ -72,7 +73,12 @@ c -----------------------------------------------------------
       a(17)=alpha_t
 
       tol2 = 1.0d-6
-        
+       
+
+
+
+
+	   
       do k2=1, ndi
          kroneker(k2)     = one
          kroneker(k2+ndi) = zero
@@ -114,115 +120,136 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) predictor phase      ***********************  
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! ucitava iz prethodnog koraka
-		if(NPT.eq.1) then
-		write(6,*)'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-		else
-		write(6,*)'- - - - - - - - - - - - - - - - - - - - -'
-		endif
-	do k1=1,ntens
-		astress(k1) = castress(noel,npt,k1)  
-	enddo
-	
+!		if(NPT.eq.1) then
+!		write(6,*)'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+!		else
+!		write(6,*)'- - - - - - - - - - - - - - - - - - - - -'
+!		endif
+	  do k1=1,ntens
+		astress(k1) = castress(noel,npt,k1)
+		stress(k1)=0
+		eplas(k1) = 0
+	  enddo
+	     
       call hyperconstitutive(a,ddsdde,ntens,stran)
-	  
-	do k1 = 1,ntens
-	do k2 = 1,ntens
-	  stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) ! 6.19 
-	enddo                                        
-      enddo
-
+           
+	  do k1 = 1,ntens
+	     do k2 = 1,ntens
+	        stress(k2)=stress(k2)+ddsdde(k2,k1)*stran(k1) ! 6.19 
+	     enddo                                        
+      enddo 
+		      if(NPT.eq.1) then
+	  		  write(6,10), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
+			  endif
+! 10     format ('n1=',E12.4,' n2=',E12.4,' n3=',E12.4,' n4=',E12.4,' n5=',E12.4,' n6=',E12.4)
+10     format ('n1=',F6.2,' n2=',F6.2,' n3=',F6.2,' n4=',F6.2,' n5=',F6.2,' n6=',F6.2)
+         
+!	          write(6,11), stran(1),stran(2),stran(3), stran(4),stran(5),stran(6)
+!11     format ('d1=',E12.4,' d2=',E12.4,' d3=',E12.4,' d4=',E12.4,' d5=',E12.4,' d5=',E12.4)	
 c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-!	  write(6,*) 'bez korekcije', a_j2
       a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
-      if (a_kapa0.lt.toler) then                 
-         a_kapa0 = zero           
-      endif
-	  write(6,*) 'akapa0 prediktor', a_kapa0
-      f   = f1 - h*a_kapa0   
-      if ((f.le.zero).or.(a_j2.lt.yield0)) then   
-!       write(6,*) 'ELASTIC' 
+      f   = f1 - h*a_kapa0 
+!		write(6,*) 'ELASTIC f1=',f1, '     f=',f 
+		
+      if (f.le.zero.and.NPT.eq.1) then 
+	  	write(6,*) 'ELASTIC' 
         goto 52  
-	elseif (f.gt.1.2*f0) then
-!		write(6,*)'faktor uvecanja f/f0, k=',f/f0
+	  elseif (f.gt.1.2*f0) then	
         smanjenje = 0.1 !*f0/(f-f0)
-!		write(6,*) 'smanjenje=', smanjenje, 'f0=', f0,'f=', f
-!		write(6,20) smanjenje,f0,f
- 20     format ('smanjenje=',E10.4,'  f0=',E10.4,'  f='E10.4)		
-        do k2 = 1,ntens
-					
-				stress(k2)=astress(k2)+smanjenje*(stress(k2)-astress(k2))! 6.19 
-			                                       
-        enddo                    
-		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-!	  	write(6,*) 'sa korekcijom', a_j2
-		f   = f1 - h*a_kapa0 
-		if ((f.gt.1.2*f0).or.(f.lt.0.8*f0)) then
-!			write(6,30)f0,f,(f/f0)
- 30     format ('kontrola    f0=',E10.4,'  f=',E10.4,'  f/f0=',E10.4 )
-		endif
-		else 
-!		write(6,*) 'uspesno smanjeno'
+!        do k2 = 1,ntens				
+!				stress(k2)=astress(k2)-smanjenje*(stress(k2)-astress(k2))! 6.19 
+			     ! ovde mozda treba da se okrene znak                                  
+!        enddo                    
+!		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+!		f   = f1 - h*a_kapa0 
       endif  
 !	  write(6,*)'PLASTIC'
 c------------------  end of elastic predictor ----------------------
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 c***************      1) corector phase      ***********************  
 cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-!			write(6,*) 'plastic'
-      a_kapa = a_kapa0
-		write(6,*) 'akapa0 korektor', a_kapa0	  
+      a_kapa = a_kapa0  
 ! ucitava iz prethodnog koraka
-	do k1=1,ntens
+	  do k1=1,ntens
 		eplas0(k1) = ceplast(noel,npt,k1)  + dstran(k1)
-	enddo
+	  enddo
       do kewton = 1,newton
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
 !	2a. Compute Residuals		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
-	    f  = f1 - h*a_kapa
-	    f = (abs(f) + f)/two 
+	    f  = f1 - h*a_kapa	
 	    a_kxl = x+a_kapa**a_l					 
 	    dkapa  = ((f/beta)**1)/a_kxl  !novo
+
 	    skapa = a_kapa - a_kapa0 - dkapa
 	    do k1=1,ntens        
 		    replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
 	    enddo
+		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
 !	2b. Check Convergence		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
      1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5	
-
+		
 	    if ((replas_int.lt.tol1).and.(skapa.lt.tol2)) then
           !	zadovoljena konvergencija
+		  write(6,*)'ok'
 	    else
     !     OBNOVA   (update)
-		write(6,*) 'akapa0', a_kapa0
-		write(6,*) 'akapa pre', a_kapa	
             a_kapa = a_kapa + dkapa !6.15
-			write(6,*) 'akapa posle', a_kapa
+			if (iprolaz(noel,npt).eq.0)then
+			akapa(noel,npt) = a_kapa
+			end if
+			
+			do k1 = 1,ntens
 		    eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1) !6.14
-		    e_elas(k1)  = dstran(k1) - eplas(k1)			
-            call hyperconstitutive(a,ddsdde,ntens,e_elas)
+!			write(6,*)'Udef(',k1,')',stran(k1), '   plasDEf=',eplas(k1), 'pro=',dkapa*a_mu(k1), 'kewton=', kewton
+!		    e_elas(k1)  = stran(k1) - eplas(k1)
+			e_elas(k1)  = stran(k1)
+			enddo
+            call hyperconstitutive(a,ddsdde,ntens,stran)
+				do k2 = 1,ntens
+			        stress(k2)=0 
+		        enddo
+				
 	      do k1 = 1,ntens
-		        do k2 = 1,ntens
-			        stress(k2)=stress(k2)+ddsdde(k2,k1)*e_elas(k1) 
+		       do k2 = 1,ntens
+			        stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) 
 		        enddo                                        
-	      enddo	  
+	      enddo	
+		  if(NPT.eq.1) then
+			write(6,50), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
+			endif
+50     format ('k1=',F6.2,' k2=',F6.2,' k3=',F6.2,' k4=',F6.2,' k5=',F6.2,' k6=',F6.2)	
+
     !       OBNOVA   (update)
 		    goto 52
 		  endif	!((replas_int.lt.tol1).and.(skapa.lt.tol2))		
-	enddo !kewton = 1,newton
+	  enddo !kewton = 1,newton
 c  corrector phase -  kraj 
  52   continue
-      do k1=1,ntens
+		dw = 0
+      
+
+        if (iprolaz(noel,npt).eq.0)then
+		
+		do k1=1,ntens
          ceplast(noel,npt,k1)  =  eplas(k1)
 		 castress(noel,npt,k1)  =  stress(k1)
-      enddo   
-         akapa(noel,npt) = a_kapa               
-         fyield(noel,npt)= f 			 
+		 dw=dw+stress(k1)*dkapa*a_mu(k1)
+         enddo 
+		fyield(noel,npt)= f
+ 		iprolaz(noel,npt)=1
+				if(NPT.eq.1) then
+		          write(6,*)stress(2),dkapa
+		        endif
+		else
+		iprolaz(noel,npt)=0
+        endif
+         
       return    
       end
 C
@@ -233,7 +260,7 @@ c-----------------------------------------  umat   kraj
       subroutine hyperconstitutive(a,ddsdde,ntens,e_elas)
 
       include 'aba_param.inc'
-      
+      common /af/ fyield(100000,10)
 !     brojne konstante   
 !     real zero,one,two,three,four,six
 !     brojne konstante 
@@ -266,7 +293,12 @@ c-----------------------------------------  umat   kraj
       a7=a(7)
       a8=a(8)
       a9=a(9)
-   
+	  do k1=1,ntens
+	  do k2=2,ntens
+	  ddsdde(k1,k2)=0
+	  enddo
+	  enddo
+
        ddsdde(1,1)= 2*a1 + a2 + 2*e_elas(1)*a4 + 2*e_elas(1)*a5 + 
      1 3*a3*(2*e_elas(1) + 2*e_elas(2) + 2*e_elas(3)) + a4*(e_elas(1) 
      1 + e_elas(2) + e_elas(3))
@@ -366,38 +398,57 @@ c-
 !     izlazne promenljive     
 
       dimension stress(ntens),s_dev(ntens),a(17),a_mu(ntens),
-     1   kroneker(ntens)
+     1   kroneker(ntens),st(ntens)
       
-      parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0) 
-      alfa =  a(12)
-      gama = -5.0d0
-
-      do k2=1, ndi
-         kroneker(k2)     = one
-         kroneker(k2+ndi) = zero
-      end do 
+             parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0) 
+             alfa =  a(12)
+            gama = -5.0d0
+                s_i1=0
+		        s_i2=0
+		        s_i3=0
+              do k2=1, ndi
+               kroneker(k2)     = one
+               kroneker(k2+ndi) = zero
+		       st(k2) = -stress(k2) ! unutrasnja inverzija znaka  za racunanje funkcije tecenja
+             end do 
             
 c     s_napon invarijante  i funkcija f 
 
 
-      s_i1 = stress(1)+stress(2)+stress(3)
-      s_i2 = (stress(1)**2+stress(2)**2+stress(3)**2)/two+
-     1       stress(4)**2+stress(5)**2+stress(6)**2
-     1       -(s_i1**2)/two
-      s_i3 = stress(1)*stress(2)*stress(3)+
-     1 two*stress(4)*stress(5)*stress(6)-stress(1)*stress(6)**2- 
-     1 stress(2)*stress(5)**2-stress(3)*stress(4)**2
+    !  s_i1 = stress(1)+stress(2)+stress(3)
+	  
+	        s_i1 = st(1)+st(2)+st(3)
+	  
+    !  s_i2 = (stress(1)**2+stress(2)**2+stress(3)**2)/two+
+    ! 1       stress(4)**2+stress(5)**2+stress(6)**2
+    ! 1       -(s_i1**2)/two
+	       
+	  	 
+	         s_i2 = st(1)*st(2)+st(2)*st(3) 
+     1 		+st(1)*st(3)-st(4)**2-st(5)**2-st(6)**2
+
+		
+!      s_i3 = stress(1)*stress(2)*stress(3)+
+!     1 two*stress(4)*stress(5)*stress(6)-stress(1)*stress(6)**2- 
+!     1 stress(2)*stress(5)**2-stress(3)*stress(4)**2
+          s_i3 = st(1)*st(2)*st(3)+
+     1 two*st(4)*st(5)*st(6)-st(1)*st(6)**2- 
+     1 st(2)*st(5)**2-st(3)*st(4)**2
 
        do  k1=1,ndi
-           s_dev(k1)     = stress(k1) - s_i1/three
-           s_dev(k1+ndi) = stress(k1+ndi)
+           !s_dev(k1)     = stress(k1) - s_i1/three
+           !s_dev(k1+ndi) = stress(k1+ndi)
+		   s_dev(k1)     = st(k1) - s_i1/three
+           s_dev(k1+ndi) = st(k1+ndi)
        enddo
   
       a_j2 = ( s_dev(1)**2+s_dev(2)**2+s_dev(3)**2)/two+
      1          s_dev(4)**2+s_dev(5)**2+ s_dev(6)**2 
      
       f1 = s_i1*s_i2 + alfa*s_i3 
-!      write(6,*) 's_i1=',s_i1,'s_i2=',s_i2,'s_i3=',s_i3       
+!	  		  write(6,77), s_i1,s_i2,s_i3,f1,a_j2
+! 77     format ('s_i1=',E12.4,' s_i2=',E12.4,' s_i3=',E12.4,' f1=',E12.4,' a_j2=',E12.4)
+	   
       do k1=1,ntens
            a_mu(k1) = gama*kroneker(k1)+( 0.5*s_dev(k1)/(a_j2**0.5) ) !5.21
       enddo   
