@@ -9,6 +9,7 @@ c
       common /ak/ akapa(100000,10)
       common /comeplast/  ceplast(100000,8,6)
 	  common /prethodnistress/  castress(100000,8,6)
+	  common /prethodnistrain/  castrain(100000,8,6)
 	  common /prolaz/ iprolaz(100000,8)
 c----------------------------------------------------  MM 17-11-2016
       common /af/ fyield(100000,10)
@@ -17,7 +18,7 @@ c----------------------------------------------------  MM 17-11-2016
       character*80 materl
 
       dimension a(17),statev(nstatv),props(nprops),
-     1 stran(ntens),dstran(ntens),
+     1 stran(ntens),dstran(ntens),dstress(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
      1 d_eplas(ntens),astrain(ntens),
      1 eplas(ntens),e_elas(ntens),eplas0(ntens),
@@ -29,7 +30,7 @@ c----------------------------------------------------  MM 17-11-2016
      1 replas(ntens),kroneker2(ntens,ntens)  !deplas(ntens) 
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
-      data newton,toler,temp0,coef,yield0/10,1.d-6,273.,0.0d0,25.0d0/  
+      data newton,toler,temp0,coef,yield0/2,1.d-6,273.,0.0d0,25.0d0/  
 
 C -----------------------------------------------------------
 c
@@ -110,6 +111,10 @@ c -----------------------------------------------------------
 !     NSTATV BROJ UNUTRASNJIH PROMENLJIVIH
 !     OVO VISE NE KORISTIMO SADA SVE CUVAMO U COMMON STRUKTURAMA          
 
+
+
+
+
 c********************************************************************
 c
 c               predictor corector algorithm
@@ -126,16 +131,17 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !		write(6,*)'- - - - - - - - - - - - - - - - - - - - -'
 !		endif
 	  do k1=1,ntens
-		astress(k1) = castress(noel,npt,k1)
+		astress(k1) = stress(k1)
+		astrain(k1) = stran(k1)
 		stress(k1)=0
 		eplas(k1) = 0
 	  enddo
 	     
-      call hyperconstitutive(a,ddsdde,ntens,stran)
+      call hyperconstitutive(a,ddsdde,ntens,(stran+dstran))
            
 	  do k1 = 1,ntens
 	     do k2 = 1,ntens
-	        stress(k2)=stress(k2)+ddsdde(k2,k1)*stran(k1) ! 6.19 
+	        stress(k2)=stress(k2)+ddsdde(k2,k1)*(stran(k1)+dstran(k1)) ! 6.19 
 	     enddo                                        
       enddo 
 		      if(NPT.eq.1) then
@@ -157,12 +163,12 @@ c------------------ compute  loading surface f-----------------------
         goto 52  
 	  elseif (f.gt.1.2*f0) then	
         smanjenje = 0.1 !*f0/(f-f0)
-!        do k2 = 1,ntens				
-!				stress(k2)=astress(k2)-smanjenje*(stress(k2)-astress(k2))! 6.19 
-			     ! ovde mozda treba da se okrene znak                                  
-!        enddo                    
-!		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-!		f   = f1 - h*a_kapa0 
+        !do k2 = 1,ntens				
+				!stress(k2)=astress(k2)+smanjenje*(stress(k2)-astress(k2))! 6.19 
+		     ! ovde mozda treba da se okrene znak                                  
+        !enddo 	
+		call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+		f   = f1 - h*a_kapa0 
       endif  
 !	  write(6,*)'PLASTIC'
 c------------------  end of elastic predictor ----------------------
@@ -173,19 +179,39 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! ucitava iz prethodnog koraka
 	  do k1=1,ntens
 		eplas0(k1) = ceplast(noel,npt,k1)  + dstran(k1)
+		!stress(k1)=0 
 	  enddo
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
       do kewton = 1,newton
+	  
+	  
+	  
+	  
+	  
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
 !	2a. Compute Residuals		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+!		if(NPT.eq.1) then
+!		write(6,*)'kapa=', a_kapa
+!		endif
 	    f  = f1 - h*a_kapa	
 	    a_kxl = x+a_kapa**a_l					 
 	    dkapa  = ((f/beta)**1)/a_kxl  !novo
 
 	    skapa = a_kapa - a_kapa0 - dkapa
 	    do k1=1,ntens        
-		    replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)
+		    replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)	
 	    enddo
 		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
@@ -193,10 +219,11 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
      1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5	
-		
+!		write(6,*)'R=',replas_int,'S=',skapa
 	    if ((replas_int.lt.tol1).and.(skapa.lt.tol2)) then
           !	zadovoljena konvergencija
 		  write(6,*)'ok'
+		  goto 52
 	    else
     !     OBNOVA   (update)
             a_kapa = a_kapa + dkapa !6.15
@@ -208,25 +235,37 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		    eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1) !6.14
 !			write(6,*)'Udef(',k1,')',stran(k1), '   plasDEf=',eplas(k1), 'pro=',dkapa*a_mu(k1), 'kewton=', kewton
 !		    e_elas(k1)  = stran(k1) - eplas(k1)
-			e_elas(k1)  = stran(k1)
+			e_elas(k1)  = astrain(k1)
 			enddo
-            call hyperconstitutive(a,ddsdde,ntens,stran)
+            if(kewton.eq.1)then
+			call hyperconstitutive(a,ddsdde,ntens,astrain)
+				
 				do k2 = 1,ntens
-			        stress(k2)=0 
+			        dstress(k2)=0
+					stress(k2)=0
 		        enddo
 				
-	      do k1 = 1,ntens
-		       do k2 = 1,ntens
-			        stress(k2)=stress(k2)+ddsdde(k2,k1)*dstran(k1) 
-		        enddo                                        
-	      enddo	
+	           do k1 = 1,ntens
+		          do k2 = 1,ntens
+			        dstress(k2)=dstress(k2)+ddsdde(k2,k1)*dstran(k1) 
+					stress(k2)=stress(k2)+ddsdde(k2,k1)*astrain(k1)
+		          enddo                                        
+	            enddo
+		    endif
+				!if(kewton.eq.1)then
+				do k2 = 1,ntens
+			        !stress(k2)=stress(k2)+ dstress(k2)
+					stress(k2)=  stress(k2)+0.3*dstress(k2)
+					!stress(k2)=  1.2*stress(k2)
+		        enddo
+				!endif
 		  if(NPT.eq.1) then
 			write(6,50), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
 			endif
 50     format ('k1=',F6.2,' k2=',F6.2,' k3=',F6.2,' k4=',F6.2,' k5=',F6.2,' k6=',F6.2)	
 
     !       OBNOVA   (update)
-		    goto 52
+		    
 		  endif	!((replas_int.lt.tol1).and.(skapa.lt.tol2))		
 	  enddo !kewton = 1,newton
 c  corrector phase -  kraj 
@@ -239,12 +278,13 @@ c  corrector phase -  kraj
 		do k1=1,ntens
          ceplast(noel,npt,k1)  =  eplas(k1)
 		 castress(noel,npt,k1)  =  stress(k1)
+		 castrain(noel,npt,k1)  =  stran(k1)
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
          enddo 
 		fyield(noel,npt)= f
  		iprolaz(noel,npt)=1
 				if(NPT.eq.1) then
-		          write(6,*)stress(2),dkapa
+!		          write(6,*)stran(1)+stran(2)+stran(3)
 		        endif
 		else
 		iprolaz(noel,npt)=0
