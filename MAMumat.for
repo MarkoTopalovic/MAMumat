@@ -145,7 +145,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	     enddo                                        
       enddo 
 		      if(NPT.eq.1) then
-	  		  write(6,10), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
+!	  		  write(6,10), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
 			  endif
 ! 10     format ('n1=',E12.4,' n2=',E12.4,' n3=',E12.4,' n4=',E12.4,' n5=',E12.4,' n6=',E12.4)
 10     format ('n1=',F6.2,' n2=',F6.2,' n3=',F6.2,' n4=',F6.2,' n5=',F6.2,' n6=',F6.2)
@@ -154,7 +154,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !11     format ('d1=',E12.4,' d2=',E12.4,' d3=',E12.4,' d4=',E12.4,' d5=',E12.4,' d5=',E12.4)	
 c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-      a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
+!      a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
       f   = f1 - h*a_kapa0 
 !		write(6,*) 'ELASTIC f1=',f1, '     f=',f 
 		
@@ -260,7 +260,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		        enddo
 				!endif
 		  if(NPT.eq.1) then
-			write(6,50), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
+!			write(6,50), stress(1),stress(2),stress(3),stress(4),stress(5),stress(6)
 			endif
 50     format ('k1=',F6.2,' k2=',F6.2,' k3=',F6.2,' k4=',F6.2,' k5=',F6.2,' k6=',F6.2)	
 
@@ -284,7 +284,9 @@ c  corrector phase -  kraj
 		fyield(noel,npt)= f
  		iprolaz(noel,npt)=1
 				if(NPT.eq.1) then
-!		          write(6,*)stran(1)+stran(2)+stran(3)
+		          !write(6,*)stran(1)+stran(2)+stran(3)
+				  !write(6,*)a_j2
+				  write(6,*)dw
 		        endif
 		else
 		iprolaz(noel,npt)=0
