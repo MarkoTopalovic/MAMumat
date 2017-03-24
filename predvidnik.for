@@ -69,7 +69,7 @@ c -----------------------------------------------------------
       a(16)=gama
       a(17)=alpha_t
 
- 
+      tol2 = 1.0d-6
        
 
 
@@ -150,15 +150,15 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !invarijante                                
       
 	    
-	     astress0(1)= (2*a5*e_i1n+2*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     astress0(1)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas_n(1)+a2*(e_elas_n(1)*e_elas_n(1)
 	1    +e_elas_n(4)*e_elas_n(4)+e_elas_n(5)*e_elas_n(5))
 	
-	     astress0(2)= (2*a5*e_i1n+2*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     astress0(2)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas_n(2)+a2*(e_elas_n(4)*e_elas_n(4)
 	1    +e_elas_n(2)*e_elas_n(2)+e_elas_n(6)*e_elas_n(6))
 	
-	     astress0(3)= (2*a5*e_i1n+2*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     astress0(3)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas_n(3)+a2*(e_elas_n(5)*e_elas_n(5)
 	1    +e_elas_n(6)*e_elas_n(6)+e_elas_n(3)*e_elas_n(3))
 	
@@ -193,15 +193,15 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	1   2*e_elas_n1(4)*e_elas_n1(5)*e_elas_n1(6)
 !invarijante	                                      
       
-	     astress(1)= (2*a5*e_i1n1+2*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
+	     astress(1)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
 	1	 (a1+a4*e_i1n1)*e_elas_n1(1)+a2*(e_elas_n1(1)*e_elas_n1(1)
 	1    +e_elas_n1(4)*e_elas_n1(4)+e_elas_n1(5)*e_elas_n1(5))
 	
-	     astress(2)= (2*a5*e_i1n1+2*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
+	     astress(2)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
 	1	 (a1+a4*e_i1n1)*e_elas_n1(2)+a2*(e_elas_n1(4)*e_elas_n1(4)
 	1    +e_elas_n1(2)*e_elas_n1(2)+e_elas_n1(6)*e_elas_n1(6))
 	
-	     astress(3)= (2*a5*e_i1n1+2*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
+	     astress(3)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
 	1	 (a1+a4*e_i1n1)*e_elas_n1(3)+a2*(e_elas_n1(5)*e_elas_n1(5)
 	1    +e_elas_n1(6)*e_elas_n1(6)+e_elas_n1(3)*e_elas_n1(3))
 	
@@ -324,15 +324,15 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !invarijante                                
       
 	    
-	     stress(1)= (2*a5*e_i1n+2*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     stress(1)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas(1)+a2*(e_elas(1)*e_elas(1)
 	1    +e_elas(4)*e_elas(4)+e_elas(5)*e_elas(5))
 	
-	     stress(2)= (2*a5*e_i1n+2*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     stress(2)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas(2)+a2*(e_elas(4)*e_elas(4)
 	1    +e_elas(2)*e_elas(2)+e_elas(6)*e_elas(6))
 	
-	     stress(3)= (2*a5*e_i1n+2*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     stress(3)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas(3)+a2*(e_elas(5)*e_elas(5)
 	1    +e_elas(6)*e_elas(6)+e_elas(3)*e_elas(3))
 	
