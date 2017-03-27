@@ -229,7 +229,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		if(f2.gt.(1.2*f0))then
 		smanjenje = 0.2/ii
 		do k1=1,ntens
-		astress(k1)=astress0(k1)+smanjenje*(astress(k1)-astress0(k1))
+		!astress(k1)=astress0(k1)+smanjenje*(astress(k1)-astress0(k1))
 		enddo
 
 		call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
@@ -261,9 +261,10 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 		  ! write(6,*)'plasticno'
 		   
-		    !do k1=1,ntens        
+		    do k1=1,ntens        
 		    eplas(k1) =eplas0(k1)
-			!enddo
+			e_elas(k1)  = e_new(k1)
+			enddo
 			a_kapa = a_kapa0
 	     dkapa = 0
       do kewton = 1,newton
@@ -285,16 +286,16 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			fiprim = 1+(((f/beta)**1)*((x+a_kapa**a_l)**(-2))*a_l*
      1			a_kapa**(a_l-1)     +(h/beta)*((x+a_kapa**a_l)**(-1)))
 	         if (fiprim.ne.0)then
-			dkapa = dkapa - (fi/fiprim)
+			dkapa = - (fi/fiprim)
 			endif
-			a_kapa = a_kapa0+dkapa
+			a_kapa = a_kapa+dkapa
 			if(NPT.eq.1) then
 			write(6,*)'dkapa(',kkapa,')=', dkapa
              endif
 			
 			do k1 = 1,ntens
-		eplas(k1)   = eplas0(k1)  + dkapa*a_mu(k1) !6.14
-		!e_elas(k1)  = stran(k1) +dstran(k1)- eplas(k1)
+		eplas(k1)   = eplas0(k1) + dkapa*a_mu(k1)*dtime !6.14
+		
 		enddo
 !invarijante
 		e_i1n = e_elas(1)+e_elas(2)+e_elas(3)
@@ -337,6 +338,12 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	1    +e_elas(2)*e_elas(6)+e_elas(6)*e_elas(3))
 	
 	
+	
+		do k1=1,ntens
+         stress(k1)=astress(k1)
+         enddo
+	
+	
 	 if(NPT.eq.1) then
 	      write(6,*)'dkapa=',dkapa
 		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
@@ -355,7 +362,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  12     format ('st1=',E12.4,' st2=',E12.4,' st3=',E12.4,' st4=',E12.4,' st5=',E12.4,' st6=',E12.4) 
  13     format ('a1=',E12.4,' a2=',E12.4,' a3=',E12.4,' a4=',E12.4,' a5=',E12.4,' a6=',E12.4) 
 			        
-		call noviddsdde(a,ddsdde,ntens,e_elas)
+		!call noviddsdde(a,ddsdde,ntens,e_elas)
 		if (abs(fi)<1e-6)then
 			  goto 23
              
@@ -385,8 +392,8 @@ c  corrector phase -  kraj
         !if (iprolaz(noel,npt).eq.0)then
 		
 		do k1=1,ntens
-         !statev(k1)  =  eplas(k1)
-		 !akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
+         statev(k1)  =  eplas(k1)
+		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
          enddo 
 		!iprolaz(noel,npt)=1
