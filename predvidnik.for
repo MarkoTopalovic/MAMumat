@@ -278,7 +278,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    
 	 
 	    do kkapa=1,5 
-		    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+		    call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu)
             f  = abs(f1) - h*a_kapa			
 			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))
 						
@@ -309,28 +309,28 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !invarijante                                
       
 	    
-	     stress(1)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     astress(1)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas(1)+a2*(e_elas(1)*e_elas(1)
 	1    +e_elas(4)*e_elas(4)+e_elas(5)*e_elas(5))
 	
-	     stress(2)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     astress(2)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas(2)+a2*(e_elas(4)*e_elas(4)
 	1    +e_elas(2)*e_elas(2)+e_elas(6)*e_elas(6))
 	
-	     stress(3)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
+	     astress(3)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
 	1	 (a1+a4*e_i1n)*e_elas(3)+a2*(e_elas(5)*e_elas(5)
 	1    +e_elas(6)*e_elas(6)+e_elas(3)*e_elas(3))
 	
 	
-	     stress(4)= (a1+a4*e_i1n)*e_elas(4)
+	     astress(4)= (a1+a4*e_i1n)*e_elas(4)
 	1	 +a2*(e_elas(1)*e_elas(4)
 	1    +e_elas(4)*e_elas(2)+e_elas(5)*e_elas(6))
 	
-	     stress(5)= (a1+a4*e_i1n)*e_elas(5)
+	     astress(5)= (a1+a4*e_i1n)*e_elas(5)
 	1	 +a2*(e_elas(1)*e_elas(5)
 	1    +e_elas(4)*e_elas(6)+e_elas(5)*e_elas(3))
 	
-	     stress(6)= (a1+a4*e_i1n)*e_elas(6)
+	     astress(6)= (a1+a4*e_i1n)*e_elas(6)
 	1	 +a2*(e_elas(4)*e_elas(5)
 	1    +e_elas(2)*e_elas(6)+e_elas(6)*e_elas(3))
 			        
