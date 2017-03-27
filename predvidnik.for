@@ -121,13 +121,13 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 		if(NPT.eq.1) then
 		write(6,*)'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-		else
-		write(6,*)'- - - - - - - - - - - - - - - - - - - - -'
+	!	else
+	!	write(6,*)'- - - - - - - - - - - - - - - - - - - - -'
 		endif
 ! ucitava iz prethodnog koraka
 	  do k1=1,ntens
 		stress(k1)=0
-		eplas0(k1) = ceplast(noel,npt,k1)
+		eplas0(k1) = statev(k1)
 		e_new(k1) = stran(k1)+dstran(k1)
 		e_elas_n(k1) = stran(k1)-eplas0(k1)
 		e_elas_n1(k1) = e_new(k1)-eplas0(k1)
@@ -250,9 +250,6 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         
         f = abs(f1) - h*a_kapa0 
 		if (f.le.zero) then 
-		do k1=1,ntens
-		ceplast(noel,npt,k1) = eplas0(k1)
-		enddo
 		write(6,*)'elasticno'
 		goto 52   
         endif
@@ -262,13 +259,13 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       a_kapa = a_kapa0  
 
-		   write(6,*)'plasticno'
+		  ! write(6,*)'plasticno'
 		   
-		    do k1=1,ntens        
+		    !do k1=1,ntens        
 		    eplas(k1) =eplas0(k1)
-			enddo
+			!enddo
 			a_kapa = a_kapa0
-	  
+	     dkapa = 0
       do kewton = 1,newton
 	  
 
@@ -276,39 +273,27 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
 !	2a. Compute Residuals		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+	    !goto 52
 
-	    f  = abs(f1) - h*a_kapa	
-	    a_kxl = x+a_kapa**a_l					 
-	    dkapa  = ((f/beta)**1)/a_kxl  !novo
-	    skapa = a_kapa - a_kapa0 - dkapa
-	    do k1=1,ntens        
-		    replas(k1) = eplas(k1)-eplas0(k1)-dkapa*a_mu(k1)	
-	    enddo
-		
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
-!	2b. Check Convergence		
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	    replas_int = (replas(1)**2+replas(2)**2+replas(3)**2+
-     1    two*replas(4)**2+two*replas(5)**2+two*replas(6)**2)**0.5	
-	    if ((replas_int.lt.tol1).and.(skapa.lt.tol2)) then
-          !	zadovoljena konvergencija
-		  write(6,*)'zadovoljena konvergencija'
-		  goto 52
-	    else !     OBNOVA   (update)
-		write(6,*)'nije zadovoljena konvergencija ',dkapa
-           
+	    
+	 
+	    do kkapa=1,5 
+		    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+            f  = abs(f1) - h*a_kapa			
+			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))
+						
+			fiprim = 1+(((f/beta)**1)*((x+a_kapa**a_l)**(-2))*a_l*
+     1			a_kapa**(a_l-1)     +(h/beta)*((x+a_kapa**a_l)**(-1)))
+			dkapa = dkapa - (fi/fiprim)
+			a_kapa = a_kapa0+dkapa
+			if(NPT.eq.1) then
+			write(6,*)'dkapa(',kkapa,')=', dkapa
+             endif
 			
-		a_kapa = a_kapa + dkapa !6.15
-        !goto 52		
-		do k1 = 1,ntens
-		eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1) !6.14
-		e_elas(k1)  = stran(k1) - eplas(k1)
+			do k1 = 1,ntens
+		eplas(k1)   = eplas(k1)  + dkapa*a_mu(k1)*dtime !6.14
+		!e_elas(k1)  = stran(k1) +dstran(k1)- eplas(k1)
 		enddo
-			
-
-			
-			
 !invarijante
 		e_i1n = e_elas(1)+e_elas(2)+e_elas(3)
 		
@@ -350,10 +335,27 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	1    +e_elas(2)*e_elas(6)+e_elas(6)*e_elas(3))
 			        
 		call noviddsdde(a,ddsdde,ntens,e_elas)
+		if (abs(fi)<1e-6)then
+			  goto 23
+             
+			endif	
+	    enddo
+		
+ 23		continue
+!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
+!	2b. Check Convergence		
+!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
+
+		
+
+		
+			
+
  
     !       OBNOVA   (update)
 		    
-		  endif	!((replas_int.lt.tol1).and.(skapa.lt.tol2))		
+		  
 	  enddo !kewton = 1,newton
 c  corrector phase -  kraj 
  52   continue
@@ -362,8 +364,8 @@ c  corrector phase -  kraj
         !if (iprolaz(noel,npt).eq.0)then
 		
 		do k1=1,ntens
-         ceplast(noel,npt,k1)  =  eplas(k1)
-		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
+         !statev(k1)  =  eplas(k1)
+		 !akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
          enddo 
 		!iprolaz(noel,npt)=1
@@ -371,7 +373,7 @@ c  corrector phase -  kraj
 		          !write(6,*)stran(1)+stran(2)+stran(3)
 				  !write(6,*)a_j2
 				  !write(6,*)dw
-				  write(6,*)'a_kapa=',dkapa
+				  write(6,*)'dkapa=',dkapa
 		        endif
 		!else
 		!iprolaz(noel,npt)=0
