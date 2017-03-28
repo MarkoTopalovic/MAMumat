@@ -132,7 +132,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		e_elas_n(k1) = stran(k1)-eplas0(k1)
 		e_elas_n1(k1) = e_new(k1)-eplas0(k1)
 	  enddo
-      a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
+      !a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
+	  a_kapa0 =statev(7)
 ! ucitava iz prethodnog koraka
 	    
 !invarijante
@@ -292,59 +293,31 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			if(NPT.eq.1) then
 			write(6,*)'dkapa(',kkapa,')=', dkapa
              endif
-			
-			do k1 = 1,ntens
-		eplas(k1)   = eplas0(k1) + dkapa*a_mu(k1)*dtime !6.14
+				
+	
+			        
+		!call noviddsdde(a,ddsdde,ntens,e_elas)
+		if (abs(fi)<1e-6)then
+		
+		
+		do k1 = 1,ntens
+		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime !6.14
 		
 		enddo
-!invarijante
-		e_i1n = e_elas(1)+e_elas(2)+e_elas(3)
+			  goto 23
+             
+			endif	
+	    enddo
 		
-        e_i2n = e_elas(1)*e_elas(2)+e_elas(2)*e_elas(3)+
-	1	e_elas(3)*e_elas(1)-e_elas(4)*e_elas(4)-
-	1   e_elas(5)*e_elas(5)-e_elas(6)*e_elas(6)
+ 23		continue
+!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
+!	2b. Check Convergence		
+!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
-	    e_i3n = e_elas(1)*e_elas(2)*e_elas(3)-
-	1	e_elas(1)*e_elas(6)*e_elas(6)-
-	1   e_elas(2)*e_elas(5)*e_elas(5)-
-	1   e_elas(3)*e_elas(4)*e_elas(4)+
-	1   2*e_elas(4)*e_elas(5)*e_elas(6)
-!invarijante                                
-      
-	    
-	     astress(1)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
-	1	 (a1+a4*e_i1n)*e_elas(1)+a2*(e_elas(1)*e_elas(1)
-	1    +e_elas(4)*e_elas(4)+e_elas(5)*e_elas(5))
-	
-	     astress(2)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
-	1	 (a1+a4*e_i1n)*e_elas(2)+a2*(e_elas(4)*e_elas(4)
-	1    +e_elas(2)*e_elas(2)+e_elas(6)*e_elas(6))
-	
-	     astress(3)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
-	1	 (a1+a4*e_i1n)*e_elas(3)+a2*(e_elas(5)*e_elas(5)
-	1    +e_elas(6)*e_elas(6)+e_elas(3)*e_elas(3))
-	
-	
-	     astress(4)= (a1+a4*e_i1n)*e_elas(4)
-	1	 +a2*(e_elas(1)*e_elas(4)
-	1    +e_elas(4)*e_elas(2)+e_elas(5)*e_elas(6))
-	
-	     astress(5)= (a1+a4*e_i1n)*e_elas(5)
-	1	 +a2*(e_elas(1)*e_elas(5)
-	1    +e_elas(4)*e_elas(6)+e_elas(5)*e_elas(3))
-	
-	     astress(6)= (a1+a4*e_i1n)*e_elas(6)
-	1	 +a2*(e_elas(4)*e_elas(5)
-	1    +e_elas(2)*e_elas(6)+e_elas(6)*e_elas(3))
-	
-	
-	
-		do k1=1,ntens
-         stress(k1)=astress(k1)
-         enddo
-	
-	
-	 if(NPT.eq.1) then
+
+		
+
+		 if(NPT.eq.1) then
 	      write(6,*)'dkapa=',dkapa
 		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
   		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
@@ -361,23 +334,6 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
  12     format ('st1=',E12.4,' st2=',E12.4,' st3=',E12.4,' st4=',E12.4,' st5=',E12.4,' st6=',E12.4) 
  13     format ('a1=',E12.4,' a2=',E12.4,' a3=',E12.4,' a4=',E12.4,' a5=',E12.4,' a6=',E12.4) 
-			        
-		!call noviddsdde(a,ddsdde,ntens,e_elas)
-		if (abs(fi)<1e-6)then
-			  goto 23
-             
-			endif	
-	    enddo
-		
- 23		continue
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
-!	2b. Check Convergence		
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-
-		
-
-		
 			
 
  
@@ -396,6 +352,7 @@ c  corrector phase -  kraj
 		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
          enddo 
+		 statev(7)=a_kapa
 		!iprolaz(noel,npt)=1
 				if(NPT.eq.1) then
 		          !write(6,*)stran(1)+stran(2)+stran(3)
