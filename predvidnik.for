@@ -279,13 +279,13 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	    
 	 
-	    do kkapa=1,5 
+	    do kkapa=1,2 
 		    call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu)
             f  = abs(f1) - h*a_kapa			
-			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))
+			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))*dtime
 						
 			fiprim = 1+(((f/beta)**1)*((x+a_kapa**a_l)**(-2))*a_l*
-     1			a_kapa**(a_l-1)     +(h/beta)*((x+a_kapa**a_l)**(-1)))
+     1			a_kapa**(a_l-1)*dtime     +(h/beta)*((x+a_kapa**a_l)**(-1))*dtime)
 	         if (fiprim.ne.0)then
 			dkapa = - (fi/fiprim)
 			endif
@@ -301,7 +301,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		
 		
 		do k1 = 1,ntens
-		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime !6.14
+		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1) !6.14
 		
 		enddo
 			  goto 23
