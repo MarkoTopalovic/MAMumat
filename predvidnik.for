@@ -32,14 +32,11 @@ C -----------------------------------------------------------
 c
 c     paneerselvam phd   (page 165 tens constants)
 c
-      !a1 = 70.3e2
-      a1 =  0.036e5	  
-      !a2 = 0.036e5 !7.5e4
-      a2 = -0.6046e5	  
+      
+      	  
       a3 = -1.81e5
       a4 = -0.906e5
-      !a5 = -0.6046e5
-	  a5 = -70.3e2
+
       a6 = 0.
       a7 = 0.
       a8 = 0.
@@ -52,6 +49,17 @@ c
       a_m  = one
       gama = -5. 
       alpha_t  = 4.e-5
+	  
+	  !stari
+	  !a1 = 70.3e2
+	  !a2 = 0.036e5 !7.5e4
+	  !a5 = -0.6046e5
+	  
+	  
+	  !novi
+	  a1 =  0.036e5	  
+      a2 = -0.6046e5
+	  a5 = -70.3e2
 c -----------------------------------------------------------
 c -----------------------------------------------------------
       a(1)=a1
@@ -228,18 +236,20 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
 ! smanjenje	
 	    f2 = f
+         !do k1=1,ntens
+		!astress(k1)=astress0(k1)!+smanjenje*(astress(k1)-astress0(k1))
+		!enddo
+		!do ii=1,5
+		!if(f2.gt.(1.2*f0))then
+		!smanjenje = 0.2/ii
+		!do k1=1,ntens
+		!astress(k1)=astress0(k1)!+smanjenje*(astress(k1)-astress0(k1))
+		!enddo
 
-		do ii=1,5
-		if(f2.gt.(1.2*f0))then
-		smanjenje = 0.2/ii
-		do k1=1,ntens
-		astress(k1)=astress0(k1)+smanjenje*(astress(k1)-astress0(k1))
-		enddo
-
-		call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-		f2   = abs(f1) - h*a_kapa0
-		endif
-		end do
+		!call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+		!f2   = abs(f1) - h*a_kapa0
+		!endif
+		!end do
 !smanjenje	
 	
 	    do k2 = 1,ntens
@@ -247,12 +257,21 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    enddo                                        
 	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 	
-	
+	    do k1=1,ntens        
+		    eplas(k1) =eplas0(k1)
+			enddo
+			a_kapa = a_kapa0
+	     dkapa = 0
     
 !c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
         
-        f = abs(f1) - h*a_kapa0 
+        f = f1 - h*a_kapa0 
+		
+		
+		
+		
+		
 		if (f.le.zero) then 
 !		write(6,*)'elasticno'
 		goto 52   
@@ -265,11 +284,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 		  ! write(6,*)'plasticno'
 		   
-		    do k1=1,ntens        
-		    eplas(k1) =eplas0(k1)
-			enddo
-			a_kapa = a_kapa0
-	     dkapa = 0
+		    
       do kewton = 1,newton
 	  
 
@@ -281,10 +296,10 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	    
 	 
-	    do kkapa=1,2 
+	    do kkapa=1,6 
 		    call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu)
             f  = abs(f1) - h*a_kapa			
-			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))
+			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))*dtime
 						
 			fiprim = 1+(((f/beta)**1)*((x+a_kapa**a_l)**(-2))*a_l*
      1			a_kapa**(a_l-1)*dtime     +(h/beta)*((x+a_kapa**a_l)**(-1))*dtime)
@@ -295,23 +310,18 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			if(NPT.eq.1) then
 !			write(6,*)'dkapa(',kkapa,')=', dkapa
              endif
-				
-	
-			        
-		!call noviddsdde(a,ddsdde,ntens,e_elas)
-		if (abs(fi)<1e-6)then
-		
-		
-		do k1 = 1,ntens
-		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1) !6.14
-		
-		enddo
+
+		if ((abs(fi)<1e-5).and.(dkapa.gt.0))then
 			  goto 23
-             
 			endif	
 	    enddo
 		
  23		continue
+ 
+         do k1 = 1,ntens
+		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1) !6.14
+		!eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
+		enddo
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
 !	2b. Check Convergence		
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -529,7 +539,7 @@ c-
               do k2=1, ndi
                kroneker(k2)     = one
                kroneker(k2+ndi) = zero
-		       st(k2) = -stress(k2) ! unutrasnja inverzija znaka  za racunanje funkcije tecenja
+		       st(k2) = stress(k2) ! unutrasnja inverzija znaka  za racunanje funkcije tecenja
              end do 
             
 c     s_napon invarijante  i funkcija f 
