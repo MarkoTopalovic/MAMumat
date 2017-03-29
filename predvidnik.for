@@ -16,7 +16,7 @@ c
      1 stran(ntens),dstran(ntens),dstress(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
      1 d_eplas(ntens),astrain(ntens),astress0(ntens),
-     1 eplas(ntens),e_elas(ntens),eplas0(ntens),
+     1 eplas(ntens),e_elas(ntens),eplas0(ntens),eplas00(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
      1 time(2),predef(1),dpred(1),e_new(ntens),e_elas_n(ntens),  
      1 coords(ndi),drot(ndi,ndi),e_elas_n1(ntens),
@@ -138,13 +138,20 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! ucitava iz prethodnog koraka
 	  do k1=1,ntens
 		stress(k1)=0
-		eplas0(k1) = statev(k1)
+		!eplas0(k1) = statev(k1)
+		eplas0(k1) = ceplast(noel,npt,k1) 
+
+		!if (eplas0(k1).ne.eplas00(k1)) then
+		!write(6,*)'razlika',eplas0(k1),eplas00(k1)
+		!endif
+
+		
 		e_new(k1) = stran(k1)+dstran(k1)
 		e_elas_n(k1) = stran(k1)-eplas0(k1)
 		e_elas_n1(k1) = e_new(k1)-eplas0(k1)
 	  enddo
-      !a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
-	  a_kapa0 =statev(7)
+      a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
+	  !a_kapa0 =statev(17)
 ! ucitava iz prethodnog koraka
 	    
 !invarijante
@@ -273,7 +280,9 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		
 		
 		if (f.le.zero) then 
-!		write(6,*)'elasticno'
+		!if(NPT.eq.1) then
+		!write(6,*)'elasticno'
+        !endif
 		goto 52   
         endif
 !c------------------  end of elastic predictor ----------------------
@@ -296,7 +305,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	    
 	 
-	    do kkapa=1,6 
+	    do kkapa=1,4 
 		    call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu)
             f  = abs(f1) - h*a_kapa			
 			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))*dtime
@@ -311,12 +320,26 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !			write(6,*)'dkapa(',kkapa,')=', dkapa
              endif
 
-		if ((abs(fi)<1e-5).and.(dkapa.gt.0))then
+		if ((abs(fi)<5e-6).and.(dkapa.gt.0))then
 			  goto 23
 			endif	
 	    enddo
 		
  23		continue
+ 
+ 
+ 
+         if(NPT.eq.1) then
+!	      write(6,*)'pocetniDK=',dkapa
+!		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
+!  		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
+!		  write(6,11), e_new(1),e_new(2),e_new(3),e_new(4),e_new(5),e_new(6)
+		  
+!		  write(6,12), stran(1),stran(2),stran(3),stran(4),stran(5),stran(6)
+!		  write(6,13), astress(1),astress(2),astress(3),astress(4),astress(5),astress(6)
+	     endif
+ 
+ 
  
          do k1 = 1,ntens
 		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1) !6.14
@@ -332,7 +355,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		 if(NPT.eq.1) then
 !	      write(6,*)'dkapa=',dkapa
 !		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
- ! 		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
+!  		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
 !		  write(6,11), e_new(1),e_new(2),e_new(3),e_new(4),e_new(5),e_new(6)
 		  
 !		  write(6,12), stran(1),stran(2),stran(3),stran(4),stran(5),stran(6)
@@ -361,15 +384,22 @@ c  corrector phase -  kraj
 		
 		do k1=1,ntens
          statev(k1)  =  eplas(k1)
+		 ceplast(noel,npt,k1) = eplas(k1)
 		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
          enddo 
-		 statev(7)=a_kapa
-		 w = statev(8)
+		 statev(17)=a_kapa
+		 w = statev(18)
 		 w=w+dw
-		 statev(8)=w
+		 statev(18)=w
 		 if (iprolaz(noel,npt).eq.0)then
 		iprolaz(noel,npt)=1
+		
+		    do k1=1,ntens
+            ceplast(noel,npt,k1)  =  eplas(k1)
+            enddo 
+		
+		
 				if(NPT.eq.1) then
 		          !write(6,*)stran(1)+stran(2)+stran(3)
 				  !write(6,*)a_j2
