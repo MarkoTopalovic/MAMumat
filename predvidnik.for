@@ -276,7 +276,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         f = f1 - h*a_kapa0 
 		
 		
-		
+		goto 52   
 		
 		
 		if (f.le.zero) then 
@@ -403,7 +403,7 @@ c  corrector phase -  kraj
 				if(NPT.eq.1) then
 		          !write(6,*)stran(1)+stran(2)+stran(3)
 				  !write(6,*)a_j2
-				  write(6,*)eplas(2)
+				  write(6,*)w
 				  !write(6,*)'dkapa=',dkapa
 		        endif
 		else
