@@ -25,7 +25,7 @@ c
      1 replas(ntens),kroneker2(ntens,ntens)  !deplas(ntens) 
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
-      data newton,toler,temp0,coef,yield0/10,1.d-6,273.,0.0d0,25.0d0/  
+      data newton,toler,temp0,coef,yield0/8 ,1.d-6,273.,0.0d0,25.0d0/  
       tol1 = 1.d-6
 	  tol2 = 1.d-6
 C -----------------------------------------------------------
@@ -268,7 +268,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             a_kapa = a_kapa0  
 
-		    call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu)
+		    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
             			
 			
 		do kewton = 1,newton
@@ -284,11 +284,56 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		!eplas(k1)   =  dkapa*a_mu(k1) !6.14
 		
 		!eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
-		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
-		!e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
+		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
+		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
 		enddo
+		
+		
+		!invarijante	
+		e_i1n1 = e_elas_n1(1)+e_elas_n1(2)+e_elas_n1(3)
+		
+        e_i2n1 = e_elas_n1(1)*e_elas_n1(2)+e_elas_n1(2)*e_elas_n1(3)+
+	1	e_elas_n1(3)*e_elas_n1(1)-e_elas_n1(4)*e_elas_n1(4)-
+	1   e_elas_n1(5)*e_elas_n1(5)-e_elas_n1(6)*e_elas_n1(6)
 	
-	    !call noviddsdde(a,ddsdde,ntens,e_elas_n1)
+	    e_i3n1 = e_elas_n1(1)*e_elas_n1(2)*e_elas_n1(3)-
+	1	e_elas_n1(1)*e_elas_n1(6)*e_elas_n1(6)-
+	1   e_elas_n1(2)*e_elas_n1(5)*e_elas_n1(5)-
+	1   e_elas_n1(3)*e_elas_n1(4)*e_elas_n1(4)+
+	1   2*e_elas_n1(4)*e_elas_n1(5)*e_elas_n1(6)
+!invarijante	                                      
+      
+	     astress(1)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
+	1	 (a1+a4*e_i1n1)*e_elas_n1(1)+a2*(e_elas_n1(1)*e_elas_n1(1)
+	1    +e_elas_n1(4)*e_elas_n1(4)+e_elas_n1(5)*e_elas_n1(5))
+	
+	     astress(2)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
+	1	 (a1+a4*e_i1n1)*e_elas_n1(2)+a2*(e_elas_n1(4)*e_elas_n1(4)
+	1    +e_elas_n1(2)*e_elas_n1(2)+e_elas_n1(6)*e_elas_n1(6))
+	
+	     astress(3)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
+	1	 (a1+a4*e_i1n1)*e_elas_n1(3)+a2*(e_elas_n1(5)*e_elas_n1(5)
+	1    +e_elas_n1(6)*e_elas_n1(6)+e_elas_n1(3)*e_elas_n1(3))
+	
+	
+	     astress(4)= (a1+a4*e_i1n1)*e_elas_n1(4)
+	1	 +a2*(e_elas_n1(1)*e_elas_n1(4)
+	1    +e_elas_n(4)*e_elas_n1(2)+e_elas_n1(5)*e_elas_n1(6))
+	
+	     astress(5)= (a1+a4*e_i1n1)*e_elas_n1(5)
+	1	 +a2*(e_elas_n1(1)*e_elas_n1(5)
+	1    +e_elas_n1(4)*e_elas_n1(6)+e_elas_n1(5)*e_elas_n1(3))
+	
+	     astress(6)= (a1+a4*e_i1n1)*e_elas_n1(6)
+	1	 +a2*(e_elas_n1(4)*e_elas_n1(5)
+	1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
+	
+	    do k1=1,ntens        
+		    
+			stress(k1) =astress(k1)
+			enddo
+	
+	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 	   	!invarijante	
 	
 
@@ -323,7 +368,7 @@ c  corrector phase -  kraj
 		 ceplast(noel,npt,k1) = eplas(k1)
 		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
-		 eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
+		 !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
 		 statev(17)=a_kapa
 		 w = statev(18)
@@ -343,7 +388,7 @@ c  corrector phase -  kraj
 				  !write(6,*)w
 				  !write(6,*)a_kapa
 				  !write(6,*)stran(2)
-				  write(6,*)eplas(2)
+				  write(6,*)eplas(2), time
 				  !write(6,*)'dkapa3=',dkapa
 		        endif
 		!else
