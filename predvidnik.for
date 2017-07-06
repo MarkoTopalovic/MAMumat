@@ -3,7 +3,7 @@
      2 time,dtime,temp,dtemp,predef,dpred,materl,ndi,nshr,ntens,
      3 nstatv,props,nprops,coords,drot,pnewdt,celent,
      4 dfgrd0,dfgrd1,noel,npt,kslay,kspt,kstep,kinc)
-c
+
       include 'aba_param.inc'
       common /glavni/ ipoziv
       common /ak/ akapa(100000,10)
@@ -28,10 +28,11 @@ c
       data newton,toler,temp0,coef,yield0/8 ,1.d-6,273.,0.0d0,25.0d0/  
       tol1 = 1.d-7
 	  tol2 = 1.d-7
-C -----------------------------------------------------------
-c
-c     paneerselvam phd   (page 165 tens constants)
-c
+	  tolk = 1.d-5
+!C -----------------------------------------------------------
+!c
+!c     paneerselvam phd   (page 165 tens constants)
+!c
       
       	  
       a3 = -1.81e5
@@ -47,7 +48,7 @@ c
       h = 50.
       beta = 8.23e4     !1.34e4
       a_m  = one
-      gama = -5. 
+      gama = -5.e-3 
       alpha_t  = 4.e-5
 	  
 	  !stari
@@ -60,8 +61,8 @@ c
 	  a1 =  0.036e5	  
       a2 = -0.6046e5
 	  a5 = 70.3e2
-c -----------------------------------------------------------
-c -----------------------------------------------------------
+!c -----------------------------------------------------------
+!c -----------------------------------------------------------
       a(1)=a1
       a(2)=a2
       a(3)=a3
@@ -111,15 +112,15 @@ c -----------------------------------------------------------
 !     NSTATV BROJ UNUTRASNJIH PROMENLJIVIH
 !     OVO VISE NE KORISTIMO SADA SVE CUVAMO U COMMON STRUKTURAMA          
 
-c********************************************************************
-c
-c               predictor corector algorithm
-c
-c********************************************************************     
+!c********************************************************************
+!c
+!c               predictor corector algorithm
+!c
+!c********************************************************************     
 
-cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-c***************      1) predictor phase      ***********************  
-cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!c***************      1) predictor phase      ***********************  
+!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 		if(NPT.eq.1) then
 	!	write(6,*)'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -137,7 +138,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 	  enddo
       a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
-	  !a_kapa0 =statev(17)
+	  if (a_kapa0.lt.tolk) a_kapa0=tolk
 ! ucitava iz prethodnog koraka
 	    
 !invarijante
@@ -256,8 +257,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !c------------------ compute  loading surface f-----------------------
       call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
         
-        f = f1 - h*a_kapa0 
-		
+        f = abs(f1) - h*a_kapa0 
+		a_kapa = a_kapa0
 		if (f.le.zero) then 
 
 		goto 52   
@@ -266,8 +267,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !c***************      1) corector phase      ***********************  
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            a_kapa = a_kapa0  
-
+              
+            dkapau = 0
 		    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
             			
 			
@@ -276,6 +277,10 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			a_kxl = x+a_kapa**a_l
 			
             dkapa  =  ((f/beta)**1)/a_kxl
+			If (dkapa.eq.0) then
+			write(6,*) 'nula'
+			endif
+			dkapau = dkapau +dkapa 
 			a_kapa = a_kapa + dkapa
 			do k1 = 1,ntens
 			deplas(k1) = dkapa*a_mu(k1)*dtime
@@ -283,7 +288,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 				deplas_int = (deplas(1)**2+deplas(2)**2+deplas(3)**2+
      1    two*deplas(4)**2+two*deplas(5)**2+two*deplas(6)**2)**0.5
 			if ((dkapa.lt.tol1).and.(deplas_int.lt.tol2)) then
-			write(6,*) 'radi'
+			!write(6,*) 'radi'
 			goto 33
 			endif
 			
@@ -297,7 +302,10 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		!eplas(k1)   =  dkapa*a_mu(k1) !6.14
 		!eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
 		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
+		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
+		ceplast(noel,npt,k1) = eplas(k1)
+		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		enddo
 		
 		
@@ -369,16 +377,16 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			
 
  
-c  corrector phase -  kraj 
+!c  corrector phase -  kraj 
  52   continue
 		dw = 0
 
         
 		
 		do k1=1,ntens
-         statev(k1)  =  eplas(k1)
-		 ceplast(noel,npt,k1) = eplas(k1)
-		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
+         !statev(k1)  =  eplas(k1)
+		 !ceplast(noel,npt,k1) = eplas(k1)
+		 !akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
 		 !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
@@ -386,33 +394,37 @@ c  corrector phase -  kraj
 		 w = statev(18)
 		 w=w+dw
 		 statev(18)=w
-		 !if (iprolaz(noel,npt).eq.0)then
-		!iprolaz(noel,npt)=1
+		 if (iprolaz(noel,npt).eq.0)then
+		iprolaz(noel,npt)=1
 		
-		    do k1=1,ntens
-            ceplast(noel,npt,k1)  =  eplas(k1)
-            enddo 
+		    !do k1=1,ntens
+            !ceplast(noel,npt,k1)  =  eplas(k1)
+            !enddo 
 		
 		
 				if(NPT.eq.1) then
 		          !write(6,*)stran(1)+stran(2)+stran(3)
 				  !write(6,*)a_j2
-				  !write(6,*)w
-				  !write(6,*)a_kapa
+				  write(6,*)w
+				  !write(6,*)a_kapa, a_kapa0, dkapau
 				  !write(6,*)stran(2)
-				  write(6,*)eplas(2), time
-				  !write(6,*)'dkapa3=',dkapa
+				  !write(6,*)stran(2),dstran(2),time
+				  !write(6,*)'U', stran(2),'P',eplas(2)
+				  !write(6,*)stress(2)
+				  !write(6,*)stran(2)
+				  !write(6,*)eplas(2)
+				  !write(6,*)time
 		        endif
-		!else
-		!iprolaz(noel,npt)=0
-        !endif
+		else
+		iprolaz(noel,npt)=0
+        endif
          
       return    
       end
 
-C
-c-----------------------------------------  umat   kraj
-c-----------------------------------------  umat   kraj
+!C
+!c-----------------------------------------  umat   kraj
+!c-----------------------------------------  umat   kraj
       
       
       subroutine hyperconstitutive(a,ddsdde,ntens,e_elas)
@@ -524,13 +536,13 @@ c-----------------------------------------  umat   kraj
        return
       end
            
-c----------------------subroutine hyperconstitutive     
-c----------------------------------------------------                            
+!c----------------------subroutine hyperconstitutive     
+!c----------------------------------------------------                            
         
       subroutine loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
      
       include 'aba_param.inc' 
-c-
+!c-
 
 !     brojne konstante   
 !     real zero,one,two,three
@@ -559,7 +571,7 @@ c-
       
              parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0) 
              alfa =  a(12)
-            gama = -5.0d0
+            gama = a(16)
                 s_i1=0
 		        s_i2=0
 		        s_i3=0
@@ -569,7 +581,7 @@ c-
 		       st(k2) = stress(k2) ! unutrasnja inverzija znaka  za racunanje funkcije tecenja
              end do 
             
-c     s_napon invarijante  i funkcija f 
+!c     s_napon invarijante  i funkcija f 
 
 
     !  s_i1 = stress(1)+stress(2)+stress(3)
@@ -613,9 +625,9 @@ c     s_napon invarijante  i funkcija f
       enddo   
       return
       end
-c        
-c---------------------------------subroutine loadingf      
-c---------------------------------------------------- 
+!c        
+!c---------------------------------subroutine loadingf      
+!c---------------------------------------------------- 
 
       subroutine noviddsdde(a,ddsdde,ntens,e_elas)
 
@@ -729,4 +741,4 @@ c----------------------------------------------------
        return
       end
            
-c----------------------subroutine noviddsdde 
+!c----------------------subroutine noviddsdde 
