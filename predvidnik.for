@@ -25,7 +25,7 @@ c
      1 replas(ntens),kroneker2(ntens,ntens)  !deplas(ntens) 
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
-      data newton,toler,temp0,coef,yield0/1,1.d-6,273.,0.0d0,25.0d0/  
+      data newton,toler,temp0,coef,yield0/10,1.d-6,273.,0.0d0,25.0d0/  
       tol1 = 1.d-6
 	  tol2 = 1.d-6
 C -----------------------------------------------------------
@@ -81,12 +81,7 @@ c -----------------------------------------------------------
       a(17)=alpha_t
 
       tol2 = 1.0d-6
-       
 
-
-
-
-	   
       do k2=1, ndi
          kroneker(k2)     = one
          kroneker(k2+ndi) = zero
@@ -116,10 +111,6 @@ c -----------------------------------------------------------
 !     NSTATV BROJ UNUTRASNJIH PROMENLJIVIH
 !     OVO VISE NE KORISTIMO SADA SVE CUVAMO U COMMON STRUKTURAMA          
 
-
-
-
-
 c********************************************************************
 c
 c               predictor corector algorithm
@@ -140,15 +131,10 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		stress(k1)=0
 		!eplas0(k1) = statev(k1)
 		eplas0(k1) = ceplast(noel,npt,k1) 
-
-		!if (eplas0(k1).ne.eplas00(k1)) then
-		!write(6,*)'razlika',eplas0(k1),eplas00(k1)
-		!endif
-
 		
-		e_new(k1) = stran(k1)+dstran(k1)
-		e_elas_n(k1) = stran(k1)!-eplas0(k1)
-		e_elas_n1(k1) = e_new(k1)!-eplas0(k1)
+		e_new(k1) = stran(k1)+dstran(k1)-eplas0(k1)
+		e_elas_n(k1) = stran(k1)+dstran(k1)-eplas0(k1)
+		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 	  enddo
       a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
 	  !a_kapa0 =statev(17)
@@ -156,6 +142,7 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	    
 !invarijante
 		e_i1n = e_elas_n(1)+e_elas_n(2)+e_elas_n(3)
+		e_i1p = e_new(1)+e_new(2)+e_new(3)
 		
         e_i2n = e_elas_n(1)*e_elas_n(2)+e_elas_n(2)*e_elas_n(3)+
 	1	e_elas_n(3)*e_elas_n(1)-e_elas_n(4)*e_elas_n(4)-
@@ -237,8 +224,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	1	 +a2*(e_elas_n1(4)*e_elas_n1(5)
 	1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
 	
-		call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-		f   = abs(f1) - h*a_kapa0 
+	!	call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+	!	f   = abs(f1) - h*a_kapa0 
 	
 	
 ! smanjenje	
@@ -247,7 +234,8 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !		if(f2.gt.(1.2*f0))then
 !		smanjenje = 0.2/ii
 !		do k1=1,ntens
-!		astress(k1)=astress0(k1)+smanjenje*(astress(k1)-astress0(k1))
+		!astress(k1)=astress0(k1)+smanjenje*(astress(k1)-astress0(k1))
+		!astress(k1)=0.5*astress(k1)
 !		enddo
 
 !		call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
@@ -255,18 +243,14 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !		endif
 !		end do
 !smanjenje	
-	
-	    do k2 = 1,ntens
-	        stress(k2)=astress(k2) ! 6.19 
-	    enddo                                        
-	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
-	
+	                                          
+	    call noviddsdde(a,ddsdde,ntens,e_elas_n)
+	    ! call    hyperconstitutive (a,ddsdde,ntens,e_elas_n1)
 	    do k1=1,ntens        
 		    eplas(k1) =eplas0(k1)
+			stress(k1) =astress0(k1)
 			enddo
-			if (a_kapa0.eq.0) then
-			a_kapa0 = 1e-6
-			endif
+			
 	     dkapa = 0
     
 !c------------------ compute  loading surface f-----------------------
@@ -274,132 +258,46 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         
         f = f1 - h*a_kapa0 
 		
-		
-		!goto 52   
-		
-		
 		if (f.le.zero) then 
-		!if(NPT.eq.1) then
-		!write(6,*)'elasticno'
-        !endif
+
 		goto 52   
         endif
 !c------------------  end of elastic predictor ----------------------
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !c***************      1) corector phase      ***********************  
 !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      a_kapa = a_kapa0  
-
-		  ! write(6,*)'plasticno'
-		   
-		    
-      do kewton = 1,newton
-	  
-
-	  
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
-!	2a. Compute Residuals		
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	    !goto 52
-
-	    
-	 
+            a_kapa = a_kapa0  
 
 		    call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu)
-            f  = abs(f1) - h*a_kapa			
-			fi = a_kapa-a_kapa0-((f/beta)**1)*((x+a_kapa**a_l)**(-1))*dtime
-						
-			fiprim = 1+(((f/beta)**1)*((x+a_kapa**a_l)**(-2))*a_l*
-     1			a_kapa**(a_l-1)*dtime     +(h/beta)*((x+a_kapa**a_l)**(-1))*dtime)
-	         if (fiprim.ne.0)then
-			dkapa = - (fi/fiprim)
-			endif
-			a_kapa = a_kapa+dkapa
-			if(NPT.eq.1) then
-!			write(6,*)'dkapa(',kkapa,')=', dkapa
-             endif
-
- 
- 
-         if(NPT.eq.1) then
-!	      write(6,*)'pocetniDK=',dkapa
-!		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
-!  		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
-!		  write(6,11), e_new(1),e_new(2),e_new(3),e_new(4),e_new(5),e_new(6)
-		  
-!		  write(6,12), stran(1),stran(2),stran(3),stran(4),stran(5),stran(6)
-!		  write(6,13), astress(1),astress(2),astress(3),astress(4),astress(5),astress(6)
-	     endif
- 
- 
- 
+            			
+			
+		do kewton = 1,newton
+		    f  = abs(f1) - h*a_kapa
+			a_kxl = x+a_kapa**a_l
+			
+            dkapa  =  ((f/beta)**1)/a_kxl
+            a_kapa = a_kapa + dkapa 
+			enddo
+		!dkapa = a_kapa - a_kapa0
+         
          do k1 = 1,ntens
-		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1) !6.14
-		eplas(k1) = dkapa*a_mu(k1)
+		!eplas(k1)   =  dkapa*a_mu(k1) !6.14
+		
 		!eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
-		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
+		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
+		!e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
 		enddo
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx		
-!	2b. Check Convergence		
-!cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
+	    !call noviddsdde(a,ddsdde,ntens,e_elas_n1)
+	   	!invarijante	
 	
-!invarijante	
-		e_i1n1 = e_elas_n1(1)+e_elas_n1(2)+e_elas_n1(3)
-		
-        e_i2n1 = e_elas_n1(1)*e_elas_n1(2)+e_elas_n1(2)*e_elas_n1(3)+
-	1	e_elas_n1(3)*e_elas_n1(1)-e_elas_n1(4)*e_elas_n1(4)-
-	1   e_elas_n1(5)*e_elas_n1(5)-e_elas_n1(6)*e_elas_n1(6)
-	
-	    e_i3n1 = e_elas_n1(1)*e_elas_n1(2)*e_elas_n1(3)-
-	1	e_elas_n1(1)*e_elas_n1(6)*e_elas_n1(6)-
-	1   e_elas_n1(2)*e_elas_n1(5)*e_elas_n1(5)-
-	1   e_elas_n1(3)*e_elas_n1(4)*e_elas_n1(4)+
-	1   2*e_elas_n1(4)*e_elas_n1(5)*e_elas_n1(6)
-!invarijante	                                      
-      
-	     astress(1)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
-	1	 (a1+a4*e_i1n1)*e_elas_n1(1)+a2*(e_elas_n1(1)*e_elas_n1(1)
-	1    +e_elas_n1(4)*e_elas_n1(4)+e_elas_n1(5)*e_elas_n1(5))
-	
-	     astress(2)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
-	1	 (a1+a4*e_i1n1)*e_elas_n1(2)+a2*(e_elas_n1(4)*e_elas_n1(4)
-	1    +e_elas_n1(2)*e_elas_n1(2)+e_elas_n1(6)*e_elas_n1(6))
-	
-	     astress(3)= (2*a5*e_i1n1+3*a3*e_i1n1*e_i1n1+a4*e_i2n1)+
-	1	 (a1+a4*e_i1n1)*e_elas_n1(3)+a2*(e_elas_n1(5)*e_elas_n1(5)
-	1    +e_elas_n1(6)*e_elas_n1(6)+e_elas_n1(3)*e_elas_n1(3))
-	
-	
-	     astress(4)= (a1+a4*e_i1n1)*e_elas_n1(4)
-	1	 +a2*(e_elas_n1(1)*e_elas_n1(4)
-	1    +e_elas_n(4)*e_elas_n1(2)+e_elas_n1(5)*e_elas_n1(6))
-	
-	     astress(5)= (a1+a4*e_i1n1)*e_elas_n1(5)
-	1	 +a2*(e_elas_n1(1)*e_elas_n1(5)
-	1    +e_elas_n1(4)*e_elas_n1(6)+e_elas_n1(5)*e_elas_n1(3))
-	
-	     astress(6)= (a1+a4*e_i1n1)*e_elas_n1(6)
-	1	 +a2*(e_elas_n1(4)*e_elas_n1(5)
-	1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
-	
-	
-	
-	    do k2 = 1,ntens
-	        !stress(k2)=astress(k2) ! 6.19 
-	    enddo                                        
-	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
-	
-	
-	
-		
 
 		 if(NPT.eq.1) then
 !	      write(6,*)'dkapa=',dkapa
 !		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
 !  		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
 !		  write(6,11), e_new(1),e_new(2),e_new(3),e_new(4),e_new(5),e_new(6)
-		  
+!		  write(6,10), eplas(1)/stran(1),eplas(2)/stran(2),eplas(3)/stran(3),eplas(4)/stran(4),eplas(5)/stran(5),eplas(6)/stran(6)
 !		  write(6,12), stran(1),stran(2),stran(3),stran(4),stran(5),stran(6)
 !		  write(6,13), astress(1),astress(2),astress(3),astress(4),astress(5),astress(6)
 	   endif
@@ -414,10 +312,6 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			
 
  
-    !       OBNOVA   (update)
-		    
-		  
-	  enddo !kewton = 1,newton
 c  corrector phase -  kraj 
  52   continue
 		dw = 0
@@ -429,13 +323,14 @@ c  corrector phase -  kraj
 		 ceplast(noel,npt,k1) = eplas(k1)
 		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		 dw=dw+stress(k1)*dkapa*a_mu(k1)
+		 eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
 		 statev(17)=a_kapa
 		 w = statev(18)
 		 w=w+dw
 		 statev(18)=w
-		 if (iprolaz(noel,npt).eq.0)then
-		iprolaz(noel,npt)=1
+		 !if (iprolaz(noel,npt).eq.0)then
+		!iprolaz(noel,npt)=1
 		
 		    do k1=1,ntens
             ceplast(noel,npt,k1)  =  eplas(k1)
@@ -446,12 +341,14 @@ c  corrector phase -  kraj
 		          !write(6,*)stran(1)+stran(2)+stran(3)
 				  !write(6,*)a_j2
 				  !write(6,*)w
+				  !write(6,*)a_kapa
+				  !write(6,*)stran(2)
 				  write(6,*)eplas(2)
-				  !write(6,*)'dkapa=',dkapa
+				  !write(6,*)'dkapa3=',dkapa
 		        endif
-		else
-		iprolaz(noel,npt)=0
-        endif
+		!else
+		!iprolaz(noel,npt)=0
+        !endif
          
       return    
       end
