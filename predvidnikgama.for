@@ -16,13 +16,13 @@
      1 stran(ntens),dstran(ntens),dstress(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
      1 d_eplas(ntens),astrain(ntens),astress0(ntens),
-     1 eplas(ntens),e_elas(ntens),eplas0(ntens),eplas00(ntens),
+     1 eplas(ntens),e_elas(ntens),eplas0(ntens),eplasStari(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
      1 time(2),predef(1),dpred(1),e_new(ntens),e_elas_n(ntens),  
      1 coords(ndi),drot(ndi,ndi),e_elas_n1(ntens),
      1 dfgrd0(ndi,ndi),dfgrd1(ndi,ndi),  
-     1 a_mu(ntens),kroneker(ntens), 
-     1 replas(ntens),kroneker2(ntens,ntens),deplas(ntens) 
+     1 a_mu(ntens),kroneker(ntens),
+     1 Replas(ntens),kroneker2(ntens,ntens),deplas(ntens) 
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
       data newton,toler,temp0,coef,yield0/8 ,1.d-6,273.,0.0d0,25.0d0/  
@@ -271,30 +271,36 @@
             dkapau = 0
 		    call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
             f  = abs(f1) - h*a_kapa			
-			a_kxl = x+a_kapa**a_l
 			
+		a_kxl = x+a_kapa0**a_l	
+		    
+
 			
 		do kewton = 1,newton
 		    
 			
 			
-            dkapa  =  ((f/beta)**1)/a_kxl
-		    a_kapaStari = a_kapa
-			a_kapa = a_kapa0 + ((f/beta)**1)/a_kxl
+            dkapa0  =  (((f/beta)**1)/a_kxl)
 			
+		    
+			a_kapa = a_kapa0 + dkapa0
+			a_kxl = x+a_kapa**a_l
+			dkapa  =  (((f/beta)**1)/a_kxl)
 			
 			do k1 = 1,ntens
-			eplas00(k1) = eplas(k1)
-			eplas(k1)   = eplas(k1) + (a_kapa - a_kapaStari)*a_mu(k1)*dtime
-			deplas(k1) = eplas00(k1) - eplas(k1)
+			
+			eplasStari(k1)   = eplas(k1)
+			d_eplas(k1)   =  (dkapa)*a_mu(k1)*dtime
+			eplas(k1)   = eplas0(k1) + d_eplas(k1)
+			Replas(k1) = eplas(k1) - eplasStari(k1)
 			enddo
-				deplas_int = (deplas(1)**2+deplas(2)**2+deplas(3)**2+
-     1    two*deplas(4)**2+two*deplas(5)**2+two*deplas(6)**2)**0.5
+				deplas_int = (Replas(1)**2+Replas(2)**2+Replas(3)**2+
+     1    two*Replas(4)**2+two*Replas(5)**2+two*Replas(6)**2)**0.5
 	 
 	        f  = abs(f1) - h*a_kapa
 	        a_kxl = x+a_kapa**a_l
 			
-			skonvergencija = a_kapaStari - a_kapa
+			skonvergencija = abs(a_kapa - a_kapa0)
 			
 			if ((skonvergencija.lt.tol1).and.(deplas_int.lt.tol2)) then
 			!write(6,*) 'radi'
@@ -396,7 +402,7 @@
          !statev(k1)  =  eplas(k1)
 		 !ceplast(noel,npt,k1) = eplas(k1)
 		 !akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
-		 dw=dw+stress(k1)*dkapa*a_mu(k1)
+		 dw=dw+stress(k1)*d_eplas(k1)
 		 !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
 		 statev(17)=a_kapa
@@ -411,19 +417,21 @@
             !enddo 
 		
 		
-				!if(NPT.eq.1) then
+				if(NPT.eq.1) then
 		          !write(6,*)stran(1)+stran(2)+stran(3)
 				  !write(6,*)a_j2
 				  !write(6,*)w
+				  !write(6,*)time, w
 				  !write(6,*)a_kapa, a_kapa0, dkapau
 				  !write(6,*)stran(2)
+				  write(6,*)stress(2)
 				  !write(6,*)stran(2),dstran(2),time
 				  !write(6,*)'U', stran(2)+dstran(2),'P',eplas(2)
 				  !write(6,*)stress(2)
-				  !write(6,*)stran(2)
-				  !write(6,*)eplas(2)
-				  !write(6,*)time
-		        !endif
+				  !write(6,*) 'e(2)=',stran(2)
+				  !write(6,*)'eP(2)=',eplas(2)
+				  !write(6,*)'eE(2)=',e_elas_n(2)
+		        endif
 		else
 		iprolaz(noel,npt)=0
         endif
