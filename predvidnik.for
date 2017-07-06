@@ -22,12 +22,12 @@ c
      1 coords(ndi),drot(ndi,ndi),e_elas_n1(ntens),
      1 dfgrd0(ndi,ndi),dfgrd1(ndi,ndi),  
      1 a_mu(ntens),kroneker(ntens), 
-     1 replas(ntens),kroneker2(ntens,ntens)  !deplas(ntens) 
+     1 replas(ntens),kroneker2(ntens,ntens),deplas(ntens) 
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
       data newton,toler,temp0,coef,yield0/8 ,1.d-6,273.,0.0d0,25.0d0/  
-      tol1 = 1.d-6
-	  tol2 = 1.d-6
+      tol1 = 1.d-7
+	  tol2 = 1.d-7
 C -----------------------------------------------------------
 c
 c     paneerselvam phd   (page 165 tens constants)
@@ -276,13 +276,25 @@ cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 			a_kxl = x+a_kapa**a_l
 			
             dkapa  =  ((f/beta)**1)/a_kxl
-            a_kapa = a_kapa + dkapa 
+			a_kapa = a_kapa + dkapa
+			do k1 = 1,ntens
+			deplas(k1) = dkapa*a_mu(k1)*dtime
 			enddo
+				deplas_int = (deplas(1)**2+deplas(2)**2+deplas(3)**2+
+     1    two*deplas(4)**2+two*deplas(5)**2+two*deplas(6)**2)**0.5
+			if ((dkapa.lt.tol1).and.(deplas_int.lt.tol2)) then
+			write(6,*) 'radi'
+			goto 33
+			endif
+			
+		enddo
+			
+			
+			
 		!dkapa = a_kapa - a_kapa0
-         
+ 33        continue
          do k1 = 1,ntens
 		!eplas(k1)   =  dkapa*a_mu(k1) !6.14
-		
 		!eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
 		eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
