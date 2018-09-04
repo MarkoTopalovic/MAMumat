@@ -259,6 +259,7 @@
         
         f = abs(f1) - h*a_kapa0 
 		a_kapa = a_kapa0
+		goto 52
 		if (f.le.zero) then 
 
 		goto 52   
@@ -424,12 +425,13 @@
 				  !write(6,*)time, w
 				  !write(6,*)a_kapa, a_kapa0, dkapau
 				  !write(6,*)stran(2)
-				  write(6,*)stress(2)
+				  !write(6,*)stress(2)
 				  !write(6,*)stran(2),dstran(2),time
 				  !write(6,*)'U', stran(2)+dstran(2),'P',eplas(2)
 				  !write(6,*)stress(2)
 				  !write(6,*) 'e(2)=',stran(2)
 				  !write(6,*)'eP(2)=',eplas(2)
+				  write(6,*)eplas(2)
 				  !write(6,*)'eE(2)=',e_elas_n(2)
 		        endif
 		else
