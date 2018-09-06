@@ -259,7 +259,7 @@
         
         f = abs(f1) - h*a_kapa0 
 		a_kapa = a_kapa0
-		goto 52
+
 		if (f.le.zero) then 
 
 		goto 52   
