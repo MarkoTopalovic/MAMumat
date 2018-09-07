@@ -5,10 +5,6 @@
      4 dfgrd0,dfgrd1,noel,npt,kslay,kspt,kstep,kinc)
 
       include 'aba_param.inc'
-      common /glavni/ ipoziv
-      common /ak/ akapa(100000,10)
-      common /comeplast/  ceplast(100000,8,6)
-	  common /prolaz/ iprolaz(100000,8)
 
       character*80 materl
 
@@ -130,14 +126,13 @@
 ! ucitava iz prethodnog koraka
 	  do k1=1,ntens
 		stress(k1)=0
-		!eplas0(k1) = statev(k1)
-		eplas0(k1) = ceplast(noel,npt,k1) 
+		eplas0(k1) = statev(k1)
 		
 		e_new(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 		e_elas_n(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 	  enddo
-      a_kapa0  = akapa(noel,npt)  ! 6.20  ! ucitava iz prethodnog koraka
+      a_kapa0  = statev(17)  ! 6.20  ! ucitava iz prethodnog koraka
 	  if (a_kapa0.lt.tolk) a_kapa0=tolk
 ! ucitava iz prethodnog koraka
 	    
@@ -259,7 +254,7 @@
         
         f = abs(f1) - h*a_kapa0 
 		a_kapa = a_kapa0
-
+        !goto 52
 		if (f.le.zero) then 
 
 		goto 52   
@@ -276,7 +271,7 @@
 		a_kxl = x+a_kapa0**a_l	
 		    
 
-			
+		
 		do kewton = 1,newton
 		    
 			
@@ -320,8 +315,7 @@
 		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
 		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
-		ceplast(noel,npt,k1) = eplas(k1)
-		 akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
+		statev(17)=a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
 		enddo
 		
 		
@@ -366,9 +360,9 @@
 	
 	    do k1=1,ntens        
 		    
-			stress(k1) =astress(k1)
+			!stress(k1) =astress(k1)
 			enddo
-	
+	goto 52	
 	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 	   	!invarijante	
 	
@@ -395,28 +389,12 @@
  
 !c  corrector phase -  kraj 
  52   continue
-		dw = 0
-
-        
 		
 		do k1=1,ntens
-         !statev(k1)  =  eplas(k1)
-		 !ceplast(noel,npt,k1) = eplas(k1)
-		 !akapa(noel,npt) = a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
-		 dw=dw+stress(k1)*d_eplas(k1)
+         statev(k1)  =  eplas(k1)
 		 !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
-		 statev(17)=a_kapa
-		 w = statev(18)
-		 w=w+dw
-		 statev(18)=w
-		 if (iprolaz(noel,npt).eq.0)then
-		iprolaz(noel,npt)=1
-		
-		    !do k1=1,ntens
-            !ceplast(noel,npt,k1)  =  eplas(k1)
-            !enddo 
-		
+		 statev(17)=a_kapa ! 6.20  ! ucitava iz prethodnog koraka
 		
 				if(NPT.eq.1) then
 		          !write(6,*)stran(1)+stran(2)+stran(3)
@@ -434,9 +412,7 @@
 				  write(6,*)eplas(2)
 				  !write(6,*)'eE(2)=',e_elas_n(2)
 		        endif
-		else
-		iprolaz(noel,npt)=0
-        endif
+		
          
       return    
       end
