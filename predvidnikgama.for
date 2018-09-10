@@ -14,7 +14,7 @@
      1 d_eplas(ntens),astrain(ntens),astress0(ntens),
      1 eplas(ntens),e_elas(ntens),eplas0(ntens),eplasStari(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
-     1 time(2),predef(1),dpred(1),e_new(ntens),e_elas_n(ntens),  
+     1 time(2),predef(1),dpred(1),e_elas_n(ntens),  
      1 coords(ndi),drot(ndi,ndi),e_elas_n1(ntens),
      1 dfgrd0(ndi,ndi),dfgrd1(ndi,ndi),  
      1 a_mu(ntens),kroneker(ntens),
@@ -127,8 +127,8 @@
 	  do k1=1,ntens
 		stress(k1)=0
 		eplas0(k1) = statev(k1)
+		!write(6,*) 'eplas0',k1,'=',eplas0(k1)
 		
-		e_new(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 		e_elas_n(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 	  enddo
@@ -138,7 +138,6 @@
 	    
 !invarijante
 		e_i1n = e_elas_n(1)+e_elas_n(2)+e_elas_n(3)
-		e_i1p = e_new(1)+e_new(2)+e_new(3)
 		
         e_i2n = e_elas_n(1)*e_elas_n(2)+e_elas_n(2)*e_elas_n(3)+
 	1	e_elas_n(3)*e_elas_n(1)-e_elas_n(4)*e_elas_n(4)-
@@ -256,7 +255,7 @@
 		a_kapa = a_kapa0
         !goto 52
 		if (f.le.zero) then 
-
+        write(6,*) 'elasticnost'
 		goto 52   
         endif
 !c------------------  end of elastic predictor ----------------------
@@ -269,18 +268,23 @@
             f  = abs(f1) - h*a_kapa			
 			
 		a_kxl = x+a_kapa0**a_l	
-		    
-
-		
+		!write(6,*) 'a_kxl0=',a_kxl
+        !write(6,*) 'x=',x		
+        !write(6,*) 'a_kapa0=',a_kapa0
+		!write(6,*) 'a_l=',a_l
 		do kewton = 1,newton
 		    
 			
 			
             dkapa0  =  (((f/beta)**1)/a_kxl)
-			
+			!write(6,*) 'a_kxl1',kewton,'=',a_kxl
 		    
 			a_kapa = a_kapa0 + dkapa0
+			!write(6,*) 'abs(f1)',kewton,'=',abs(f1)
+			!write(6,*) 'h',kewton,'=',h
+			!write(6,*) 'a_kapa',kewton,'=',a_kapa
 			a_kxl = x+a_kapa**a_l
+			!write(6,*) 'a_kxl2',kewton,'=',a_kxl
 			dkapa  =  (((f/beta)**1)/a_kxl)
 			
 			do k1 = 1,ntens
@@ -295,11 +299,11 @@
 	 
 	        f  = abs(f1) - h*a_kapa
 	        a_kxl = x+a_kapa**a_l
-			
+			!write(6,*) 'a_kxl3',kewton,'=',a_kxl
 			skonvergencija = abs(a_kapa - a_kapa0)
 			
 			if ((skonvergencija.lt.tol1).and.(deplas_int.lt.tol2)) then
-			!write(6,*) 'radi'
+			write(6,*) 'radi'
 			goto 33
 			endif
 			
@@ -311,7 +315,7 @@
  33        continue
          do k1 = 1,ntens
 		!eplas(k1)   =  dkapa*a_mu(k1) !6.14
-		eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
+		!eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
 		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
 		!eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
@@ -366,25 +370,6 @@
 	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 	   	!invarijante	
 	
-
-		 if(NPT.eq.1) then
-!	      write(6,*)'dkapa=',dkapa
-!		  write(6,9), a_mu(1),a_mu(2),a_mu(3),a_mu(4),a_mu(5),a_mu(6)
-!  		  write(6,10), eplas(1),eplas(2),eplas(3),eplas(4),eplas(5),eplas(6)
-!		  write(6,11), e_new(1),e_new(2),e_new(3),e_new(4),e_new(5),e_new(6)
-!		  write(6,10), eplas(1)/stran(1),eplas(2)/stran(2),eplas(3)/stran(3),eplas(4)/stran(4),eplas(5)/stran(5),eplas(6)/stran(6)
-!		  write(6,12), stran(1),stran(2),stran(3),stran(4),stran(5),stran(6)
-!		  write(6,13), astress(1),astress(2),astress(3),astress(4),astress(5),astress(6)
-	   endif
-! 10     format ('p1=',F6.2,' p2=',F6.2,' p3=',F6.2,' p4=',F6.2,' p5=',F6.2,' p6=',F6.2)
- !11     format ('e1=',F6.2,' e2=',F6.2,' e3=',F6.2,' e4=',F6.2,' e5=',F6.2,' e6=',F6.2)	
- 9     format ('m1=',E12.4,' m2=',E12.4,' m3=',E12.4,' m4=',E12.4,' m5=',E12.4,' m6=',E12.4)
- 10     format ('p1=',E12.4,' p2=',E12.4,' p3=',E12.4,' p4=',E12.4,' p5=',E12.4,' p6=',E12.4)
- 11     format ('e1=',E12.4,' e2=',E12.4,' e3=',E12.4,' e4=',E12.4,' e5=',E12.4,' e6=',E12.4)
-
- 12     format ('st1=',E12.4,' st2=',E12.4,' st3=',E12.4,' st4=',E12.4,' st5=',E12.4,' st6=',E12.4) 
- 13     format ('a1=',E12.4,' a2=',E12.4,' a3=',E12.4,' a4=',E12.4,' a5=',E12.4,' a6=',E12.4) 
-			
 
  
 !c  corrector phase -  kraj 
