@@ -11,7 +11,7 @@
       dimension a(17),statev(nstatv),props(nprops),
      1 stran(ntens),dstran(ntens),dstress(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
-     1 d_eplas(ntens),astrain(ntens),astress0(ntens),
+     1 d_eplas(ntens),astrain(ntens),
      1 eplas(ntens),e_elas(ntens),eplas0(ntens),eplasStari(ntens),
      1 ddsdde(ntens,ntens),ddsddt(ntens),drplde(ntens),
      1 time(2),predef(1),dpred(1),e_elas_n(ntens),  
@@ -129,56 +129,13 @@
 		eplas0(k1) = statev(k1)
 		!write(6,*) 'eplas0',k1,'=',eplas0(k1)
 		
-		e_elas_n(k1) = stran(k1)+dstran(k1)-eplas0(k1)
+		!
 		e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
 	  enddo
       a_kapa0  = statev(17)  ! 6.20  ! ucitava iz prethodnog koraka
 	  if (a_kapa0.lt.tolk) a_kapa0=tolk
 ! ucitava iz prethodnog koraka
 	    
-!invarijante
-		e_i1n = e_elas_n(1)+e_elas_n(2)+e_elas_n(3)
-		
-        e_i2n = e_elas_n(1)*e_elas_n(2)+e_elas_n(2)*e_elas_n(3)+
-	1	e_elas_n(3)*e_elas_n(1)-e_elas_n(4)*e_elas_n(4)-
-	1   e_elas_n(5)*e_elas_n(5)-e_elas_n(6)*e_elas_n(6)
-	
-	    e_i3n = e_elas_n(1)*e_elas_n(2)*e_elas_n(3)-
-	1	e_elas_n(1)*e_elas_n(6)*e_elas_n(6)-
-	1   e_elas_n(2)*e_elas_n(5)*e_elas_n(5)-
-	1   e_elas_n(3)*e_elas_n(4)*e_elas_n(4)+
-	1   2*e_elas_n(4)*e_elas_n(5)*e_elas_n(6)
-!invarijante                                
-      
-	    
-	     astress0(1)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
-	1	 (a1+a4*e_i1n)*e_elas_n(1)+a2*(e_elas_n(1)*e_elas_n(1)
-	1    +e_elas_n(4)*e_elas_n(4)+e_elas_n(5)*e_elas_n(5))
-	
-	     astress0(2)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
-	1	 (a1+a4*e_i1n)*e_elas_n(2)+a2*(e_elas_n(4)*e_elas_n(4)
-	1    +e_elas_n(2)*e_elas_n(2)+e_elas_n(6)*e_elas_n(6))
-	
-	     astress0(3)= (2*a5*e_i1n+3*a3*e_i1n*e_i1n+a4*e_i2n)+
-	1	 (a1+a4*e_i1n)*e_elas_n(3)+a2*(e_elas_n(5)*e_elas_n(5)
-	1    +e_elas_n(6)*e_elas_n(6)+e_elas_n(3)*e_elas_n(3))
-	
-	
-	     astress0(4)= (a1+a4*e_i1n)*e_elas_n(4)
-	1	 +a2*(e_elas_n(1)*e_elas_n(4)
-	1    +e_elas_n(4)*e_elas_n(2)+e_elas_n(5)*e_elas_n(6))
-	
-	     astress0(5)= (a1+a4*e_i1n)*e_elas_n(5)
-	1	 +a2*(e_elas_n(1)*e_elas_n(5)
-	1    +e_elas_n(4)*e_elas_n(6)+e_elas_n(5)*e_elas_n(3))
-	
-	     astress0(6)= (a1+a4*e_i1n)*e_elas_n(6)
-	1	 +a2*(e_elas_n(4)*e_elas_n(5)
-	1    +e_elas_n(2)*e_elas_n(6)+e_elas_n(6)*e_elas_n(3))
-	
-		call loadingf(f10,astress0,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-		f0   = abs(f10) - h*a_kapa0 
-	
 
 !invarijante	
 		e_i1n1 = e_elas_n1(1)+e_elas_n1(2)+e_elas_n1(3)
@@ -209,7 +166,7 @@
 	
 	     astress(4)= (a1+a4*e_i1n1)*e_elas_n1(4)
 	1	 +a2*(e_elas_n1(1)*e_elas_n1(4)
-	1    +e_elas_n(4)*e_elas_n1(2)+e_elas_n1(5)*e_elas_n1(6))
+	1    +e_elas_n1(4)*e_elas_n1(2)+e_elas_n1(5)*e_elas_n1(6))
 	
 	     astress(5)= (a1+a4*e_i1n1)*e_elas_n1(5)
 	1	 +a2*(e_elas_n1(1)*e_elas_n1(5)
@@ -219,31 +176,15 @@
 	1	 +a2*(e_elas_n1(4)*e_elas_n1(5)
 	1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
 	
-	!	call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-	!	f   = abs(f1) - h*a_kapa0 
+		call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
+		f   = abs(f1) - h*a_kapa0 
 	
-	
-! smanjenje	
-!	    f2 = f
-! 		do ii=1,5
-!		if(f2.gt.(1.2*f0))then
-!		smanjenje = 0.2/ii
-!		do k1=1,ntens
-		!astress(k1)=astress0(k1)+smanjenje*(astress(k1)-astress0(k1))
-		!astress(k1)=0.5*astress(k1)
-!		enddo
-
-!		call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-!		f2   = abs(f1) - h*a_kapa0
-!		endif
-!		end do
-!smanjenje	
 	                                          
-	    call noviddsdde(a,ddsdde,ntens,e_elas_n)
+	    call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 	    ! call    hyperconstitutive (a,ddsdde,ntens,e_elas_n1)
 	    do k1=1,ntens        
 		    eplas(k1) =eplas0(k1)
-			stress(k1) =astress0(k1)
+			stress(k1) =astress(k1)
 			enddo
 			
 	     dkapa = 0
@@ -352,7 +293,7 @@
 	
 	     astress(4)= (a1+a4*e_i1n1)*e_elas_n1(4)
 	1	 +a2*(e_elas_n1(1)*e_elas_n1(4)
-	1    +e_elas_n(4)*e_elas_n1(2)+e_elas_n1(5)*e_elas_n1(6))
+	1    +e_elas_n1(4)*e_elas_n1(2)+e_elas_n1(5)*e_elas_n1(6))
 	
 	     astress(5)= (a1+a4*e_i1n1)*e_elas_n1(5)
 	1	 +a2*(e_elas_n1(1)*e_elas_n1(5)
@@ -377,7 +318,7 @@
 		
 		do k1=1,ntens
          statev(k1)  =  eplas(k1)
-		 !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
+		 eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
 		 statev(17)=a_kapa ! 6.20  ! ucitava iz prethodnog koraka
 		
@@ -394,7 +335,7 @@
 				  !write(6,*)stress(2)
 				  !write(6,*) 'e(2)=',stran(2)
 				  !write(6,*)'eP(2)=',eplas(2)
-				  write(6,*)eplas(2)
+				  !write(6,*)eplas(2)
 				  !write(6,*)'eE(2)=',e_elas_n(2)
 		        endif
 		
