@@ -116,6 +116,7 @@
         do k1=1,ntens
         stress(k1)=0
         eplas0(k1) = statev(k1)
+        eplas(k1) =eplas0(k1)
       !write(6,*) 'eplas0',k1,'=',eplas0(k1)
         e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
         enddo
@@ -162,17 +163,12 @@
      1     +a2*(e_elas_n1(4)*e_elas_n1(5)
      1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
     
-        call loadingf(f1,astress,a,ntens,ndi,s_dev,a_j2,a_mu) ! 6.21
-        f   = abs(f1) - h*a_kapa0 
-    
-                                              
+
         call noviddsdde(a,ddsdde,ntens,e_elas_n1)
         ! call    hyperconstitutive (a,ddsdde,ntens,e_elas_n1)
-        do k1=1,ntens        
-            eplas(k1) =eplas0(k1)
-            stress(k1) =astress(k1)
-            enddo
-            
+      do k1=1,ntens              
+          stress(k1) =astress(k1)
+      enddo  
          dkapa = 0
     
        !c------------------ compute  loading surface f-----------------------
@@ -191,9 +187,7 @@
         !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
               
         dkapau = 0
-        call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
-        f  = abs(f1) - h*a_kapa            
-            
+        
         a_kxl = x+a_kapa0**a_l    
         !write(6,*) 'a_kxl0=',a_kxl
         !write(6,*) 'x=',x        
@@ -201,6 +195,8 @@
         !write(6,*) 'a_l=',a_l
         do kewton = 1,newton
             
+            !call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+            !f  = abs(f1) - h*a_kapa            
             
             
             dkapa0  =  (((f/beta)**1)/a_kxl)
@@ -229,13 +225,13 @@
        !write(6,*) 'a_kxl3',kewton,'=',a_kxl
             skonvergencija = abs(a_kapa - a_kapa0)
             
-            if ((skonvergencija.lt.tol1).and.(deplas_int.lt.tol2)) then
+       if ((skonvergencija.lt.tol1).and.(deplas_int.lt.tol2)) then
             write(6,*) 'radi'
             goto 33
-            endif
+       endif
             
         enddo
-            
+           
             
             
         !dkapa = a_kapa - a_kapa0
@@ -249,7 +245,7 @@
         statev(17)=a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
         enddo
         
-        
+
         !invarijante    
         e_i1n1 = e_elas_n1(1)+e_elas_n1(2)+e_elas_n1(3)
         
@@ -289,14 +285,11 @@
      1     +a2*(e_elas_n1(4)*e_elas_n1(5)
      1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
     
-        do k1=1,ntens        
-            
+       !do k1=1,ntens            
        !stress(k1) =astress(k1)
-            enddo
+       !enddo
         goto 52    
         call noviddsdde(a,ddsdde,ntens,e_elas_n1)
-           !invarijante    
-    
 
  
       !c       corrector phase -  kraj 
@@ -304,7 +297,7 @@
         
         do k1=1,ntens
          statev(k1)  =  eplas(k1)
-         eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
+         !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
          enddo 
          statev(17)=a_kapa ! 6.20  ! ucitava iz prethodnog koraka
         
@@ -643,8 +636,8 @@
        ddsdde(6,3)= 2*e_elas(6)*a2 + 2*e_elas(6)*a4
        ddsdde(6,4)= e_elas(5)*a2
        ddsdde(6,5)= e_elas(4)*a2
-       ddsdde(6,6)= a1 + a2*(e_elas(2) + e_elas(3)) + a4*(e_elas(1) + e_elas(2) + 
-     1   e_elas(3))
+       ddsdde(6,6)= a1 + a2*(e_elas(2) + e_elas(3)) + a4*(e_elas(1)
+     1   + e_elas(2) + e_elas(3))
        return
       end
            
