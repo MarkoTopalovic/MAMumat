@@ -7,7 +7,9 @@
       include 'aba_param.inc'
 
       character*80 materl
-
+      double precision a_kapa,a_kapa0,a_kxl,x,a_l,dkapa0,f,f1,beta
+	  integer kewton,newton
+	  
       dimension a(17),statev(nstatv),props(nprops),
      1 stran(ntens),dstran(ntens),dstress(ntens),
      1 stress(ntens),astress(ntens),s_dev(ntens),d_stres(ntens),
@@ -21,10 +23,26 @@
      1 Replas(ntens),kroneker2(ntens,ntens),deplas(ntens)
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
-      data newton,toler,temp0,coef,yield0/8 ,1.d-6,273.,0.0d0,25.0d0/
+      data toler,temp0,coef,yield0/1.d-6,273.,0.0d0,25.0d0/
+	  ! inicijalizacija
+	  a_kapa = 0
+	  a_kapa0=0
+	  kewton = 1
+	  newton = 200
+	  a_kxl =0
+	  x = 0
+	  a_l = 0
+	  dkapa0 = 0
+	  f = 0
+        f1 = 0
+	  beta = 0
+
+	  
+	  
+	  
       tol1 = 1.d-7
       tol2 = 1.d-7
-      tolk = 1.d-5
+      tolk = 1.d-4
       !C -----------------------------------------------------------
       !c
       !c     paneerselvam phd   (page 165 tens constants)
@@ -186,34 +204,24 @@
         !c***************       1) corector phase      ***********************  
         !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
               
-        dkapau = 0
         
         a_kxl = x+a_kapa0**a_l    
-        !write(6,*) 'a_kxl0=',a_kxl
-        !write(6,*) 'x=',x        
-        !write(6,*) 'a_kapa0=',a_kapa0
-        !write(6,*) 'a_l=',a_l
+
         do kewton = 1,newton
             
-            !call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
-            !f  = abs(f1) - h*a_kapa            
+            call loadingf(f1,stress,a,ntens,ndi,s_dev,a_j2,a_mu)
+            f  = abs(f1) - h*a_kapa            
             
             
-            dkapa0  =  (((f/beta)**1)/a_kxl)
-            !write(6,*) 'a_kxl1',kewton,'=',a_kxl
-            
+            dkapa0  =  (((f/beta)**1)/a_kxl)*dtime
             a_kapa = a_kapa0 + dkapa0
-            !write(6,*) 'abs(f1)',kewton,'=',abs(f1)
-            !write(6,*) 'h',kewton,'=',h
-            !write(6,*) 'a_kapa',kewton,'=',a_kapa
             a_kxl = x+a_kapa**a_l
-            !write(6,*) 'a_kxl2',kewton,'=',a_kxl
-            dkapa  =  (((f/beta)**1)/a_kxl)
+            dkapa  =  (((f/beta)**1)/a_kxl)*dtime
             
             do k1 = 1,ntens
             
             eplasStari(k1)   = eplas(k1)
-            d_eplas(k1)   =  (dkapa)*a_mu(k1)*dtime
+            d_eplas(k1)   =  (dkapa)*a_mu(k1)
             eplas(k1)   = eplas0(k1) + d_eplas(k1)
             Replas(k1) = eplas(k1) - eplasStari(k1)
             enddo
@@ -224,10 +232,13 @@
             a_kxl = x+a_kapa**a_l
        !write(6,*) 'a_kxl3',kewton,'=',a_kxl
             skonvergencija = abs(a_kapa - a_kapa0)
-            
-       if ((skonvergencija.lt.tol1).and.(deplas_int.lt.tol2)) then
-            write(6,*) 'radi'
+            a_kapa0 = a_kapa
+       if ((skonvergencija.lt.tolk).and.(deplas_int.lt.tol2)) then
+            write(6,*) 'konvergirao u',kewton,'iteraciji'
+            write(6,*) 'S =',skonvergencija,'||R||=',deplas_int
             goto 33
+       !else
+          !write(6,*) 'sk=',skonvergencija,dkapa0,kewton 
        endif
             
         enddo
@@ -289,7 +300,7 @@
        !stress(k1) =astress(k1)
        !enddo
         goto 52    
-        call noviddsdde(a,ddsdde,ntens,e_elas_n1)
+       ! call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 
  
       !c       corrector phase -  kraj 
@@ -443,7 +454,7 @@
      
       include 'aba_param.inc' 
       !c-
-
+      double precision f1
       !     brojne konstante   
       !     real zero,one,two,three
       !     brojne konstante 
@@ -470,6 +481,9 @@
      1   kroneker(ntens),st(ntens)
       
             parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0) 
+            
+            f1 = 0
+            
             alfa =  a(12)
             gama = a(16)
                 s_i1=0
@@ -479,6 +493,7 @@
                kroneker(k2)     = one
                kroneker(k2+ndi) = zero
                st(k2) = stress(k2) ! unutrasnja inverzija znaka  za racunanje funkcije tecenja
+               st(k2+ndi) = stress(k2+ndi)
              end do 
             
        !c     s_napon invarijante  i funkcija f 
@@ -495,8 +510,6 @@
            
              s_i2 = st(1)*st(2)+st(2)*st(3) 
      1         +st(1)*st(3)-st(4)**2-st(5)**2-st(6)**2
-
-        
              !      s_i3 = stress(1)*stress(2)*stress(3)+
              !     1 two*stress(4)*stress(5)*stress(6)-stress(1)*stress(6)**2- 
              !     1 stress(2)*stress(5)**2-stress(3)*stress(4)**2
@@ -515,6 +528,9 @@
      1          s_dev(4)**2+s_dev(5)**2+ s_dev(6)**2 
      
       f1 = s_i1*s_i2 + alfa*s_i3 
+      !if(f1.ne.f1)then
+      !    write (6,*) "f1 je nan=",f1,s_i1,s_i2,alfa,s_i3
+      !endif
          !                write(6,77), s_i1,s_i2,s_i3,f1,a_j2
          ! 77     format ('s_i1=',E12.4,' s_i2=',E12.4,' s_i3=',E12.4,' f1=',E12.4,' a_j2=',E12.4)
        
