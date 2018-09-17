@@ -28,7 +28,7 @@
 	  a_kapa = 0
 	  a_kapa0=0
 	  kewton = 1
-	  newton = 200
+	  newton = 50000
 	  a_kxl =0
 	  x = 0
 	  a_l = 0
