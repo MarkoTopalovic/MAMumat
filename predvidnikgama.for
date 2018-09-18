@@ -136,7 +136,7 @@
         eplas0(k1) = statev(k1)
         eplas(k1) =eplas0(k1)
       !write(6,*) 'eplas0',k1,'=',eplas0(k1)
-        e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas0(k1)
+        e_elas_n1(k1) = stran(k1)+ dstran(k1)-eplas0(k1)
         enddo
         a_kapa0  = statev(17)  ! 6.20  ! ucitava iz prethodnog koraka
         if (a_kapa0.lt.tolk) a_kapa0=tolk
@@ -296,11 +296,11 @@
      1     +a2*(e_elas_n1(4)*e_elas_n1(5)
      1    +e_elas_n1(2)*e_elas_n1(6)+e_elas_n1(6)*e_elas_n1(3))
     
-       !do k1=1,ntens            
-       !stress(k1) =astress(k1)
-       !enddo
+       do k1=1,ntens            
+       stress(k1) =astress(k1)
+       enddo
         goto 52    
-       ! call noviddsdde(a,ddsdde,ntens,e_elas_n1)
+        call noviddsdde(a,ddsdde,ntens,e_elas_n1)
 
  
       !c       corrector phase -  kraj 
