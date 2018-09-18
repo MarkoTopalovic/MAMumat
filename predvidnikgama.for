@@ -234,8 +234,11 @@
             skonvergencija = abs(a_kapa - a_kapa0)
             a_kapa0 = a_kapa
        if ((skonvergencija.lt.tolk).and.(deplas_int.lt.tol2)) then
+           if(NPT.eq.1) then
             write(6,*) 'konvergirao u',kewton,'iteraciji'
             write(6,*) 'S =',skonvergencija,'||R||=',deplas_int
+            write(6,*) 'eplas2 =',eplas(2),'eplas02=',eplas0(2)
+            endif
             goto 33
        !else
           !write(6,*) 'sk=',skonvergencija,dkapa0,kewton 
