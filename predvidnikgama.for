@@ -5,7 +5,8 @@
      4 dfgrd0,dfgrd1,noel,npt,kslay,kspt,kstep,kinc)
 
       include 'aba_param.inc'
-
+      common /ak/ iprolaz(100000,10)
+      common /plast/ dstrain(100000,10)
       character*80 materl
       double precision a_kapa,a_kapa0,a_kxl,x,a_l,dkapa0,f,f1,beta
 	  integer kewton,newton
@@ -25,6 +26,9 @@
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
       data toler,temp0,coef,yield0/1.d-6,273.,0.0d0,25.0d0/
 	  ! inicijalizacija
+	  
+	 !write(6,*) 'nstatv=22',nstatv 
+	  
 	  a_kapa = 0
 	  a_kapa0=0
 	  kewton = 1
@@ -131,17 +135,63 @@
         !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
       ! ucitava iz prethodnog koraka
+	  
+	  !IRAC = statev(16)
+        IRAC  = iprolaz(noel,npt)
+        
+        IF(IRAC.EQ.0) THEN
+            if(NPT.eq.1) then
+            write(6,*) " YeS0",IRAC
+            endif
+        
+        do k1=1,ntens
+        astrain(k1) = dstran(k1)
+        enddo
+        iprolaz(noel,npt) = 1
+        
+	  ELSEIF(IRAC.EQ.1) THEN 
+            if(NPT.eq.1) then
+            write(6,*) " YeS",IRAC
+            endif
+        
+        do k1=1,ntens
+        astrain(k1) = dstran(k1)
+        dstrain(npt,k1) = dstran(k1)
+        enddo
+	  iprolaz(noel,npt) = 2
+	  
+      ELSE ! treb lo bi da udje ovde za 2
+            if(NPT.eq.1) then
+            write(6,*) " Noooo",IRAC
+            endif 
+        
+        do k1=1,ntens    
+        astrain(k1) = dstrain(npt,k1)
+        enddo 
+        iprolaz(noel,npt) = 1
+	  ENDIF
+	 !statev(k1+6) = dstran(k1) 
+	  
+	  write(6,*) 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'
+        
+	  
         do k1=1,ntens
         stress(k1)=0
         eplas0(k1) = statev(k1)
         eplas(k1) =eplas0(k1)
       !write(6,*) 'eplas0',k1,'=',eplas0(k1)
-        e_elas_n1(k1) = stran(k1)+ dstran(k1)-eplas0(k1)
+        e_elas_n1(k1) = stran(k1)+ astrain(k1)-eplas0(k1)
         enddo
         a_kapa0  = statev(17)  ! 6.20  ! ucitava iz prethodnog koraka
+        
+       
+        
         if (a_kapa0.lt.tolk) a_kapa0=tolk
       ! ucitava iz prethodnog koraka
-
+       !if(NPT.eq.1) then
+       !          write(6,*) "  e_elas_n12",  e_elas_n1(2)
+       !           write(6,*) " a_kapa0", a_kapa0
+       !   endif
       !invarijante
         e_i1n1 = e_elas_n1(1)+e_elas_n1(2)+e_elas_n1(3)
         
@@ -195,6 +245,27 @@
         f = abs(f1) - h*a_kapa0 
         a_kapa = a_kapa0
         !goto 52
+        
+        if(NPT.eq.1) then
+            !write(6,*) 'konvergirao u',kewton,'iteraciji'
+            
+            write(6,*) 'f =',f,'f1=',f1
+            write(6,*) 'a_kapa =',a_kapa,'a_kapa0=',a_kapa0
+            
+            e_elas_n1(k1) = stran(k1)+ astrain(k1)-eplas0(k1)
+            
+            write(6,*) 'e_elas_n1)2) =',e_elas_n1(2)
+            write(6,*) 'stran)2) =',stran(2)
+            write(6,*) 'astrain)2) =',astrain(2)
+            write(6,*) 'sat)2) =',stran(2)+astrain(2)
+            write(6,*) 'eplas0)2) =',eplas0(2)
+            
+            write(6,*) 'stress)2) =',stress(2)
+            !write(6,*) 'S =',skonvergencija,'||R||=',deplas_int
+            !write(6,*) 'eplas2 =',eplas(2),'eplas02=',eplas0(2)
+            !write(6,*) 'DSRRAN2 =',dstran(2) ovo je uvek -1e-03
+            endif
+        
         if (f.le.zero) then 
         write(6,*) 'elasticnost'
         goto 52   
@@ -233,11 +304,31 @@
        !write(6,*) 'a_kxl3',kewton,'=',a_kxl
             skonvergencija = abs(a_kapa - a_kapa0)
             a_kapa0 = a_kapa
+            
+            
+            
+            !if((NPT.eq.1).and.(kewton.eq.1)) then
+            !!write(6,*) 'konvergirao u',kewton,'iteraciji'
+            !
+            !write(6,*) 'a_kxl =',a_kxl,'f=',f
+            !    
+            !write(6,*) 'S =',skonvergencija,'||R||=',deplas_int
+            !write(6,*) 'eplas2 =',eplas(2),'eplas02=',eplas0(2)
+            !!write(6,*) 'DSRRAN2 =',dstran(2) ovo je uvek -1e-03
+            !endif
+            
+            
+            
+            
+            
+            
+            
        if ((skonvergencija.lt.tolk).and.(deplas_int.lt.tol2)) then
            if(NPT.eq.1) then
             write(6,*) 'konvergirao u',kewton,'iteraciji'
             write(6,*) 'S =',skonvergencija,'||R||=',deplas_int
             write(6,*) 'eplas2 =',eplas(2),'eplas02=',eplas0(2)
+            !write(6,*) 'DSRRAN2 =',dstran(2) ovo je uvek -1e-03
             endif
             goto 33
        !else
@@ -255,7 +346,7 @@
         !eplas(k1)   = eplas(k1) + (a_kapa-a_kapa0)*a_mu(k1)*dtime
         !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
         !eplas(k1)   = eplas(k1) + dkapa*a_mu(k1)*dtime
-        e_elas_n1(k1) = stran(k1)+dstran(k1)-eplas(k1)
+        e_elas_n1(k1) = stran(k1)+astrain(k1)-eplas(k1)
         statev(17)=a_kapa  ! 6.20  ! ucitava iz prethodnog koraka
         enddo
         
@@ -320,9 +411,10 @@
                   !write(6,*)a_j2
                   !write(6,*)w
                   !write(6,*)time, w
-                  !write(6,*)a_kapa, a_kapa0, dkapau
+                     write(6,*)"stress(2)=",stress(2)
+                  write(6,*)"a_kapa=",a_kapa
                   !write(6,*)stran(2)
-                  !write(6,*)stress(2)
+                 
                   !write(6,*)stran(2),dstran(2),time
                   !write(6,*)'U', stran(2)+dstran(2),'P',eplas(2)
                   !write(6,*)stress(2)
