@@ -319,8 +319,7 @@
             
             
             
-            
-            
+
             
             
        if ((skonvergencija.lt.tolk).and.(deplas_int.lt.tol2)) then
