@@ -693,7 +693,7 @@
      1   e_elas(4)*a4
        ddsdde(1,5)= e_elas(5)*a2 + e_elas(5)*a4 + e_elas(5)*a2 + 
      1   e_elas(5)*a4
-       ddsdde(1,6)= E23*a4 + e_elas(6)*a4
+       ddsdde(1,6)= 2*e_elas(6)*a4
 
        ddsdde(2,1)= 4*a5 + 2*e_elas(1)*a4 + 2*e_elas(2)*a4 + 
      1   6*a3*(2*e_elas(1) + 2*e_elas(2) + 2*e_elas(3))
@@ -708,7 +708,7 @@
        ddsdde(2,4)= e_elas(4)*a2 + e_elas(4)*a4 + e_elas(4)*a2 + 
      1   e_elas(4)*a4
        ddsdde(2,5)= e_elas(5)*a4 + e_elas(5)*a4
-       ddsdde(2,6)= E23*a2 + E23*a4 + e_elas(6)*a2 + e_elas(6)*a4
+       ddsdde(2,6)= 2*e_elas(6)*a2 + 2*e_elas(6)*a4
              
        ddsdde(3,1)= 4*a5 + 2*e_elas(1)*a4 + 2*e_elas(3)*a4 + 
      1   6*a3*(2*e_elas(1) + 2*e_elas(2) + 2*e_elas(3))
@@ -723,7 +723,7 @@
        ddsdde(3,4)= e_elas(4)*a4 + e_elas(4)*a4
        ddsdde(3,5)= e_elas(5)*a2 + e_elas(5)*a4 + e_elas(5)*a2 + 
      1   e_elas(5)*a4
-       ddsdde(3,6)= E23*a2 + E23*a4 + e_elas(6)*a2 + e_elas(6)*a4
+       ddsdde(3,6)= 2*e_elas(6)*a2 + 2*e_elas(6)*a4
        
        ddsdde(4,1)= 2*e_elas(4)*a2 + 2*e_elas(4)*a4
        ddsdde(4,2)= 2*e_elas(4)*a2 + 2*e_elas(4)*a4
