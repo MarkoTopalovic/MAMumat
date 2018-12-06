@@ -24,7 +24,6 @@
      1 Replas(ntens),kroneker2(ntens,ntens),deplas(ntens)
 
       parameter (one=1.0d0,two=2.0d0,three=3.0d0,six=6.0d0,zero=0.0d0)
-      data toler,temp0,coef,yield0/1.d-6,273.,0.0d0,25.0d0/
 	  ! inicijalizacija
 	  
 	 !write(6,*) 'nstatv=22',nstatv 
@@ -42,10 +41,8 @@
 	  beta = 0
 
 	  
-	  
-	  
-      tol1 = 1.d-7
-      tol2 = 1.d-7
+
+      tol2 = 1.d-6
       tolk = 1.d-4
       !C -----------------------------------------------------------
       !c
@@ -63,7 +60,7 @@
       h = 50
       beta = 1.34e4 !beta = 8.23e4     !1.34e4
       a_m  = one
-      gama = -5.e-3
+      gama = -5.e-3 ! ovo je i dalje 1000 puta manje od vrednosti iz panner doktorata i paka
       alpha_t  = 4.e-5
       !stari
       !a1 = 70.3e2
@@ -133,6 +130,15 @@
         !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         !c***************      1) predictor phase      ***********************  
         !cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      temperatura = 24 !24.5 !20
+      CALL nadjiE(temperatura,E)
+      CALL nadjiNi(E,aNi)
+	  
+	  a1t = E/(1+aNi)
+      a5t = (E*aNi)/(2*(1-2*aNi)*(1+aNi))
+      
+       !a(1) = a1t
+       !a(5) = a5t
 
       ! ucitava iz prethodnog koraka
 	  
@@ -752,3 +758,53 @@
       end
            
            !c----------------------subroutine noviddsdde 
+C
+C  =====================================================================
+C
+      SUBROUTINE nadjiAlfaT(temperatura,AlfaT)
+      IMPLICIT NONE
+      DOUBLE PRECISION temperatura,T,AlfaT,logAlfaT
+      DOUBLE PRECISION a,b,c
+      T = temperatura
+      a = 0.0013205
+      b = -0.21531
+      c = 3.75742
+      logAlfaT = a*T*T +b*T +c
+      AlfaT = 10**logAlfaT
+      RETURN
+      END
+C
+C  =====================================================================
+C
+      SUBROUTINE nadjiE(temperatura,E)
+      IMPLICIT NONE
+      DOUBLE PRECISION temperatura,E,teta,referentnatemperatura,logE
+      DOUBLE PRECISION AlfaT, frekvencija, fr
+      DOUBLE PRECISION delta, alfa, beta, gama
+      delta = 1.66944
+      alfa = 2.683335
+      beta = -1.01996
+      gama = -0.5593
+      frekvencija = 10
+      teta = (temperatura-referentnatemperatura)/referentnatemperatura
+      CALL nadjiAlfaT(temperatura,AlfaT)
+      fr = AlfaT * frekvencija
+      logE = delta + (alfa/(1+exp(beta+gama*log10(fr))))
+      E = 10**logE
+      RETURN
+      END
+C
+C  =====================================================================
+C
+C
+      SUBROUTINE nadjiNi(E,Ni)
+      IMPLICIT NONE
+      DOUBLE PRECISION E,Ni,aNi,bNi,PsiToMpa
+      PsiToMpa = 0.006894759086775369
+      aNi = -1.63
+      bNi = 3.84d-6
+      bNi = bNi/PsiToMpa      
+      Ni = 0.15 +(0.35)/(1+exp(aNi + bNi*E))
+      RETURN
+      END
+C
